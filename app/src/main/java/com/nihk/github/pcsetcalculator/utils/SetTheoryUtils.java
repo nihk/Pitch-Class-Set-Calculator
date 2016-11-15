@@ -9,6 +9,10 @@ import com.nihk.github.pcsetcalculator.model.NormalFormMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+// TODO embedded complement?
+// TODO supersets, subsets. How to?
 
 /**
  * Utility class for performing pitch class operations on sets. Although the
@@ -39,7 +43,9 @@ public final class SetTheoryUtils {
     // A mask of all bits from the twelfth bit below set to true; all others false
     private static final int MOD_12_MASK = ~OVERFLOW_MASK;
     private static final int NUM_NON_MOD_12_BITS = Integer.bitCount(OVERFLOW_MASK);
-    public static final int IV_LOG_BASE = 2;
+    public static final int INTERVAL_VECTOR_LOG_BASE = 2;
+
+    public static Set<Integer> PRIME_FORMS = ForteNumberUtils.BIMAP.keySet();
 
     private SetTheoryUtils() {
         // Prevent instantiation
@@ -246,7 +252,7 @@ public final class SetTheoryUtils {
         int rightShiftAmount = NUM_PITCH_CLASSES - 1;
 
         for (int i = 0; i < setSize; i++) {
-            // First rotate leftward until the zero bit is set.
+            // First rotate (or transpose in a mod 12 pitch class space) leftward until the zero bit is set.
             // This Tn value is how many leftward rotations around mod 12 will be needed to have that zero bit set.
             // The + 1 is to wrap the twelfth bit around to become the zeroth bit
             int transposition = Integer.numberOfLeadingZeros(set) - NUM_NON_MOD_12_BITS + 1;
@@ -271,18 +277,29 @@ public final class SetTheoryUtils {
 
     /**
      * Converts any integer into its mod 12 equivalent.
-     * The initial loop is to circumvent any potential negative values for pc
      *
      * @param n This value could be anything, e.g. a pitch class, a Tn
      *          NB: not a (binary) pc collection, just a single integer representation of a pitch class
      * @return  n converted to mod 12
      */
     public static int mod12(int n) {
+        return modX(n, NUM_PITCH_CLASSES);
+    }
+
+    /**
+     * Helper method for mod 12 and potentially any other universe size
+     * The initial loop is to circumvent any potential negative values for n
+     *
+     * @param n            this value could be anything, e.g. a pitch class, a Tn
+     * @param universeSize the size of the universe
+     * @return             n adjusted to fit the universe size
+     */
+    private static int modX(int n, int universeSize) {
         while (n < 0) {
-            n += NUM_PITCH_CLASSES;
+            n += universeSize;
         }
 
-        return n % NUM_PITCH_CLASSES;
+        return n % universeSize;
     }
 
     /**
@@ -335,7 +352,8 @@ public final class SetTheoryUtils {
             // First shift the set rightwards until it's zero-based
             set = set >>> Integer.numberOfTrailingZeros(set);
             // Gets the highest bit position using Log base 2
-            int mostSignificantBitPosition = (int)(Math.log(Integer.highestOneBit(set)) / Math.log(IV_LOG_BASE));
+            int mostSignificantBitPosition = (int)(Math.log(Integer.highestOneBit(set))
+                    / Math.log(INTERVAL_VECTOR_LOG_BASE));
 
             for (int j = 1; j <= mostSignificantBitPosition; j++) {
                 if ((set & (1 << j)) != 0) {
@@ -364,5 +382,127 @@ public final class SetTheoryUtils {
         return interval <= 6
                 ? interval
                 : NUM_PITCH_CLASSES - interval;
+    }
+
+    /**
+     * Set X is the abstract superset of Set Y if any transposed or inverted form of Y is
+     * contained in X
+     *
+     * @param set               the pitch class set
+     * @param supersetCandidate a pitch class set which is potentially a superset of set
+     * @return                  whether supersetCandidate was indeed an abstract superset of set
+     */
+    public static boolean isAbstractSuperset(int set, int supersetCandidate) {
+        // Only consider proper supersets
+        if (supersetCandidate <= set) {
+            return false;
+        }
+
+        int invertedSet = invert(set);
+
+        return isSupersetOfAnyTransposition(set, supersetCandidate)
+                || isSupersetOfAnyTransposition(invertedSet, supersetCandidate);
+    }
+
+    /**
+     * A helper for isAbstractSuperset() which determines if supersetCandidate
+     * is indeed a superset of set for any transposition of set
+     *
+     * @param set               the pitch class set
+     * @param supersetCandidate a pitch class set which is potentially a superset of set
+     * @return                  whether supersetCandidate was indeed an superset of any
+     *                          transposition of set
+     */
+    private static boolean isSupersetOfAnyTransposition(int set, int supersetCandidate) {
+        for (int i = 0; i < NUM_PITCH_CLASSES; i++) {
+            if ((set & supersetCandidate) == set) {
+                return true;
+            }
+
+            set = transpose(set, 1);
+        }
+
+        return false;
+    }
+
+    /**
+     * Set X is the abstract subset of Set Y if any transposed or inverted form of X is
+     * contained in Y
+     *
+     * @param set             the pitch class set
+     * @param subsetCandidate a pitch class set which is potentially a subset of set
+     * @return                whether subsetCandidate was indeed an abstract subset of set
+     */
+    public static boolean isAbstractSubset(int set, int subsetCandidate) {
+        return isAbstractSuperset(subsetCandidate, set);
+    }
+
+    /**
+     * Set X is a literal superset of Set Y if all of the notes of Y are contained in X.
+     *
+     * @param set               the pitch class set
+     * @param supersetCandidate a pitch class set which is potentially a superset of set
+     * @return                  whether supersetCandidate was indeed a literal superset of set
+     */
+    public static boolean isLiteralSuperset(int set, int supersetCandidate) {
+        // Only consider proper supersets
+        return supersetCandidate >= set
+                && (set & supersetCandidate) == set;
+    }
+
+    /**
+     * Set X is a literal subset of Set Y if all of the notes of X are contained in Y.
+     *
+     * @param set             the pitch class set
+     * @param subsetCandidate a pitch class set which is potentially a subset of set
+     * @return                whether subsetCandidate was indeed a literal subset of set
+     */
+    public static boolean isLiteralSubset(int set, int subsetCandidate) {
+        return isLiteralSuperset(subsetCandidate, set);
+    }
+
+    /**
+     * Calculates the common pitch classes between two sets, through a binary representation
+     *
+     * @param set1 the first pitch class set
+     * @param set2 the second pitch class set
+     * @return     a pitch class set of common tones between the first and second arguments
+     */
+    public static int getCommonTones(int set1, int set2) {
+        return set1 & set2;
+    }
+
+    /**
+     * Joins two pitch class sets into one
+     *
+     * @param set1 the first pitch class set
+     * @param set2 the second pitch class set
+     * @return     the composition of the first and second pitch class sets as one set
+     */
+    public static int combine(int set1, int set2) {
+        return set1 | set2;
+    }
+
+    /**
+     * Joins a set and a transposed version of itself
+     *
+     * @param set           the pitch class set
+     * @param transposition the value by which set should be transposed
+     * @return              the composition of set and its transposition
+     */
+    public static int transpositionallyCombine(int set, int transposition) {
+        return combine(set, transpose(set, transposition));
+    }
+
+    /**
+     * Joins a set and a inversionally transposed version of itself
+     *
+     * @param set           the pitch class set
+     * @param transposition the value by which set should be transposed after inversion
+     * @return              the composition of set and its inversional transposition
+     */
+    public static int inversionallyCombine(int set, int transposition) {
+        int inversedSet = invert(set);
+        return combine(inversedSet, transpose(inversedSet, transposition));
     }
 }

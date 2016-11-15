@@ -2,10 +2,16 @@ package com.nihk.github.pcsetcalculator;
 
 import com.nihk.github.pcsetcalculator.model.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
+import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.model.ForteNumber;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -53,8 +59,47 @@ public class SetTheoryUtilsTests {
     public void intervalVectorIsCorrectlyCalculated() throws Exception {
         PitchClassSet pcs1 = PitchClassSet.fromBinary(275);
         PitchClassSet pcs2 = PitchClassSet.fromForte(ForteNumberUtils._5_35);
+        PitchClassSet pcs3 = PitchClassSet.fromString("645");
 
         assertEquals("From binary", pcs1.getIntervalVector().toString(), "[1, 0, 1, 3, 1, 0]");
         assertEquals("From Forte", pcs2.getIntervalVector().toString(), "[0, 3, 2, 1, 4, 0]");
+        assertEquals("From String", pcs3.getIntervalVector().toString(), "[2, 1, 0, 0, 0, 0]");
+    }
+
+    /**
+     * This tests a few cases of inclusion relationships between sets, i.e. super/subset
+     * relationships
+     *
+     * @throws Exception
+     */
+    // TODO write more cases
+    @Test
+    public void superAndSubsetsAreValid() throws Exception {
+        PitchClassSet pcs1 = PitchClassSet.fromString("9AB0");
+        PitchClassSet pcs2 = PitchClassSet.fromString("9A1B0");
+        PitchClassSet pcs3 = PitchClassSet.fromString("2468A");
+        PitchClassSet pcs4 = PitchClassSet.fromString("123");
+
+        assertTrue("[0, 1, 9, 10, 11] should've been an abstract superset of [0, 9, 10, 11]\n",
+                SetTheoryUtils.isAbstractSuperset(pcs1.getSetBinary(), pcs2.getSetBinary()));
+        assertFalse("[2, 4, 6, 8, 10] shouldn't've been an abstract superset of [0, 9, 10, 11]",
+                SetTheoryUtils.isAbstractSuperset(pcs1.getSetBinary(), pcs3.getSetBinary()));
+        assertFalse("[1, 2, 3] shouldn't've been a literal subset of [0, 9, 10, 11]",
+                SetTheoryUtils.isLiteralSubset(pcs1.getSetBinary(), pcs4.getSetBinary()));
+    }
+
+    @Test
+    public void mockDriver() throws Exception {
+        PitchClassSet pcs1 = PitchClassSet.fromString("8AB34");
+        PitchClassSet pcs2 = PitchClassSet.fromString("01568");
+        Set<Integer> allPrimeForms = SetTheoryUtils.PRIME_FORMS;
+        List<Integer> allSuperSets = new ArrayList<>();
+
+        for (int i : allPrimeForms) {
+            if (SetTheoryUtils.isLiteralSuperset(pcs1.getPrimeFormBinary(), i)) {
+                PitchClassSet set = PitchClassSet.fromBinary(i);
+                System.out.println(set.getForteNumber().toString());
+            }
+        }
     }
 }

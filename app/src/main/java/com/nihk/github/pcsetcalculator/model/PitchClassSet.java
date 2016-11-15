@@ -78,9 +78,9 @@ public class PitchClassSet {
         pcs.mPrimeFormCollection = setToList(pcs.mPrimeFormBinary);
         pcs.mNormalFormCollection = setToList(pcs.mNormalFormMetadata.getZeroBasedNormalForm());
         SetTheoryUtils.transpose(pcs.mNormalFormCollection, pcs.mNormalFormMetadata.getTransposition());
-        pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mSetBinary);
+        pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mPrimeFormBinary);
         pcs.mZMate = IntervalVectorUtils.Z_MATES.get(pcs.mForteNumber);
-        pcs.mIntervalVector = calculateIntervalVector(pcs.mSetBinary);
+        pcs.mIntervalVector = calculateIntervalVector(pcs.mPrimeFormBinary);
 
         return pcs;
     }
