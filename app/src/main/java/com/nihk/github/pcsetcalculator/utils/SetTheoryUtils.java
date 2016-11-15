@@ -4,6 +4,7 @@ package com.nihk.github.pcsetcalculator.utils;
  * Created by Nick on 2016-11-02.
  */
 
+import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.model.NormalFormMetadata;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  * to groups of pitch classes, in this class I generally refer to binary representations
  * as 'set' and List<Integer> representations as 'collection' to establish a distinction.
  */
-public final class PitchClassUtils {
+public final class SetTheoryUtils {
 
     // Binary representations of pitch classes
     public static final int ZERO =   0b000000000001;
@@ -32,14 +33,15 @@ public final class PitchClassUtils {
     public static final int ELEVEN = 0b100000000000;
 
     public static final int NUM_PITCH_CLASSES = 12;
-
+    public static final int NUM_INTERVAL_CLASSES = 6;
     // A mask of all bits to the left of the twelfth bit set to true; all others false
     private static final int OVERFLOW_MASK = ~0 << (NUM_PITCH_CLASSES);
     // A mask of all bits from the twelfth bit below set to true; all others false
     private static final int MOD_12_MASK = ~OVERFLOW_MASK;
     private static final int NUM_NON_MOD_12_BITS = Integer.bitCount(OVERFLOW_MASK);
+    public static final int IV_LOG_BASE = 2;
 
-    private PitchClassUtils() {
+    private SetTheoryUtils() {
         // Prevent instantiation
     }
 
@@ -97,7 +99,7 @@ public final class PitchClassUtils {
     /**
      * Transposes each member of a collection by a given amount.
      * This transposes a list of integers, i.e. not a binary representation
-     * of the set; compare to PitchClassUtils::transpose
+     * of the set; compare to SetTheoryUtils::transpose
      *
      * @param collection    the collection to be transposed
      * @param transposition the Tn value
@@ -317,5 +319,50 @@ public final class PitchClassUtils {
         }
 
         return set;
+    }
+
+    /**
+     * Calculates the intervallic content of a set
+     *
+     * @param set the binary representation of a pitch class set
+     * @return    an integer array representing the eet's interval vector
+     */
+    public static List<Integer> calculateIntervalVector(int set) {
+        int[] intervalVector = new int[NUM_INTERVAL_CLASSES];
+        int setSize = Integer.bitCount(set);
+
+        for (int i = 0; i < setSize; i++) {
+            // First shift the set rightwards until it's zero-based
+            set = set >>> Integer.numberOfTrailingZeros(set);
+            // Gets the highest bit position using Log base 2
+            int mostSignificantBitPosition = (int)(Math.log(Integer.highestOneBit(set)) / Math.log(IV_LOG_BASE));
+
+            for (int j = 1; j <= mostSignificantBitPosition; j++) {
+                if ((set & (1 << j)) != 0) {
+                    // - 1 because arrays are zero based, so an interval of 1 should fill
+                    // the first index of the array, 0
+                    intervalVector[calculateIntervalClass(j) - 1]++;
+                }
+            }
+
+            // Shift once to the right to pop off the zeroth bit now that we're done with it
+            set >>>= 1;
+        }
+
+        return Ints.asList(intervalVector);
+    }
+
+    /**
+     * Calculates the interval class of an interval. There are only
+     * six interval classes: 1-6
+     *
+     * @param interval an value representing the distance between two pitch classes
+     * @return         the interval class value of the interval parameter
+     */
+    public static int calculateIntervalClass(int interval) {
+        interval = mod12(interval);
+        return interval <= 6
+                ? interval
+                : NUM_PITCH_CLASSES - interval;
     }
 }

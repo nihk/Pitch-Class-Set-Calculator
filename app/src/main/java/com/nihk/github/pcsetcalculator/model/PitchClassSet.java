@@ -5,87 +5,96 @@ package com.nihk.github.pcsetcalculator.model;
  */
 
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
-import com.nihk.github.pcsetcalculator.utils.PitchClassUtils;
+import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
+import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 
 import java.util.List;
 
-import static com.nihk.github.pcsetcalculator.utils.PitchClassUtils.*;
+import static com.nihk.github.pcsetcalculator.utils.SetTheoryUtils.*;
 
 /**
- * A distinct mCollectionBinary pitch classes
+ * A distinct collection of pitch classes
  */
 public class PitchClassSet {
-    // TODO these lists are storing ints like 10 and 11 as those numbers, not A or B
-    // TODO should I also store these as strings? Tn and In operations will be necessary
-    private List<Integer> mSet;
-    private List<Integer> mNormalForm;
-    private List<Integer> mPrimeForm;
+    // TODO change Lists to int[]s?
+    private List<Integer> mCollection;
+    private List<Integer> mNormalFormCollection;
+    private List<Integer> mPrimeFormCollection;
+    private List<Integer> mIntervalVector;
     private ForteNumber mForteNumber;
-
-    // TODO fields for inversion and transpositions? (so that the original is preserved)
-
-    private int mSetBinaryRepresentation;
+    private ForteNumber mZMate;
+    private int mSetBinary;
     private NormalFormMetadata mNormalFormMetadata;
-    private int mPrimeFormBinaryRepresentation;
+    private int mPrimeFormBinary;
 
-    public List<Integer> getSet() {
-        return mSet;
+    public List<Integer> getCollection() {
+        return mCollection;
     }
 
-    public List<Integer> getPrimeForm() {
-        return mPrimeForm;
+    public List<Integer> getPrimeFormCollection() {
+        return mPrimeFormCollection;
     }
 
-    public List<Integer> getNormalForm() {
-        return mNormalForm;
+    public List<Integer> getNormalFormCollection() {
+        return mNormalFormCollection;
     }
 
     public ForteNumber getForteNumber() {
         return mForteNumber;
     }
 
-    public int getSetBinaryRepresentation() {
-        return mSetBinaryRepresentation;
+    public int getSetBinary() {
+        return mSetBinary;
     }
 
     public NormalFormMetadata getNormalFormMetadata() {
         return mNormalFormMetadata;
     }
 
-    public int getPrimeFormBinaryRepresentation() {
-        return mPrimeFormBinaryRepresentation;
+    public int getPrimeFormBinary() {
+        return mPrimeFormBinary;
+    }
+
+    public List<Integer> getIntervalVector() {
+        return mIntervalVector;
     }
 
     private PitchClassSet() {
         // Instantiation is done by static constructors
     }
 
-    public static PitchClassSet newInstance(String s) {
+    public static PitchClassSet fromString(String s) {
         int set = stringToSet(s);
-        return newInstance(set);
+        return fromBinary(set);
     }
 
-    public static PitchClassSet newInstance(int set) {
+    public static PitchClassSet fromBinary(int set) {
         PitchClassSet pcs = new PitchClassSet();
-        pcs.mSetBinaryRepresentation = set;
-        pcs.mNormalFormMetadata = calculateNormalForm(pcs.mSetBinaryRepresentation);
-        pcs.mPrimeFormBinaryRepresentation = calculatePrimeForm(pcs.mSetBinaryRepresentation);
+        pcs.mSetBinary = set;
+        pcs.mNormalFormMetadata = calculateNormalForm(pcs.mSetBinary);
+        pcs.mPrimeFormBinary = calculatePrimeForm(pcs.mSetBinary);
 
-        pcs.mSet = setToList(pcs.mSetBinaryRepresentation);
-        pcs.mPrimeForm = setToList(pcs.mPrimeFormBinaryRepresentation);
-        pcs.mNormalForm = setToList(pcs.mNormalFormMetadata.getZeroBasedNormalForm());
-        PitchClassUtils.transpose(pcs.mNormalForm, pcs.mNormalFormMetadata.getTransposition());
-        pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mSetBinaryRepresentation);
+        pcs.mCollection = setToList(pcs.mSetBinary);
+        pcs.mPrimeFormCollection = setToList(pcs.mPrimeFormBinary);
+        pcs.mNormalFormCollection = setToList(pcs.mNormalFormMetadata.getZeroBasedNormalForm());
+        SetTheoryUtils.transpose(pcs.mNormalFormCollection, pcs.mNormalFormMetadata.getTransposition());
+        pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mSetBinary);
+        pcs.mZMate = IntervalVectorUtils.Z_MATES.get(pcs.mForteNumber);
+        pcs.mIntervalVector = calculateIntervalVector(pcs.mSetBinary);
 
         return pcs;
     }
 
-    // TODO make toStrings for normal/prime/IC vector have the correct respective brackets
+    public static PitchClassSet fromForte(ForteNumber fn) {
+        int set = ForteNumberUtils.BIMAP.inverse().get(fn);
+        return fromBinary(set);
+    }
+
     @Override
     public String toString() {
-        return "Original collection: " + mSet.toString()
-                + "\nNormal form: " + mNormalForm.toString()
-                + "\nPrime form: " + mPrimeForm.toString()
+        return "Original collection: " + mCollection.toString()
+                + "\nNormal form: " + mNormalFormCollection.toString()
+                + "\nPrime form: " + mPrimeFormCollection.toString()
                 + "\nForte number: " + mForteNumber.toString();
     }
 }
