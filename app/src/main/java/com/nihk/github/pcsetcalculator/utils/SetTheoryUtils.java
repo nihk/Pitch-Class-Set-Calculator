@@ -10,7 +10,11 @@ import com.nihk.github.pcsetcalculator.model.NormalFormMetadata;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+// TODO make set to string, so that 10 == A, 11 == B, etc., with proper braces
 
+// TODO method that converts view's input into set data
+
+// TODO method that returns string for view when In or Tn is done
 // TODO embedded complement?
 // TODO supersets, subsets. How to?
 
@@ -394,7 +398,7 @@ public final class SetTheoryUtils {
      */
     public static boolean isAbstractSuperset(int set, int supersetCandidate) {
         // Only consider proper supersets
-        if (supersetCandidate <= set) {
+        if (Integer.bitCount(supersetCandidate) <= Integer.bitCount(set)) {
             return false;
         }
 
@@ -446,7 +450,7 @@ public final class SetTheoryUtils {
      */
     public static boolean isLiteralSuperset(int set, int supersetCandidate) {
         // Only consider proper supersets
-        return supersetCandidate >= set
+        return Integer.bitCount(supersetCandidate) > Integer.bitCount(set)
                 && (set & supersetCandidate) == set;
     }
 

@@ -4,6 +4,10 @@ package com.nihk.github.pcsetcalculator.model;
  * Created by Nick on 2016-11-02.
  */
 
+import android.support.annotation.NonNull;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 /**
@@ -11,7 +15,7 @@ import java.util.Locale;
  * The cardinality is the size of the pitch class collection, but the ordinal position
  * was arbitrarily assigned by Allen Forte.
  */
-public final class ForteNumber {
+public final class ForteNumber implements Comparable<ForteNumber> {
     private final int mCardinality;
     private final int mOrdinalPosition;
     // The "Z-relation" is when two pitch class sets have the same interval vector.
@@ -70,5 +74,20 @@ public final class ForteNumber {
                 mCardinality,
                 mIsZedRelated ? "Z" : "",
                 mOrdinalPosition);
+    }
+
+    @Override
+    public int compareTo(@NonNull ForteNumber o) {
+        if (this == o) {
+            return 0;
+        }
+
+        int cmp = Integer.valueOf(mCardinality).compareTo(o.mCardinality);
+
+        if (cmp == 0) {
+            cmp = Integer.valueOf(this.mOrdinalPosition).compareTo(o.mOrdinalPosition);
+        }
+
+        return cmp;
     }
 }

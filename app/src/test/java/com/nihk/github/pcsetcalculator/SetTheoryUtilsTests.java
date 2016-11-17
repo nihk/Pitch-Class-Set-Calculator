@@ -2,15 +2,14 @@ package com.nihk.github.pcsetcalculator;
 
 import com.nihk.github.pcsetcalculator.model.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
-import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.model.ForteNumber;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -81,11 +80,11 @@ public class SetTheoryUtilsTests {
         PitchClassSet pcs4 = PitchClassSet.fromString("123");
 
         assertTrue("[0, 1, 9, 10, 11] should've been an abstract superset of [0, 9, 10, 11]\n",
-                SetTheoryUtils.isAbstractSuperset(pcs1.getSetBinary(), pcs2.getSetBinary()));
+                SetTheoryUtils.isAbstractSuperset(pcs1.getOriginalSetBinary(), pcs2.getOriginalSetBinary()));
         assertFalse("[2, 4, 6, 8, 10] shouldn't've been an abstract superset of [0, 9, 10, 11]",
-                SetTheoryUtils.isAbstractSuperset(pcs1.getSetBinary(), pcs3.getSetBinary()));
+                SetTheoryUtils.isAbstractSuperset(pcs1.getOriginalSetBinary(), pcs3.getOriginalSetBinary()));
         assertFalse("[1, 2, 3] shouldn't've been a literal subset of [0, 9, 10, 11]",
-                SetTheoryUtils.isLiteralSubset(pcs1.getSetBinary(), pcs4.getSetBinary()));
+                SetTheoryUtils.isLiteralSubset(pcs1.getOriginalSetBinary(), pcs4.getOriginalSetBinary()));
     }
 
     @Test
@@ -93,13 +92,19 @@ public class SetTheoryUtilsTests {
         PitchClassSet pcs1 = PitchClassSet.fromString("8AB34");
         PitchClassSet pcs2 = PitchClassSet.fromString("01568");
         Set<Integer> allPrimeForms = SetTheoryUtils.PRIME_FORMS;
-        List<Integer> allSuperSets = new ArrayList<>();
+        List<ForteNumber> allSuperSets = new ArrayList<>();
 
         for (int i : allPrimeForms) {
-            if (SetTheoryUtils.isLiteralSuperset(pcs1.getPrimeFormBinary(), i)) {
-                PitchClassSet set = PitchClassSet.fromBinary(i);
-                System.out.println(set.getForteNumber().toString());
+            if (SetTheoryUtils.isAbstractSuperset(pcs1.getOriginalSetBinary(), i)) {
+                PitchClassSet superSet = PitchClassSet.fromBinary(i);
+                allSuperSets.add(superSet.getForteNumber());
             }
+        }
+
+        Collections.sort(allSuperSets);
+
+        for (ForteNumber fn : allSuperSets) {
+            System.out.println(fn);
         }
     }
 }

@@ -23,7 +23,7 @@ public class PitchClassSet {
     private List<Integer> mIntervalVector;
     private ForteNumber mForteNumber;
     private ForteNumber mZMate;
-    private int mSetBinary;
+    private int mOriginalSetBinary;
     private NormalFormMetadata mNormalFormMetadata;
     private int mPrimeFormBinary;
 
@@ -43,8 +43,8 @@ public class PitchClassSet {
         return mForteNumber;
     }
 
-    public int getSetBinary() {
-        return mSetBinary;
+    public int getOriginalSetBinary() {
+        return mOriginalSetBinary;
     }
 
     public NormalFormMetadata getNormalFormMetadata() {
@@ -70,11 +70,11 @@ public class PitchClassSet {
 
     public static PitchClassSet fromBinary(int set) {
         PitchClassSet pcs = new PitchClassSet();
-        pcs.mSetBinary = set;
-        pcs.mNormalFormMetadata = calculateNormalForm(pcs.mSetBinary);
-        pcs.mPrimeFormBinary = calculatePrimeForm(pcs.mSetBinary);
+        pcs.mOriginalSetBinary = set;
+        pcs.mNormalFormMetadata = calculateNormalForm(pcs.mOriginalSetBinary);
+        pcs.mPrimeFormBinary = calculatePrimeForm(pcs.mOriginalSetBinary);
 
-        pcs.mCollection = setToList(pcs.mSetBinary);
+        pcs.mCollection = setToList(pcs.mOriginalSetBinary);
         pcs.mPrimeFormCollection = setToList(pcs.mPrimeFormBinary);
         pcs.mNormalFormCollection = setToList(pcs.mNormalFormMetadata.getZeroBasedNormalForm());
         SetTheoryUtils.transpose(pcs.mNormalFormCollection, pcs.mNormalFormMetadata.getTransposition());
