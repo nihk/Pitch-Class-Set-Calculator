@@ -90,12 +90,12 @@ public class SetTheoryUtilsTests {
     @Test
     public void mockDriver() throws Exception {
         PitchClassSet pcs1 = PitchClassSet.fromString("8AB34");
-        PitchClassSet pcs2 = PitchClassSet.fromString("01568");
+        PitchClassSet pcs2 = PitchClassSet.fromString("123789");
         Set<Integer> allPrimeForms = SetTheoryUtils.PRIME_FORMS;
         List<ForteNumber> allSuperSets = new ArrayList<>();
 
         for (int i : allPrimeForms) {
-            if (SetTheoryUtils.isAbstractSuperset(pcs1.getOriginalSetBinary(), i)) {
+            if (SetTheoryUtils.isAbstractSuperset(pcs2.getOriginalSetBinary(), i)) {
                 PitchClassSet superSet = PitchClassSet.fromBinary(i);
                 allSuperSets.add(superSet.getForteNumber());
             }
