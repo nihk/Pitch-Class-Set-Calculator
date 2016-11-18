@@ -9,14 +9,13 @@ import com.nihk.github.pcsetcalculator.model.NormalFormMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 // TODO make set to string, so that 10 == A, 11 == B, etc., with proper braces
 
 // TODO method that converts view's input into set data
 
 // TODO method that returns string for view when In or Tn is done
-// TODO embedded complement?
-// TODO supersets, subsets. How to?
 
 /**
  * Utility class for performing pitch class operations on sets. Although the
@@ -48,6 +47,11 @@ public final class SetTheoryUtils {
     private static final int MOD_12_MASK = ~OVERFLOW_MASK;
     private static final int NUM_NON_MOD_12_BITS = Integer.bitCount(OVERFLOW_MASK);
     public static final int INTERVAL_VECTOR_LOG_BASE = 2;
+
+    private static final String UNORDERED_SET_FORMATTER = "{%s}";
+    private static final String NORMAL_FORM_FORMATTER = "[%s]";
+    private static final String PRIME_FORM_FORMATTER = "(%s)";
+    private static final String INTERVAL_VECTOR_FORMATTER = "<%s>";
 
     public static Set<Integer> PRIME_FORMS = ForteNumberUtils.BIMAP.keySet();
 
@@ -216,6 +220,77 @@ public final class SetTheoryUtils {
         }
 
         return collection;
+    }
+
+    /**
+     * Turns a list of strings into an unordered set string representation
+     *
+     * @param set the list of elements to be transformed into a string
+     * @return    the list in an unordered set string representation
+     */
+    public static String getUnorderedSetStringRepresentation(List<String> set) {
+        return surroundStringSetWithBrackets(UNORDERED_SET_FORMATTER, set);
+    }
+
+    /**
+     * Turns a list of strings into a prime form string representation
+     *
+     * @param set the list of elements to be transformed into a string
+     * @return    the list in a prime form string representation
+     */
+    public static String getPrimeFormStringRepresentation(List<String> set) {
+        return surroundStringSetWithBrackets(PRIME_FORM_FORMATTER, set);
+    }
+
+    /**
+     * Turns a list of strings into a normal form string representation
+     *
+     * @param set the list of elements to be transformed into a string
+     * @return    the list in a normal form string representation
+     */
+    public static String getNormalFormStringRepresentation(List<String> set) {
+        return surroundStringSetWithBrackets(NORMAL_FORM_FORMATTER, set);
+    }
+
+    /**
+     * Turns a list of strings into an interval vector string representation
+     *
+     * @param iv the list of elements to be transformed into a string
+     * @return   the list in an interval vector string representation
+     */
+    public static String getIntervalVectorStringRepresentation(List<String> iv) {
+        return surroundStringSetWithBrackets(INTERVAL_VECTOR_FORMATTER, iv);
+    }
+
+    /**
+     * A helper method to surround a string with a given pair of brackets
+     *
+     * @param brackets the brackets to enclose the string
+     * @param list     the list of elements to be enclosed by brackets
+     * @return         the string representation of the two parameters combined
+     */
+    private static String surroundStringSetWithBrackets(String brackets, List<String> list) {
+        return String.format(Locale.getDefault(),
+                brackets,
+                makeSpacesBetweenPitchClasses(list));
+    }
+
+    /**
+     * A helper method to make a string of a list with spaces in between each element
+     *
+     * @param list the list to be transformed into a string
+     * @return     a string representation of list with spaces in between
+     */
+    private static String makeSpacesBetweenPitchClasses(List<String> list) {
+        char space = ' ';
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(list.get(0));
+        for (int i = 1; i < list.size(); i++) {
+            stringBuilder.append(space).append(list.get(i));
+        }
+
+        return stringBuilder.toString();
     }
 
     /**
