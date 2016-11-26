@@ -581,7 +581,7 @@ public final class SetTheoryUtils {
      * @return              the composition of set and its inversional transposition
      */
     public static int inversionallyCombine(int set, int transposition) {
-        int inversedSet = invert(set);
-        return combine(inversedSet, transpose(inversedSet, transposition));
+        int invertedSet = invert(set);
+        return combine(invertedSet, transpose(invertedSet, transposition));
     }
 }
