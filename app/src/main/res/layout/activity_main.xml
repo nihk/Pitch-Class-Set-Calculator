@@ -11,7 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nihk.github.pcsetcalculator.view.MainActivity">
 
-    <com.nihk.github.pcsetcalculator.view.InputNumbersRow
+    <com.nihk.github.pcsetcalculator.view.Calculator
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
