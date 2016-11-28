@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/calculator_table"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             xmlns:tools="http://schemas.android.com/tools"
     >
 
     <TableRow
         android:layout_weight="5"
         >
         <TextView
+            android:id="@+id/input_screen"
             tools:text="0 1 2 3 4 5 6 7 8 9 A B"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -32,6 +34,7 @@
             android:gravity="center|end"
             />
         <TextView
+            android:id="@+id/normalForm"
             tools:text="{ 0 1 2 3 4 5 6 7 8 9 A B }"
             android:text="@string/no_value"
             android:layout_weight="3"
@@ -51,6 +54,7 @@
             android:gravity="center|end"
             />
         <TextView
+            android:id="@+id/primeForm"
             tools:text="[ 0 1 2 3 4 5 6 7 8 9 A B ]"
             android:text="@string/no_value"
             android:layout_weight="3"
@@ -75,6 +79,7 @@
             android:gravity="center|end"
             />
         <TextView
+            android:id="@+id/intervalVector"
             tools:text="&lt; 1 1 1 1 1 1 &gt;"
             android:text="@string/no_value"
             android:layout_weight="3"
@@ -94,6 +99,7 @@
             android:gravity="center|end"
             />
         <TextView
+            android:id="@+id/forteNumber"
             tools:text="4-Z29 (Z-mate: 4-Z15)"
             android:text="@string/no_value"
             android:layout_weight="3"

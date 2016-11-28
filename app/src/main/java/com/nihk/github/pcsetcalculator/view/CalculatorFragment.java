@@ -8,16 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nihk.github.pcsetcalculator.R;
+import com.nihk.github.pcsetcalculator.controller.CalculatorController;
 
 /**
  * Created by Nick on 2016-11-27.
  */
 
 public class CalculatorFragment extends Fragment {
+    private CalculatorController mController;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calculator, container, false /* attachToRoot */);
+        mController = new CalculatorController(getActivity(), view.findViewById(R.id.calculator_table));
 
         return view;
     }

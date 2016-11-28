@@ -8,8 +8,10 @@ import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.model.NormalFormMetadata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 // TODO make set to string, so that 10 == A, 11 == B, etc., with proper braces
 
@@ -26,18 +28,20 @@ import java.util.Set;
 public final class SetTheoryUtils {
 
     // Binary representations of pitch classes
-    public static final int ZERO =   0b000000000001;
-    public static final int ONE =    0b000000000010;
-    public static final int TWO =    0b000000000100;
-    public static final int THREE =  0b000000001000;
-    public static final int FOUR =   0b000000010000;
-    public static final int FIVE =   0b000000100000;
-    public static final int SIX =    0b000001000000;
-    public static final int SEVEN =  0b000010000000;
-    public static final int EIGHT =  0b000100000000;
-    public static final int NINE =   0b001000000000;
-    public static final int TEN =    0b010000000000;
-    public static final int ELEVEN = 0b100000000000;
+    public static final Map<String, Integer> PC_BITS = new HashMap<String, Integer>() {{
+        put("0", 0b000000000001);
+        put("1", 0b000000000010);
+        put("2", 0b000000000100);
+        put("3", 0b000000001000);
+        put("4", 0b000000010000);
+        put("5", 0b000000100000);
+        put("6", 0b000001000000);
+        put("7", 0b000010000000);
+        put("8", 0b000100000000);
+        put("9", 0b001000000000);
+        put("A", 0b010000000000);
+        put("B", 0b100000000000);
+    }};
 
     public static final int NUM_PITCH_CLASSES = 12;
     public static final int NUM_INTERVAL_CLASSES = 6;

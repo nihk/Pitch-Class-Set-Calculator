@@ -17,7 +17,6 @@ import com.nihk.github.pcsetcalculator.R;
  */
 
 public class ViewPagerFragment extends Fragment {
-    public static final String NAME = "viewpager_fragment";
     private static final int NUM_PAGES = 2;
 
     @Nullable

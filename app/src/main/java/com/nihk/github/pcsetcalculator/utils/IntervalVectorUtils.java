@@ -16,6 +16,7 @@ public final class IntervalVectorUtils {
         // Prevent instantiation
     }
 
+    public static final String Z_MATE_FORMATTER = "\n(Z-mate: %s)";
     public static final BiMap<ForteNumber, ForteNumber> Z_MATES = HashBiMap.create();
 
     static {
