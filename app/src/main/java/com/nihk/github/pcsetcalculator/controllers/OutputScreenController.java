@@ -1,13 +1,11 @@
-package com.nihk.github.pcsetcalculator.model.calculator;
+package com.nihk.github.pcsetcalculator.controllers;
 
 import android.view.View;
 import android.widget.TextView;
 
 import com.nihk.github.pcsetcalculator.R;
-import com.nihk.github.pcsetcalculator.model.ForteNumber;
-import com.nihk.github.pcsetcalculator.model.PitchClassSet;
-import com.nihk.github.pcsetcalculator.model.calculator.listeners.InputUpdatedListener;
-import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
+import com.nihk.github.pcsetcalculator.models.ForteNumber;
+import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
 
 import java.util.Locale;
@@ -16,7 +14,7 @@ import java.util.Locale;
  * The screen which displays calculated statistics from the input screen, e.g. normal form,
  * interval vector, et al.
  */
-public class OutputScreen implements InputUpdatedListener {
+public class OutputScreenController implements InputScreenController.Listener {
     private final TextView mNormalFormView;
     private final TextView mPrimeFormView;
     private final TextView mIntervalVectorView;
@@ -24,7 +22,7 @@ public class OutputScreen implements InputUpdatedListener {
 
     private static final String EMPTY_TEXT = "--";
 
-    public OutputScreen(View outputView) {
+    public OutputScreenController(View outputView) {
         mNormalFormView = (TextView) outputView.findViewById(R.id.normalForm);
         mPrimeFormView = (TextView) outputView.findViewById(R.id.primeForm);
         mIntervalVectorView = (TextView) outputView.findViewById(R.id.intervalVector);
@@ -34,6 +32,7 @@ public class OutputScreen implements InputUpdatedListener {
     @Override
     public void onInputUpdated(PitchClassSet set) {
         // TODO use correct formatters from somewhere else
+        // TODO add proper string formats to PitchClassSet?
         mNormalFormView.setText(set.getNormalFormCollection().toString());
         mPrimeFormView.setText(set.getPrimeFormCollection().toString());
         mIntervalVectorView.setText(set.getIntervalVector().toString());

@@ -1,4 +1,4 @@
-package com.nihk.github.pcsetcalculator.view;
+package com.nihk.github.pcsetcalculator.views;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

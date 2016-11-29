@@ -1,6 +1,6 @@
 package com.nihk.github.pcsetcalculator.utils;
 
-import com.nihk.github.pcsetcalculator.model.ForteNumber;
+import com.nihk.github.pcsetcalculator.models.ForteNumber;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 

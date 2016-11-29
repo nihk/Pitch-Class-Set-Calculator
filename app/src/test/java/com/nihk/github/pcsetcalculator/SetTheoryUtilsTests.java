@@ -1,9 +1,9 @@
 package com.nihk.github.pcsetcalculator;
 
-import com.nihk.github.pcsetcalculator.model.PitchClassSet;
+import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
-import com.nihk.github.pcsetcalculator.model.ForteNumber;
+import com.nihk.github.pcsetcalculator.models.ForteNumber;
 
 import org.junit.Test;
 

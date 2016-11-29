@@ -1,4 +1,4 @@
-package com.nihk.github.pcsetcalculator.model;
+package com.nihk.github.pcsetcalculator.models;
 
 /**
  * Created by Nick on 2016-11-02.

@@ -1,4 +1,4 @@
-package com.nihk.github.pcsetcalculator.view;
+package com.nihk.github.pcsetcalculator.views;
 
 import android.support.v4.app.Fragment;
 

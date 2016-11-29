@@ -5,7 +5,7 @@ package com.nihk.github.pcsetcalculator.utils;
  */
 
 import com.google.common.primitives.Ints;
-import com.nihk.github.pcsetcalculator.model.NormalFormMetadata;
+import com.nihk.github.pcsetcalculator.models.NormalFormMetadata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
