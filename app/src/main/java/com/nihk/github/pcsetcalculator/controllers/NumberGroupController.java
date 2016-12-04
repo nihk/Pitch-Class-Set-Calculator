@@ -4,6 +4,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.nihk.github.pcsetcalculator.R;
+import com.nihk.github.pcsetcalculator.controllers.OperatorController.OperatorModified;
+import com.nihk.github.pcsetcalculator.models.PitchClassSet;
+import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,8 @@ import java.util.List;
  * Created by Nick on 2016-11-28.
  */
 
-public class NumberGroupController implements OperatorController.Listener {
+public class NumberGroupController implements OperatorController.Listener,
+        InputScreenController.Listener {
     private View mCalculatorView;
     private List<NumberController> mNumberControllers;
 
@@ -45,13 +49,25 @@ public class NumberGroupController implements OperatorController.Listener {
     public void setListener(NumberController.Listener listener) {
         for (NumberController button : mNumberControllers) {
             button.setListener(listener);
+            // TODO change button colors, too
         }
     }
 
     @Override
-    public void onOperatorButtonClicked(boolean isOperatorModified) {
+    public void onOperatorButtonClicked(@OperatorModified int operatorModification) {
         for (NumberController button : mNumberControllers) {
-            button.setOperatorModified(isOperatorModified);
+            button.setOperatorModified(operatorModification);
+        }
+    }
+
+    @Override
+    public void onInputScreenUpdated(PitchClassSet set) {
+        final int binarySet = set == null ? 0 : set.getOriginalSetBinary();
+        for (NumberController button : mNumberControllers) {
+            final int buttonBinaryValue = button.getBinaryPcValue();
+            final boolean isOn = SetTheoryUtils.setContainsPc(binarySet, buttonBinaryValue);
+            button.setOn(isOn);
+            button.setOperatorModified(OperatorController.NONE);
         }
     }
 }

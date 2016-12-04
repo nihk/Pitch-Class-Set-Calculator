@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import static com.nihk.github.pcsetcalculator.utils.SetTheoryUtils.*;
 import static org.junit.Assert.*;
 
 /**
@@ -26,8 +27,8 @@ public class SetTheoryUtilsTests {
      * @throws Exception
      */
     @Test
-    public void setPrimeFormsHaveExistingForteNumber() throws Exception {
-        int numPitchClassSets = (int)Math.pow(2, SetTheoryUtils.NUM_PITCH_CLASSES);
+    public void primeFormsAnHaveExistingForteNumber() throws Exception {
+        int numPitchClassSets = (int)Math.pow(2, NUM_PITCH_CLASSES);
         for (int i = 0; i < numPitchClassSets; i++) {
             int bitCount = Integer.bitCount(i);
             if (bitCount < ForteNumberUtils.MIN_FORTE_CARDINALITY
@@ -35,7 +36,7 @@ public class SetTheoryUtilsTests {
                 continue;
             }
 
-            String setString = SetTheoryUtils.setToString(i);
+            String setString = setToString(i);
             PitchClassSet set = PitchClassSet.fromString(setString);
             Integer key = set.getPrimeFormBinary();
 
@@ -46,7 +47,18 @@ public class SetTheoryUtilsTests {
         }
     }
 
-    // TODO make a few test cases for normal form, transpositions, inversions, etc.
+    @Test
+    public void normalFormIsCorrectlyCalculated() throws Exception {
+        PitchClassSet pcs1 = PitchClassSet.fromString("0468");
+        PitchClassSet pcs2 = PitchClassSet.fromString("7A3B0");
+        PitchClassSet pcs3 = PitchClassSet.fromString("0136789");
+        PitchClassSet pcs4 = PitchClassSet.fromString("024678");
+
+        assertEquals(pcs1.getNormalFormCollection().toString(), "[4, 6, 8, 0]");
+        assertEquals(pcs2.getNormalFormCollection().toString(), "[7, 10, 11, 0, 3]");
+        assertEquals(pcs3.getNormalFormCollection().toString(), "[6, 7, 8, 9, 0, 1, 3]");
+        assertEquals(pcs4.getNormalFormCollection().toString(), "[0, 2, 4, 6, 7, 8]");
+    }
 
     /**
      * A test to check that the interval vector is correctly assigned during the construction
@@ -80,31 +92,88 @@ public class SetTheoryUtilsTests {
         PitchClassSet pcs4 = PitchClassSet.fromString("123");
 
         assertTrue("[0, 1, 9, 10, 11] should've been an abstract superset of [0, 9, 10, 11]\n",
-                SetTheoryUtils.isAbstractSuperset(pcs1.getOriginalSetBinary(), pcs2.getOriginalSetBinary()));
+                isAbstractSuperset(pcs1.getOriginalSetBinary(), pcs2.getOriginalSetBinary()));
         assertFalse("[2, 4, 6, 8, 10] shouldn't've been an abstract superset of [0, 9, 10, 11]",
-                SetTheoryUtils.isAbstractSuperset(pcs1.getOriginalSetBinary(), pcs3.getOriginalSetBinary()));
+                isAbstractSuperset(pcs1.getOriginalSetBinary(), pcs3.getOriginalSetBinary()));
         assertFalse("[1, 2, 3] shouldn't've been a literal subset of [0, 9, 10, 11]",
-                SetTheoryUtils.isLiteralSubset(pcs1.getOriginalSetBinary(), pcs4.getOriginalSetBinary()));
+                isLiteralSubset(pcs1.getOriginalSetBinary(), pcs4.getOriginalSetBinary()));
+    }
+
+    @Test
+    public void transpositionTests() throws Exception {
+        PitchClassSet pcs1 = PitchClassSet.fromString("9AB0");
+        PitchClassSet pcs2 = PitchClassSet.fromString("9A1B0");
+        PitchClassSet pcs3 = PitchClassSet.fromString("2468A");
+        PitchClassSet pcs4 = PitchClassSet.fromString("123");
+        PitchClassSet pcs5 = PitchClassSet.fromString("0");
+        PitchClassSet pcs6 = PitchClassSet.fromString("6");
+
+        int pcs1Binary = transpose(pcs1.getOriginalSetBinary(), 3);
+        int pcs2Binary = transpose(pcs2.getOriginalSetBinary(), 2);
+        int pcs3Binary = transpose(pcs3.getOriginalSetBinary(), -3);
+        int pcs4Binary = transpose(pcs4.getOriginalSetBinary(), 0);
+        int pcs5Binary = transpose(pcs5.getOriginalSetBinary(), 12);
+        int pcs6Binary = transpose(pcs6.getOriginalSetBinary(), 6);
+        transposeThenSort(pcs1.getCollection(), 3);
+        transposeThenSort(pcs2.getCollection(), 2);
+        transposeThenSort(pcs3.getCollection(), -3);
+        transposeThenSort(pcs4.getCollection(), 0);
+        transposeThenSort(pcs5.getCollection(), 12);
+        transposeThenSort(pcs6.getCollection(), 6);
+
+        assertEquals(pcs1Binary, 15);
+        assertEquals(pcs2Binary, 2063);
+        assertEquals(pcs3Binary, 2218);
+        assertEquals(pcs4Binary, 14);
+        assertEquals(pcs5Binary, 1);
+        assertEquals(pcs6Binary, 1);
+        assertEquals(pcs1.getCollection().toString(), "[0, 1, 2, 3]");
+        assertEquals(pcs2.getCollection().toString(), "[0, 1, 2, 3, 11]");
+        assertEquals(pcs3.getCollection().toString(), "[1, 3, 5, 7, 11]");
+        assertEquals(pcs4.getCollection().toString(), "[1, 2, 3]");
+        assertEquals(pcs5.getCollection().toString(), "[0]");
+        assertEquals(pcs6.getCollection().toString(), "[0]");
+    }
+
+    @Test
+    public void inversionTests() throws Exception {
+        PitchClassSet pcs1 = PitchClassSet.fromString("9AB0");
+        PitchClassSet pcs2 = PitchClassSet.fromString("9A1B0");
+        PitchClassSet pcs3 = PitchClassSet.fromString("2468A");
+        PitchClassSet pcs4 = PitchClassSet.fromString("123");
+        PitchClassSet pcs5 = PitchClassSet.fromString("0");
+        PitchClassSet pcs6 = PitchClassSet.fromString("6");
+
+        int pcs1Binary = invert(pcs1.getOriginalSetBinary());
+        int pcs2Binary = invert(pcs2.getOriginalSetBinary());
+        int pcs3Binary = invert(pcs3.getOriginalSetBinary());
+        int pcs4Binary = invert(pcs4.getOriginalSetBinary());
+        int pcs5Binary = invert(pcs5.getOriginalSetBinary());
+        int pcs6Binary = invert(pcs6.getOriginalSetBinary());
+        invertThenSort(pcs1.getCollection());
+        invertThenSort(pcs2.getCollection());
+        invertThenSort(pcs3.getCollection());
+        invertThenSort(pcs4.getCollection());
+        invertThenSort(pcs5.getCollection());
+        invertThenSort(pcs6.getCollection());
+
+        assertEquals(pcs1Binary, 15);
+        assertEquals(pcs2Binary, 2063);
+        assertEquals(pcs3Binary, 1364);
+        assertEquals(pcs4Binary, 3584);
+        assertEquals(pcs5Binary, 1);
+        assertEquals(pcs6Binary, 64);
+        assertEquals(pcs1.getCollection().toString(), "[0, 1, 2, 3]");
+        assertEquals(pcs2.getCollection().toString(), "[0, 1, 2, 3, 11]");
+        assertEquals(pcs3.getCollection().toString(), "[2, 4, 6, 8, 10]");
+        assertEquals(pcs4.getCollection().toString(), "[9, 10, 11]");
+        assertEquals(pcs5.getCollection().toString(), "[0]");
+        assertEquals(pcs6.getCollection().toString(), "[6]");
+
     }
 
     @Test
     public void mockDriver() throws Exception {
-        PitchClassSet pcs1 = PitchClassSet.fromString("8AB34");
-        PitchClassSet pcs2 = PitchClassSet.fromString("123789");
-        Set<Integer> allPrimeForms = SetTheoryUtils.PRIME_FORMS;
-        List<ForteNumber> allSuperSets = new ArrayList<>();
-
-        for (int i : allPrimeForms) {
-            if (SetTheoryUtils.isAbstractSuperset(pcs2.getOriginalSetBinary(), i)) {
-                PitchClassSet superSet = PitchClassSet.fromBinary(i);
-                allSuperSets.add(superSet.getForteNumber());
-            }
-        }
-
-        Collections.sort(allSuperSets);
-
-        for (ForteNumber fn : allSuperSets) {
-            System.out.println(fn);
-        }
+        PitchClassSet pcs1 = PitchClassSet.fromString("0468");
     }
 }

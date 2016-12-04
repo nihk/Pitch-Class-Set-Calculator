@@ -8,6 +8,7 @@ import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.models.NormalFormMetadata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -26,21 +27,48 @@ import java.util.Set;
  * as 'set' and List<Integer> representations as 'collection' to establish a distinction.
  */
 public final class SetTheoryUtils {
+    public static final int ZERO =   1;
+    public static final int ONE =    1 << 1;
+    public static final int TWO =    1 << 2;
+    public static final int THREE =  1 << 3;
+    public static final int FOUR =   1 << 4;
+    public static final int FIVE =   1 << 5;
+    public static final int SIX =    1 << 6;
+    public static final int SEVEN =  1 << 7;
+    public static final int EIGHT =  1 << 8;
+    public static final int NINE =   1 << 9;
+    public static final int TEN =    1 << 10;
+    public static final int ELEVEN = 1 << 11;
 
     // Binary representations of pitch classes
     public static final Map<String, Integer> PC_BITS = new HashMap<String, Integer>() {{
-        put("0", 0b000000000001);
-        put("1", 0b000000000010);
-        put("2", 0b000000000100);
-        put("3", 0b000000001000);
-        put("4", 0b000000010000);
-        put("5", 0b000000100000);
-        put("6", 0b000001000000);
-        put("7", 0b000010000000);
-        put("8", 0b000100000000);
-        put("9", 0b001000000000);
-        put("A", 0b010000000000);
-        put("B", 0b100000000000);
+        put("0", ZERO);
+        put("1", ONE);
+        put("2", TWO);
+        put("3", THREE);
+        put("4", FOUR);
+        put("5", FIVE);
+        put("6", SIX);
+        put("7", SEVEN);
+        put("8", EIGHT);
+        put("9", NINE);
+        put("A", TEN);
+        put("B", ELEVEN);
+    }};
+
+    public static final Map<Integer, Integer> INVERSION_MAP = new HashMap<Integer, Integer>() {{
+        put(ZERO,   ZERO);
+        put(ONE,    ELEVEN);
+        put(TWO,    TEN);
+        put(THREE,  NINE);
+        put(FOUR,   EIGHT);
+        put(FIVE,   SEVEN);
+        put(SIX,    SIX);
+        put(SEVEN,  FIVE);
+        put(EIGHT,  FOUR);
+        put(NINE,   THREE);
+        put(TEN,    TWO);
+        put(ELEVEN, ONE);
     }};
 
     public static final int NUM_PITCH_CLASSES = 12;
@@ -52,11 +80,6 @@ public final class SetTheoryUtils {
     private static final int NUM_NON_MOD_12_BITS = Integer.bitCount(OVERFLOW_MASK);
     public static final int INTERVAL_VECTOR_LOG_BASE = 2;
 
-    private static final String UNORDERED_SET_FORMATTER = "{%s}";
-    private static final String NORMAL_FORM_FORMATTER = "[%s]";
-    private static final String PRIME_FORM_FORMATTER = "(%s)";
-    private static final String INTERVAL_VECTOR_FORMATTER = "<%s>";
-
     public static Set<Integer> PRIME_FORMS = ForteNumberUtils.BIMAP.keySet();
 
     private SetTheoryUtils() {
@@ -64,14 +87,21 @@ public final class SetTheoryUtils {
     }
 
     /**
-     * Inverts a collection by reversing its bits then right-packing them so there
-     * are no trailing zeroes.
+     * Inverts a collection.
      *
      * @param set the collection of pitch classes
      * @return    an inversion of the collection
      */
     public static int invert(int set) {
-        return Integer.reverse(set) >>> Integer.numberOfLeadingZeros(set);
+        int inverted = 0;
+        for (int i = 0; i < NUM_PITCH_CLASSES; i++) {
+            int nthBit = 1 << i;
+            if ((set & nthBit) != 0) {
+                inverted |= INVERSION_MAP.get(nthBit);
+            }
+        }
+
+        return inverted;
     }
 
     /**
@@ -84,6 +114,11 @@ public final class SetTheoryUtils {
             int inverted = invertPc(collection.get(i));
             collection.set(i, inverted);
         }
+    }
+
+    public static void invertThenSort(List<Integer> collection) {
+        invert(collection);
+        Collections.sort(collection);
     }
 
     /**
@@ -129,6 +164,11 @@ public final class SetTheoryUtils {
         }
     }
 
+    public static void transposeThenSort(List<Integer> collection, int transposition) {
+        transpose(collection, transposition);
+        Collections.sort(collection);
+    }
+
     /**
      * Transposes a single pitch class
      *
@@ -150,6 +190,16 @@ public final class SetTheoryUtils {
     public static void invertThenTranspose(List<Integer> collection, int transposition) {
         invert(collection);
         transpose(collection, transposition);
+    }
+    /**
+     * Effectively performs an In operation; that is, inverts then transposes
+     * all members of a pitch class set
+     *
+     * @param set           the pitch class set
+     * @param transposition the value by which the set will be transposed after inversion
+     */
+    public static int invertThenTranspose(int set, int transposition) {
+        return transpose(invert(set), transposition);
     }
 
     /**
@@ -224,77 +274,6 @@ public final class SetTheoryUtils {
         }
 
         return collection;
-    }
-
-    /**
-     * Turns a list of strings into an unordered set string representation
-     *
-     * @param set the list of elements to be transformed into a string
-     * @return    the list in an unordered set string representation
-     */
-    public static String getUnorderedSetStringRepresentation(List<String> set) {
-        return surroundStringSetWithBrackets(UNORDERED_SET_FORMATTER, set);
-    }
-
-    /**
-     * Turns a list of strings into a prime form string representation
-     *
-     * @param set the list of elements to be transformed into a string
-     * @return    the list in a prime form string representation
-     */
-    public static String getPrimeFormStringRepresentation(List<String> set) {
-        return surroundStringSetWithBrackets(PRIME_FORM_FORMATTER, set);
-    }
-
-    /**
-     * Turns a list of strings into a normal form string representation
-     *
-     * @param set the list of elements to be transformed into a string
-     * @return    the list in a normal form string representation
-     */
-    public static String getNormalFormStringRepresentation(List<String> set) {
-        return surroundStringSetWithBrackets(NORMAL_FORM_FORMATTER, set);
-    }
-
-    /**
-     * Turns a list of strings into an interval vector string representation
-     *
-     * @param iv the list of elements to be transformed into a string
-     * @return   the list in an interval vector string representation
-     */
-    public static String getIntervalVectorStringRepresentation(List<String> iv) {
-        return surroundStringSetWithBrackets(INTERVAL_VECTOR_FORMATTER, iv);
-    }
-
-    /**
-     * A helper method to surround a string with a given pair of brackets
-     *
-     * @param brackets the brackets to enclose the string
-     * @param list     the list of elements to be enclosed by brackets
-     * @return         the string representation of the two parameters combined
-     */
-    private static String surroundStringSetWithBrackets(String brackets, List<String> list) {
-        return String.format(Locale.getDefault(),
-                brackets,
-                makeSpacesBetweenPitchClasses(list));
-    }
-
-    /**
-     * A helper method to make a string of a list with spaces in between each element
-     *
-     * @param list the list to be transformed into a string
-     * @return     a string representation of list with spaces in between
-     */
-    private static String makeSpacesBetweenPitchClasses(List<String> list) {
-        char space = ' ';
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append(list.get(0));
-        for (int i = 1; i < list.size(); i++) {
-            stringBuilder.append(space).append(list.get(i));
-        }
-
-        return stringBuilder.toString();
     }
 
     /**
@@ -587,5 +566,17 @@ public final class SetTheoryUtils {
     public static int inversionallyCombine(int set, int transposition) {
         int invertedSet = invert(set);
         return combine(invertedSet, transpose(invertedSet, transposition));
+    }
+
+    public static int addPc(int original, int pcToAdd) {
+        return original | pcToAdd;
+    }
+
+    public static int removePc(int original, int pcToRemove) {
+        return original & ~pcToRemove;
+    }
+
+    public static boolean setContainsPc(int original, int pc) {
+        return (original & pc) != 0;
     }
 }

@@ -28,7 +28,10 @@ public class CalculatorController {
         mIn = new InOperatorController(mCalculatorView);
 
         mNumberGroupController.setListener(mInputScreenController);
-        mInputScreenController.setListener(mOutputScreenController);
+        mInputScreenController.registerListener(mOutputScreenController);
+        mInputScreenController.registerListener(mNumberGroupController);
+        mClear.setListener(mInputScreenController);
+        mUndo.setListener(mInputScreenController);
         mTn.setListener(mNumberGroupController);
         mIn.setListener(mNumberGroupController);
     }

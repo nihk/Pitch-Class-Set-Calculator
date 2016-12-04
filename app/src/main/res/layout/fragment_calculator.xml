@@ -26,7 +26,7 @@
         >
         <TextView
             android:text="@string/normal_form"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="15sp"
@@ -46,7 +46,7 @@
             />
         <TextView
             android:text="@string/prime_form"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="15sp"
@@ -71,7 +71,7 @@
         >
         <TextView
             android:text="@string/interval_vector"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="15sp"
@@ -91,7 +91,7 @@
             />
         <TextView
             android:text="@string/forte_number"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="15sp"
@@ -100,7 +100,7 @@
             />
         <TextView
             android:id="@+id/forteNumber"
-            tools:text="4-Z29 (Z-mate: 4-Z15)"
+            tools:text="4-Z29\n(Z-mate: 4-Z15)"
             android:text="@string/no_value"
             android:layout_weight="3"
             android:layout_width="0dp"
@@ -110,7 +110,6 @@
             android:gravity="center_vertical"
             />
     </TableRow>
-
 
     <TableRow
         android:layout_weight="1"

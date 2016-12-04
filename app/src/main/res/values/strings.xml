@@ -15,10 +15,10 @@
     <string name="clear">Clear</string>
     <string name="go">Go!</string>
     <string name="set">Set</string>
-    <string name="normal_form">Normal Form</string>
-    <string name="prime_form">Prime Form</string>
-    <string name="interval_vector">Interval Vector</string>
-    <string name="forte_number">Forte Number</string>
+    <string name="normal_form">Normal\nForm</string>
+    <string name="prime_form">Prime\nForm</string>
+    <string name="interval_vector">Interval\nVector</string>
+    <string name="forte_number">Forte\nNumber</string>
     <string name="transposition">Tn</string>
     <string name="original_set">Original Set</string>
     <string name="inversion">In</string>

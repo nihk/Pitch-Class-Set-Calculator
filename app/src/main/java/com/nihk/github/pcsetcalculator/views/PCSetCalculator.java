@@ -7,6 +7,7 @@ import com.nihk.github.pcsetcalculator.R;
 
 public class PCSetCalculator extends AppCompatActivity {
 
+    // TODO on screen rotate needs to save the state
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

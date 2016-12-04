@@ -20,7 +20,6 @@ public final class ForteNumberUtils {
     public static final int MIN_FORTE_CARDINALITY = 3;
     public static final int MAX_FORTE_CARDINALITY = 10;
 
-    // TODO make these private?
     public static final ForteNumber _3_1 = new ForteNumber("3-1");
     public static final ForteNumber _3_2 = new ForteNumber("3-2");
     public static final ForteNumber _3_3 = new ForteNumber("3-3");
