@@ -15,7 +15,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="35sp"
+            android:textSize="45sp"
             android:padding="5dp"
             android:gravity="center"
             />
@@ -29,7 +29,7 @@
             android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center|end"
             />
@@ -40,7 +40,7 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center_vertical"
             />
@@ -49,7 +49,7 @@
             android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center|end"
             />
@@ -60,7 +60,7 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center_vertical"
             />
@@ -74,7 +74,7 @@
             android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center|end"
             />
@@ -85,7 +85,7 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center_vertical"
             />
@@ -94,7 +94,7 @@
             android:layout_weight="1.5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center|end"
             />
@@ -105,43 +105,9 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
+            android:textSize="20sp"
             android:padding="5dp"
             android:gravity="center_vertical"
-            />
-    </TableRow>
-
-    <TableRow
-        android:layout_weight="1"
-        >
-        <Button
-            android:id="@+id/button9"
-            android:text="@string/_9"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/number_button_text_size"
-            />
-        <Button
-            android:id="@+id/buttonA"
-            android:text="@string/_A"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/number_button_text_size"
-            />
-        <Button
-            android:id="@+id/buttonB"
-            android:text="@string/_B"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/number_button_text_size"
-            />
-        <Button
-            android:id="@+id/buttonUndo"
-            android:text="@string/undo"
-            android:textAllCaps="false"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/number_button_text_size"
             />
     </TableRow>
 
@@ -154,6 +120,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
         <Button
             android:id="@+id/button7"
@@ -161,6 +128,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
         <Button
             android:id="@+id/button8"
@@ -168,40 +136,31 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
         <Button
-            android:id="@+id/buttonClear"
-            android:text="@string/clear"
-            android:textAllCaps="false"
+            android:id="@+id/button9"
+            android:text="@string/_9"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
-    </TableRow>
-
-    <TableRow
-        android:layout_weight="1"
-        >
         <Button
-            android:id="@+id/button3"
-            android:text="@string/_3"
+            android:id="@+id/buttonA"
+            android:text="@string/_A"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
         <Button
-            android:id="@+id/button4"
-            android:text="@string/_4"
+            android:id="@+id/buttonB"
+            android:text="@string/_B"
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
-            />
-        <Button
-            android:id="@+id/button5"
-            android:text="@string/_5"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
         <Button
             android:id="@+id/buttonTn"
@@ -210,11 +169,22 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            />
+        <Button
+            android:id="@+id/buttonUndo"
+            android:text="@string/undo"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
             />
     </TableRow>
 
     <TableRow
         android:layout_weight="1"
+        android:textAlignment="center"
         >
         <Button
             android:id="@+id/button0"
@@ -222,6 +192,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
             />
         <Button
             android:id="@+id/button1"
@@ -229,6 +201,8 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
             />
         <Button
             android:id="@+id/button2"
@@ -236,6 +210,35 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
+            />
+        <Button
+            android:id="@+id/button3"
+            android:text="@string/_3"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
+            />
+        <Button
+            android:id="@+id/button4"
+            android:text="@string/_4"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
+            />
+        <Button
+            android:id="@+id/button5"
+            android:text="@string/_5"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
             />
         <Button
             android:id="@+id/buttonIn"
@@ -244,6 +247,18 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
+            />
+        <Button
+            android:id="@+id/buttonClear"
+            android:text="@string/clear"
+            android:textAllCaps="false"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/number_button_text_size"
+            android:gravity="center"
+            android:textAlignment="center"
             />
     </TableRow>
 

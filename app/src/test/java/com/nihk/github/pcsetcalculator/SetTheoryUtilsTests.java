@@ -43,7 +43,8 @@ public class SetTheoryUtilsTests {
             ForteNumber forteNumber =
                     ForteNumberUtils.BIMAP.get(key);
             assertNotNull("Didn't find prime form: " + key
-                    + "\nPitchClassSet in binary: " + Integer.toBinaryString(key), forteNumber);
+                    + "\nPitchClassSet in binary: " + Integer.toBinaryString(key),
+                    forteNumber);
         }
     }
 
@@ -53,11 +54,21 @@ public class SetTheoryUtilsTests {
         PitchClassSet pcs2 = PitchClassSet.fromString("7A3B0");
         PitchClassSet pcs3 = PitchClassSet.fromString("0136789");
         PitchClassSet pcs4 = PitchClassSet.fromString("024678");
+        PitchClassSet pcs5 = PitchClassSet.fromString("915");
+        PitchClassSet pcs6 = PitchClassSet.fromString("2B58");
+        PitchClassSet pcs7 = PitchClassSet.fromString("125689AB");
+        PitchClassSet pcs8 = PitchClassSet.fromString("4A");
+        PitchClassSet pcs9 = PitchClassSet.fromString("124578AB");
 
-        assertEquals(pcs1.getNormalFormCollection().toString(), "[4, 6, 8, 0]");
-        assertEquals(pcs2.getNormalFormCollection().toString(), "[7, 10, 11, 0, 3]");
-        assertEquals(pcs3.getNormalFormCollection().toString(), "[6, 7, 8, 9, 0, 1, 3]");
-        assertEquals(pcs4.getNormalFormCollection().toString(), "[0, 2, 4, 6, 7, 8]");
+        assertEquals("[4, 6, 8, 0]", pcs1.getNormalFormCollection().toString());
+        assertEquals("[7, 10, 11, 0, 3]", pcs2.getNormalFormCollection().toString());
+        assertEquals("[6, 7, 8, 9, 0, 1, 3]", pcs3.getNormalFormCollection().toString());
+        assertEquals("[0, 2, 4, 6, 7, 8]", pcs4.getNormalFormCollection().toString());
+        assertEquals("[1, 5, 9]", pcs5.getNormalFormCollection().toString());
+        assertEquals("[2, 5, 8, 11]", pcs6.getNormalFormCollection().toString());
+        assertEquals("[5, 6, 8, 9, 10, 11, 1, 2]", pcs7.getNormalFormCollection().toString());
+        assertEquals("[4, 10]", pcs8.getNormalFormCollection().toString());
+        assertEquals("[1, 2, 4, 5, 7, 8, 10, 11]", pcs9.getNormalFormCollection().toString());
     }
 
     /**
@@ -72,9 +83,9 @@ public class SetTheoryUtilsTests {
         PitchClassSet pcs2 = PitchClassSet.fromForte(ForteNumberUtils._5_35);
         PitchClassSet pcs3 = PitchClassSet.fromString("645");
 
-        assertEquals("From binary", pcs1.getIntervalVector().toString(), "[1, 0, 1, 3, 1, 0]");
-        assertEquals("From Forte", pcs2.getIntervalVector().toString(), "[0, 3, 2, 1, 4, 0]");
-        assertEquals("From String", pcs3.getIntervalVector().toString(), "[2, 1, 0, 0, 0, 0]");
+        assertEquals("From binary", "[1, 0, 1, 3, 1, 0]", pcs1.getIntervalVector().toString());
+        assertEquals("From Forte", "[0, 3, 2, 1, 4, 0]", pcs2.getIntervalVector().toString());
+        assertEquals("From String", "[2, 1, 0, 0, 0, 0]", pcs3.getIntervalVector().toString());
     }
 
     /**
@@ -83,7 +94,6 @@ public class SetTheoryUtilsTests {
      *
      * @throws Exception
      */
-    // TODO write more cases
     @Test
     public void superAndSubsetsAreValid() throws Exception {
         PitchClassSet pcs1 = PitchClassSet.fromString("9AB0");
@@ -121,18 +131,18 @@ public class SetTheoryUtilsTests {
         transposeThenSort(pcs5.getCollection(), 12);
         transposeThenSort(pcs6.getCollection(), 6);
 
-        assertEquals(pcs1Binary, 15);
-        assertEquals(pcs2Binary, 2063);
-        assertEquals(pcs3Binary, 2218);
-        assertEquals(pcs4Binary, 14);
-        assertEquals(pcs5Binary, 1);
-        assertEquals(pcs6Binary, 1);
-        assertEquals(pcs1.getCollection().toString(), "[0, 1, 2, 3]");
-        assertEquals(pcs2.getCollection().toString(), "[0, 1, 2, 3, 11]");
-        assertEquals(pcs3.getCollection().toString(), "[1, 3, 5, 7, 11]");
-        assertEquals(pcs4.getCollection().toString(), "[1, 2, 3]");
-        assertEquals(pcs5.getCollection().toString(), "[0]");
-        assertEquals(pcs6.getCollection().toString(), "[0]");
+        assertEquals(15, pcs1Binary);
+        assertEquals(2063, pcs2Binary);
+        assertEquals(2218, pcs3Binary);
+        assertEquals(14, pcs4Binary);
+        assertEquals(1, pcs5Binary);
+        assertEquals(1, pcs6Binary);
+        assertEquals("[0, 1, 2, 3]", pcs1.getCollection().toString());
+        assertEquals("[0, 1, 2, 3, 11]", pcs2.getCollection().toString());
+        assertEquals("[1, 3, 5, 7, 11]", pcs3.getCollection().toString());
+        assertEquals("[1, 2, 3]", pcs4.getCollection().toString());
+        assertEquals("[0]", pcs5.getCollection().toString());
+        assertEquals("[0]", pcs6.getCollection().toString());
     }
 
     @Test
@@ -157,18 +167,18 @@ public class SetTheoryUtilsTests {
         invertThenSort(pcs5.getCollection());
         invertThenSort(pcs6.getCollection());
 
-        assertEquals(pcs1Binary, 15);
-        assertEquals(pcs2Binary, 2063);
-        assertEquals(pcs3Binary, 1364);
-        assertEquals(pcs4Binary, 3584);
-        assertEquals(pcs5Binary, 1);
-        assertEquals(pcs6Binary, 64);
-        assertEquals(pcs1.getCollection().toString(), "[0, 1, 2, 3]");
-        assertEquals(pcs2.getCollection().toString(), "[0, 1, 2, 3, 11]");
-        assertEquals(pcs3.getCollection().toString(), "[2, 4, 6, 8, 10]");
-        assertEquals(pcs4.getCollection().toString(), "[9, 10, 11]");
-        assertEquals(pcs5.getCollection().toString(), "[0]");
-        assertEquals(pcs6.getCollection().toString(), "[6]");
+        assertEquals(15, pcs1Binary);
+        assertEquals(2063, pcs2Binary);
+        assertEquals(1364, pcs3Binary);
+        assertEquals(3584, pcs4Binary);
+        assertEquals(1, pcs5Binary);
+        assertEquals(64, pcs6Binary);
+        assertEquals("[0, 1, 2, 3]", pcs1.getCollection().toString());
+        assertEquals("[0, 1, 2, 3, 11]", pcs2.getCollection().toString());
+        assertEquals("[2, 4, 6, 8, 10]", pcs3.getCollection().toString());
+        assertEquals("[9, 10, 11]", pcs4.getCollection().toString());
+        assertEquals("[0]", pcs5.getCollection().toString());
+        assertEquals("[6]", pcs6.getCollection().toString());
 
     }
 

@@ -303,6 +303,11 @@ public final class SetTheoryUtils {
         // (the other being the zero based normal form of collection inverted. See calculatePrimeForm())
         int min = set;
         int numShifts = 0;
+        // There can be a tie for the minimum, e.g. with symmetrical sets like 0369 or 048 and all
+        // of their transpositions. In this scenario take the version starting from the least
+        // significant bit.
+        boolean isTiedMin = false;
+        int leastSignificantBitPosition = getLeastSignificantBitPosition(set);
         // Since this method calculates the zero based normal form, this value becomes the Tn needed
         // to bring the set back to its original pitch classes while preserving normal form
         int numShiftsForMin = 0;
@@ -327,6 +332,9 @@ public final class SetTheoryUtils {
                 // than rightward
                 numShiftsForMin = NUM_PITCH_CLASSES - numShifts;
                 min = set;
+                isTiedMin = false;
+            } else if (set == min) {
+                isTiedMin = true;
             }
 
             // Rotate left by one in a mod 12 space to set up the next loop iteration
@@ -334,7 +342,9 @@ public final class SetTheoryUtils {
             numShifts++;
         }
 
-        return new NormalFormMetadata(min, numShiftsForMin);
+        return new NormalFormMetadata(min, isTiedMin
+                ? leastSignificantBitPosition
+                : numShiftsForMin);
     }
 
     /**
@@ -413,9 +423,7 @@ public final class SetTheoryUtils {
         for (int i = 0; i < setSize; i++) {
             // First shift the set rightwards until it's zero-based
             set = set >>> Integer.numberOfTrailingZeros(set);
-            // Gets the highest bit position using Log base 2
-            int mostSignificantBitPosition = (int)(Math.log(Integer.highestOneBit(set))
-                    / Math.log(INTERVAL_VECTOR_LOG_BASE));
+            int mostSignificantBitPosition = getMostSignificantBitPosition(set);
 
             for (int j = 1; j <= mostSignificantBitPosition; j++) {
                 if ((set & (1 << j)) != 0) {
@@ -430,6 +438,16 @@ public final class SetTheoryUtils {
         }
 
         return Ints.asList(intervalVector);
+    }
+
+    // Gets the highest bit position using Log base 2
+    private static int getMostSignificantBitPosition(int set) {
+        return (int) (Math.log(Integer.highestOneBit(set)) / Math.log(INTERVAL_VECTOR_LOG_BASE));
+    }
+
+    // Gets the least bit position using Log base 2
+    private static int getLeastSignificantBitPosition(int set) {
+        return (int) (Math.log(Integer.lowestOneBit(set)) / Math.log(INTERVAL_VECTOR_LOG_BASE));
     }
 
     /**
