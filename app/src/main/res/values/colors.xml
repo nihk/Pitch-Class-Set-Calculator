@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#FF8598</color>
+    <color name="colorPrimaryDark">#FFC0A9</color>
+    <color name="colorAccent">#C9D787</color>
 
     <color name="burgundy">#703030</color>
     <color name="navy">#2F343B</color>
-    <color name="smoke">#7E827A</color>
+    <color name="steam">#DDDCC5</color>
     <color name="beige">#E3CDA4</color>
     <color name="indianRed">#C77966</color>
+
+    <color name="formsBackground">#C9D787</color>
+    <color name="formsTextColor">#000000</color>
 
     <color name="campfireGreen">#588C7E</color>
     <color name="campfireYellow">#F2E394</color>

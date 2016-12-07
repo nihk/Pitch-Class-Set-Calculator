@@ -1,3 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="input_screen_text_size">45sp</dimen>
+    <dimen name="labels_text_size">18sp</dimen>
+    <dimen name="labels_value_text_size">18sp</dimen>
+    <dimen name="number_button_text_size">40sp</dimen>
+
+    <dimen name="labels_padding">15dp</dimen>
+    <dimen name="input_screen_padding">15dp</dimen>
 </resources>

@@ -11,18 +11,23 @@
         >
         <TextView
             android:id="@+id/input_screen"
-            tools:text="0 1 2 3 4 5 6 7 8 9 A B"
+            tools:text="{0 1 2 3 4 5 6 7 8 9 A B}"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="35sp"
-            android:padding="5dp"
+            android:textSize="@dimen/input_screen_text_size"
+            android:padding="@dimen/input_screen_padding"
             android:gravity="center"
             />
     </TableRow>
 
     <TableRow
         android:layout_weight="1"
+        android:background="@drawable/forms_background_top"
+        android:layout_marginStart="@dimen/labels_margin"
+        android:layout_marginEnd="@dimen/labels_margin"
+        android:layout_marginLeft="@dimen/labels_margin"
+        android:layout_marginRight="@dimen/labels_margin"
         >
         <TextView
             android:text="@string/normal_form"
@@ -30,19 +35,21 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
+            android:padding="@dimen/labels_padding"
             android:gravity="center|end"
+            android:textColor="@color/formsTextColor"
             />
         <TextView
             android:id="@+id/normalForm"
-            tools:text="{ 0 1 2 3 4 5 6 7 8 9 A B }"
+            tools:text="[0 1 2 3 4 5 6 7 8 9 A B]"
             android:text="@string/no_value"
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
-            android:gravity="center_vertical"
+            android:textSize="@dimen/labels_value_text_size"
+            android:padding="@dimen/labels_padding"
+            android:gravity="center"
+            android:textColor="@color/formsTextColor"
             />
         <TextView
             android:text="@string/prime_form"
@@ -50,24 +57,31 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
+            android:padding="@dimen/labels_padding"
             android:gravity="center|end"
+            android:textColor="@color/formsTextColor"
             />
         <TextView
             android:id="@+id/primeForm"
-            tools:text="[ 0 1 2 3 4 5 6 7 8 9 A B ]"
+            tools:text="(0 1 2 3 4 5 6 7 8 9 A B)"
             android:text="@string/no_value"
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
-            android:gravity="center_vertical"
+            android:textSize="@dimen/labels_value_text_size"
+            android:padding="@dimen/labels_padding"
+            android:gravity="center"
+            android:textColor="@color/formsTextColor"
             />
     </TableRow>
 
     <TableRow
         android:layout_weight="1"
+        android:background="@drawable/forms_background_bottom"
+        android:layout_marginStart="@dimen/labels_margin"
+        android:layout_marginEnd="@dimen/labels_margin"
+        android:layout_marginLeft="@dimen/labels_margin"
+        android:layout_marginRight="@dimen/labels_margin"
         >
         <TextView
             android:text="@string/interval_vector"
@@ -75,19 +89,21 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
+            android:padding="@dimen/labels_padding"
             android:gravity="center|end"
+            android:textColor="@color/formsTextColor"
             />
         <TextView
             android:id="@+id/intervalVector"
-            tools:text="&lt; 1 1 1 1 1 1 &gt;"
+            tools:text="&lt;12 12 12 12 12 6&gt;"
             android:text="@string/no_value"
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
-            android:gravity="center_vertical"
+            android:textSize="@dimen/labels_value_text_size"
+            android:padding="@dimen/labels_padding"
+            android:gravity="center"
+            android:textColor="@color/formsTextColor"
             />
         <TextView
             android:text="@string/forte_number"
@@ -95,8 +111,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
+            android:padding="@dimen/labels_padding"
             android:gravity="center|end"
+            android:textColor="@color/formsTextColor"
             />
         <TextView
             android:id="@+id/forteNumber"
@@ -105,9 +122,10 @@
             android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textSize="@dimen/labels_text_size"
-            android:padding="5dp"
-            android:gravity="center_vertical"
+            android:textSize="@dimen/labels_value_text_size"
+            android:padding="@dimen/labels_padding"
+            android:gravity="center"
+            android:textColor="@color/formsTextColor"
             />
     </TableRow>
 
@@ -121,6 +139,7 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
             />
+
         <Button
             android:id="@+id/buttonA"
             android:text="@string/_A"
@@ -128,6 +147,7 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/number_button_text_size"
             />
+
         <Button
             android:id="@+id/buttonB"
             android:text="@string/_B"
