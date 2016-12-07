@@ -66,8 +66,8 @@ public class NumberGroupController implements OperatorController.Listener,
         for (NumberController button : mNumberControllers) {
             final int buttonBinaryValue = button.getBinaryPcValue();
             final boolean isOn = SetTheoryUtils.setContainsPc(binarySet, buttonBinaryValue);
-            button.setOn(isOn);
             button.setOperatorModified(OperatorController.NONE);
+            button.setOn(isOn);
         }
     }
 }
