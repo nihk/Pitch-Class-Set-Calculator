@@ -9,9 +9,14 @@ import com.nihk.github.pcsetcalculator.R;
  * Created by Nick on 2016-11-28.
  */
 
-public class TnOperatorController extends OperatorController {
+public class TnOperatorController extends OperatorController  {
     private final View mCalculatorView;
     private final Button mTnButton;
+
+    @Override
+    public Button getButton() {
+        return mTnButton;
+    }
 
     public TnOperatorController(View calculatorView) {
         mCalculatorView = calculatorView;
@@ -19,7 +24,12 @@ public class TnOperatorController extends OperatorController {
         mTnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callListener(OperatorController.TN);
+                if (isAnyNumberButtonPressed()) {
+                    toggleButton();
+                    callListener(OperatorController.TN);
+                } else {
+                    makeToast(mCalculatorView.getContext());
+                }
             }
         });
     }

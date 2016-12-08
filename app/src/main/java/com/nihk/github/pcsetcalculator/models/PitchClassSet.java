@@ -59,6 +59,10 @@ public class PitchClassSet {
         return mIntervalVector;
     }
 
+    public boolean isEmpty() {
+        return mCollection == null || mCollection.size() == 0;
+    }
+
     private PitchClassSet() {
         // Instantiation is done by static constructors
     }
@@ -96,5 +100,9 @@ public class PitchClassSet {
                 + "\nNormal form: " + mNormalFormCollection.toString()
                 + "\nPrime form: " + mPrimeFormCollection.toString()
                 + "\nForte number: " + mForteNumber.toString();
+    }
+
+    public static PitchClassSet emptySet() {
+        return fromBinary(0);
     }
 }

@@ -11,10 +11,9 @@ public class CalculatorController {
     private final NumberGroupController mNumberGroupController;
     private final InputScreenController mInputScreenController;
     private final OutputScreenController mOutputScreenController;
+    private final OperatorGroupController mOperatorGroupController;
     private final UndoController mUndo;
     private final ClearController mClear;
-    private final OperatorController mTn;
-    private final OperatorController mIn;
 
     public CalculatorController(View view) {
         mCalculatorView = view;
@@ -22,17 +21,16 @@ public class CalculatorController {
         mNumberGroupController = new NumberGroupController(mCalculatorView);
         mInputScreenController = new InputScreenController(mCalculatorView);
         mOutputScreenController = new OutputScreenController(mCalculatorView);
+        mOperatorGroupController = new OperatorGroupController(mCalculatorView);
         mUndo = new UndoController(mCalculatorView);
         mClear = new ClearController(mCalculatorView);
-        mTn = new TnOperatorController(mCalculatorView);
-        mIn = new InOperatorController(mCalculatorView);
 
         mNumberGroupController.setListener(mInputScreenController);
-        mInputScreenController.registerListener(mOutputScreenController);
-        mInputScreenController.registerListener(mNumberGroupController);
+        mInputScreenController.registerListener(mOutputScreenController, mNumberGroupController,
+                mOperatorGroupController);
         mClear.setListener(mInputScreenController);
         mUndo.setListener(mInputScreenController);
-        mTn.setListener(mNumberGroupController);
-        mIn.setListener(mNumberGroupController);
+        mOperatorGroupController.setListener(mNumberGroupController);
+        mOperatorGroupController.registerAllGroupMembersListener(mNumberGroupController);
     }
 }

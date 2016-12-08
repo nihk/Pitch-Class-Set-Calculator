@@ -59,6 +59,8 @@ public class SetTheoryUtilsTests {
         PitchClassSet pcs7 = PitchClassSet.fromString("125689AB");
         PitchClassSet pcs8 = PitchClassSet.fromString("4A");
         PitchClassSet pcs9 = PitchClassSet.fromString("124578AB");
+        PitchClassSet pcs10 = PitchClassSet.fromString("03478B");
+        PitchClassSet pcs11 = PitchClassSet.fromString("0235689B");
 
         assertEquals("[4, 6, 8, 0]", pcs1.getNormalFormCollection().toString());
         assertEquals("[7, 10, 11, 0, 3]", pcs2.getNormalFormCollection().toString());
@@ -69,6 +71,8 @@ public class SetTheoryUtilsTests {
         assertEquals("[5, 6, 8, 9, 10, 11, 1, 2]", pcs7.getNormalFormCollection().toString());
         assertEquals("[4, 10]", pcs8.getNormalFormCollection().toString());
         assertEquals("[1, 2, 4, 5, 7, 8, 10, 11]", pcs9.getNormalFormCollection().toString());
+        assertEquals("[3, 4, 7, 8, 11, 0]", pcs10.getNormalFormCollection().toString());
+        assertEquals("[2, 3, 5, 6, 8, 9, 11, 0]", pcs11.getNormalFormCollection().toString());
     }
 
     /**

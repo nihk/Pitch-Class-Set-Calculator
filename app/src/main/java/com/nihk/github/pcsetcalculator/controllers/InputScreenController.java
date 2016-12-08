@@ -29,14 +29,17 @@ public class InputScreenController implements NumberController.Listener,
 
     private static final int MAX_STACK_SIZE = 50;
 
-    public void registerListener(Listener listener) {
-        mListeners.add(listener);
+    public void registerListener(Listener... listeners) {
+        for (Listener listener : listeners) {
+            mListeners.add(listener);
+        }
     }
 
     public InputScreenController(View inputView) {
         mInputView = (TextView) inputView.findViewById(R.id.input_screen);
         mListeners = new ArrayList<>();
         mInputStack = new Stack<>();
+        mPitchClassSet = PitchClassSet.emptySet();
     }
 
     @Override
@@ -62,7 +65,7 @@ public class InputScreenController implements NumberController.Listener,
 
     private void handleTnOrInAction(NumberController button) {
         // Ignore empty sets
-        if (mPitchClassSet != null) {
+        if (!mPitchClassSet.isEmpty()) {
             int originalSet = mPitchClassSet.getOriginalSetBinary();
             int tnValue = button.getValue();
             int modifiedSet;
@@ -104,9 +107,12 @@ public class InputScreenController implements NumberController.Listener,
 
     @Override
     public void onClearButtonPressed() {
-        storeRecentPcSet();
-        mPitchClassSet = null;
-        updateInputScreenText();
+        // No point in clearing an already empty set
+        if (!mPitchClassSet.isEmpty()) {
+            storeRecentPcSet();
+            mPitchClassSet = PitchClassSet.emptySet();
+            updateInputScreenText();
+        }
     }
 
     // This ignores the operator (Tn/In) buttons; only PC sets are stored in the stack.
@@ -116,7 +122,7 @@ public class InputScreenController implements NumberController.Listener,
     public void onUndoButtonPressed() {
         if (mInputStack.size() > 0) {
             mPitchClassSet = mInputStack.pop();
+            updateInputScreenText();
         }
-        updateInputScreenText();
     }
 }

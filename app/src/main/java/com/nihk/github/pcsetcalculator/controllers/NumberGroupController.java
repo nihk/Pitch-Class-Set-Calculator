@@ -15,8 +15,8 @@ import java.util.List;
  * Created by Nick on 2016-11-28.
  */
 
-public class NumberGroupController implements OperatorController.Listener,
-        InputScreenController.Listener {
+public class NumberGroupController implements OperatorGroupController.Listener,
+        InputScreenController.Listener, OperatorController.AnyNumberButtonsPressedListener {
     private View mCalculatorView;
     private List<NumberController> mNumberControllers;
 
@@ -49,15 +49,14 @@ public class NumberGroupController implements OperatorController.Listener,
     public void setListener(NumberController.Listener listener) {
         for (NumberController button : mNumberControllers) {
             button.setListener(listener);
-            // TODO change button colors, too
         }
     }
 
     @Override
-    public void onOperatorButtonClicked(@OperatorModified int operatorModification) {
-        for (NumberController button : mNumberControllers) {
-            button.setOperatorModified(operatorModification);
-        }
+    public void onOperatorControllerClicked(@OperatorModified final int operatorModification) {
+            for (NumberController button : mNumberControllers) {
+                button.setOperatorModified(operatorModification);
+            }
     }
 
     @Override
@@ -69,5 +68,16 @@ public class NumberGroupController implements OperatorController.Listener,
             button.setOperatorModified(OperatorController.NONE);
             button.setOn(isOn);
         }
+    }
+
+    @Override
+    public boolean isAnyNumberButtonPressed() {
+        for (NumberController button : mNumberControllers) {
+            if (button.isOn()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

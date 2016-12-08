@@ -304,10 +304,10 @@ public final class SetTheoryUtils {
         int min = set;
         int numShifts = 0;
         // There can be a tie for the minimum, e.g. with symmetrical sets like 0369 or 048 and all
-        // of their transpositions. In this scenario take the version starting from the least
-        // significant bit.
+        // of their transpositions. In this scenario take the version that requires the fewest
+        // shifts.
         boolean isTiedMin = false;
-        int leastSignificantBitPosition = getLeastSignificantBitPosition(set);
+        List<Integer> shiftsForTiedMin = new ArrayList<>();
         // Since this method calculates the zero based normal form, this value becomes the Tn needed
         // to bring the set back to its original pitch classes while preserving normal form
         int numShiftsForMin = 0;
@@ -326,15 +326,22 @@ public final class SetTheoryUtils {
             set = transpose(set, transposition);
             numShifts += transposition;
 
-            if (set < min) {
+            if (set <= min) {
+                // Check for tied mins
+                isTiedMin = set == min;
                 // Store the mod 12 complement of the number of shifts. This will become the transposition value in the
                 // returned NormalFormMetadata object. The complement is used because we're rotating leftward rather
                 // than rightward
                 numShiftsForMin = NUM_PITCH_CLASSES - numShifts;
+
+                // Store shifts for tied mins; this is used for tiebreakers of symmetrical sets
+                if (isTiedMin) {
+                    shiftsForTiedMin.add(numShiftsForMin);
+                // A new smaller min was found, so purge the list
+                } else {
+                    shiftsForTiedMin.clear();
+                }
                 min = set;
-                isTiedMin = false;
-            } else if (set == min) {
-                isTiedMin = true;
             }
 
             // Rotate left by one in a mod 12 space to set up the next loop iteration
@@ -343,8 +350,19 @@ public final class SetTheoryUtils {
         }
 
         return new NormalFormMetadata(min, isTiedMin
-                ? leastSignificantBitPosition
+                ? findSmallestElement(shiftsForTiedMin)
                 : numShiftsForMin);
+    }
+
+    private static int findSmallestElement(List<Integer> list) {
+        int min = Integer.MAX_VALUE;
+        for (int i : list) {
+            if (i < min) {
+                min = i;
+            }
+        }
+
+        return min;
     }
 
     /**
