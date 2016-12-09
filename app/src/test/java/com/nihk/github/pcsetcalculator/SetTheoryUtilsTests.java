@@ -8,6 +8,7 @@ import com.nihk.github.pcsetcalculator.models.ForteNumber;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,8 @@ import static org.junit.Assert.*;
  * Created by Nick on 2016-11-05.
  */
 public class SetTheoryUtilsTests {
+    private static final int NUM_PITCH_CLASS_SETS = (int) Math.pow(2, NUM_PITCH_CLASSES);
+
     /**
      * This tests all possible combinations of pitch class sets within the cardinalities
      * that have a Forte number attached to it. It checks that each set has a corresponding
@@ -28,8 +31,7 @@ public class SetTheoryUtilsTests {
      */
     @Test
     public void primeFormsAnHaveExistingForteNumber() throws Exception {
-        int numPitchClassSets = (int)Math.pow(2, NUM_PITCH_CLASSES);
-        for (int i = 0; i < numPitchClassSets; i++) {
+        for (int i = 0; i < NUM_PITCH_CLASS_SETS; i++) {
             int bitCount = Integer.bitCount(i);
             if (bitCount < ForteNumberUtils.MIN_FORTE_CARDINALITY
                     || bitCount >= ForteNumberUtils.MAX_FORTE_CARDINALITY) {
@@ -38,7 +40,7 @@ public class SetTheoryUtilsTests {
 
             String setString = setToString(i);
             PitchClassSet set = PitchClassSet.fromString(setString);
-            Integer key = set.getPrimeFormBinary();
+            int key = set.getPrimeFormBinary();
 
             ForteNumber forteNumber =
                     ForteNumberUtils.BIMAP.get(key);
@@ -183,7 +185,51 @@ public class SetTheoryUtilsTests {
         assertEquals("[9, 10, 11]", pcs4.getCollection().toString());
         assertEquals("[0]", pcs5.getCollection().toString());
         assertEquals("[6]", pcs6.getCollection().toString());
+    }
 
+    /**
+     * Performing two consecutive inversions should be the same as an identity operator.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void moreInversionTests() throws Exception {
+        for (int i = 0; i < NUM_PITCH_CLASS_SETS; i++) {
+            String setString = setToString(i);
+            PitchClassSet set = PitchClassSet.fromString(setString);
+            List<Integer> collection = set.getCollection();
+            List<Integer> copy = new ArrayList<>(collection);
+
+            SetTheoryUtils.invert(copy);
+            SetTheoryUtils.invert(copy);
+
+            assertEquals(collection.toString(), copy.toString());
+        }
+    }
+
+    /**
+     * Tests that the normal form version of the original collection has the
+     * same pitch class elements as the original.
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void normalFormHasSamePCsAsOriginalCollection() throws Exception {
+        for (int i = 0; i < NUM_PITCH_CLASS_SETS; i++) {
+            String setString = setToString(i);
+            PitchClassSet set = PitchClassSet.fromString(setString);
+
+            List<Integer> normalForm = set.getNormalFormCollection();
+            List<Integer> origCollection = set.getCollection();
+
+            assertEquals(normalForm.size(), origCollection.size());
+            for (int j = 0; j < normalForm.size(); j++) {
+                int elementPc = normalForm.get(j);
+                if (!origCollection.contains(elementPc)) {
+                    fail();
+                }
+            }
+        }
     }
 
     @Test
