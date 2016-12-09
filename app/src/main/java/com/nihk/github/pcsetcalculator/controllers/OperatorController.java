@@ -22,6 +22,7 @@ public abstract class OperatorController implements InputScreenController.Listen
     private Listener mListener;
     private boolean mIsOn;
     private AnyNumberButtonsPressedListener mAnyNumberButtonsPressedListener;
+    private Toast mToast;
 
     public abstract Button getButton();
 
@@ -72,6 +73,11 @@ public abstract class OperatorController implements InputScreenController.Listen
     }
 
     public void makeToast(Context context) {
-        Toast.makeText(context, "Tap any number(s) to use the operators", Toast.LENGTH_SHORT).show();
+        // Don't let the user spam toasts
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(context, "Tap any number(s) to use the operators", Toast.LENGTH_SHORT);
+        mToast.show();
     }
 }

@@ -210,7 +210,7 @@ public class SetTheoryUtilsTests {
     /**
      * Tests that the normal form version of the original collection has the
      * same pitch class elements as the original.
-     * 
+     *
      * @throws Exception
      */
     @Test

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 // TODO make set to string, so that 10 == A, 11 == B, etc., with proper braces
@@ -355,6 +354,10 @@ public final class SetTheoryUtils {
     }
 
     private static int findSmallestElement(List<Integer> list) {
+        if (list.size() == 0) {
+            throw new RuntimeException("The list of minimum shifts should not have been empty if there was a tie");
+        }
+
         int min = Integer.MAX_VALUE;
         for (int i : list) {
             if (i < min) {

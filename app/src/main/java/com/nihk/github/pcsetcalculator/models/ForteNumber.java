@@ -4,6 +4,8 @@ package com.nihk.github.pcsetcalculator.models;
  * Created by Nick on 2016-11-02.
  */
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.Locale;
@@ -13,7 +15,7 @@ import java.util.Locale;
  * The cardinality is the size of the pitch class collection, but the ordinal position
  * was arbitrarily assigned by Allen Forte.
  */
-public final class ForteNumber implements Comparable<ForteNumber> {
+public final class ForteNumber implements Comparable<ForteNumber>, Parcelable {
     private final int mCardinality;
     private final int mOrdinalPosition;
     // The "Z-relation" is when two pitch class sets have the same interval vector.
@@ -87,5 +89,35 @@ public final class ForteNumber implements Comparable<ForteNumber> {
         }
 
         return cmp;
+    }
+
+    protected ForteNumber(Parcel in) {
+        mCardinality = in.readInt();
+        mOrdinalPosition = in.readInt();
+        mIsZedRelated = in.readByte() != 0;
+    }
+
+    public static final Creator<ForteNumber> CREATOR = new Creator<ForteNumber>() {
+        @Override
+        public ForteNumber createFromParcel(Parcel in) {
+            return new ForteNumber(in);
+        }
+
+        @Override
+        public ForteNumber[] newArray(int size) {
+            return new ForteNumber[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(final Parcel dest, final int flags) {
+        dest.writeInt(mCardinality);
+        dest.writeInt(mOrdinalPosition);
+        dest.writeByte((byte) (mIsZedRelated ? 1 : 0));
     }
 }
