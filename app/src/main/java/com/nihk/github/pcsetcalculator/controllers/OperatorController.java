@@ -24,14 +24,20 @@ public abstract class OperatorController implements InputScreenController.Listen
     private AnyNumberButtonsPressedListener mAnyNumberButtonsPressedListener;
     private Toast mToast;
 
+    public boolean isOn() {
+        return mIsOn;
+    }
+
     public abstract Button getButton();
+
+    public abstract void clickButton();
 
     @Retention(SOURCE)
     @IntDef({ NONE, TN, IN })
     public @interface OperatorModified {}
     public static final int NONE = -1;
-    public static final int TN = 0;
-    public static final int IN = 1;
+    public static final int TN = 1;
+    public static final int IN = 2;
 
     public interface Listener {
         void onOperatorButtonClicked(@OperatorModified int operatorModification);

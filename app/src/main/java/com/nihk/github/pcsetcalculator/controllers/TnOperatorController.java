@@ -24,13 +24,18 @@ public class TnOperatorController extends OperatorController  {
         mTnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isAnyNumberButtonPressed()) {
-                    toggleButton();
-                    callListener(OperatorController.TN);
-                } else {
-                    makeToast(mCalculatorView.getContext());
-                }
+                clickButton();
             }
         });
+    }
+
+    @Override
+    public void clickButton() {
+        if (isAnyNumberButtonPressed()) {
+            toggleButton();
+            callListener(OperatorController.TN);
+        } else {
+            makeToast(mCalculatorView.getContext());
+        }
     }
 }

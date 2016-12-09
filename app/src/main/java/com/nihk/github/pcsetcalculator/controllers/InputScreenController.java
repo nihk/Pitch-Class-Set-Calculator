@@ -1,5 +1,6 @@
 package com.nihk.github.pcsetcalculator.controllers;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,17 +18,20 @@ import java.util.Stack;
  */
 public class InputScreenController implements NumberController.Listener,
         ClearController.Listener, UndoController.Listener {
+    private final TextView mInputView;
+    private List<Listener> mListeners;
+    private PitchClassSet mPitchClassSet;
+    private Stack<PitchClassSet> mInputStack;
+
+    private static final int MAX_STACK_SIZE = 50;
+    private static final String KEY_ACTIVE_PC_SET = "activePitchClassSet";
+    private static final String KEY_STACK_OF_PC_SETS = "stackOfPcSets";
+    public static final String KEY_BUNDLE = "inputScreenControllerBundle";
+
 
     public interface Listener {
         void onInputScreenUpdated(PitchClassSet set);
     }
-
-    private final TextView mInputView;
-    private List<Listener> mListeners;
-    private PitchClassSet mPitchClassSet;
-    private final Stack<PitchClassSet> mInputStack;
-
-    private static final int MAX_STACK_SIZE = 50;
 
     public void registerListener(Listener... listeners) {
         for (Listener listener : listeners) {
@@ -124,5 +128,22 @@ public class InputScreenController implements NumberController.Listener,
             mPitchClassSet = mInputStack.pop();
             updateInputScreenText();
         }
+    }
+
+    public Bundle getInputScreenBundle() {
+        final Bundle bundle = new Bundle();
+        bundle.putParcelable(KEY_ACTIVE_PC_SET, mPitchClassSet);
+        final ArrayList<PitchClassSet> list = new ArrayList<>(mInputStack);
+        bundle.putParcelableArrayList(KEY_STACK_OF_PC_SETS, list);
+
+        return bundle;
+    }
+
+    public void setScreenFromBundle(final Bundle bundle) {
+        mPitchClassSet = bundle.getParcelable(KEY_ACTIVE_PC_SET);
+        final ArrayList<PitchClassSet> list = bundle.getParcelableArrayList(KEY_STACK_OF_PC_SETS);
+        mInputStack.addAll(list);
+
+        updateInputScreenText();
     }
 }

@@ -1,5 +1,6 @@
 package com.nihk.github.pcsetcalculator.controllers;
 
+import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -16,6 +17,9 @@ public class OperatorGroupController implements OperatorController.Listener,
     private SparseArray<OperatorController> mOperatorControllers;
     private View mCalculatorView;
     private Listener mListener;
+
+    private static final String KEY_OPERATOR_MODIFICATION = "operatorModification";
+    public static final String KEY_OPERATOR_GROUP = "operatorGroup";
 
     public interface Listener {
         void onOperatorControllerClicked(@OperatorModified final int operatorModified);
@@ -71,6 +75,29 @@ public class OperatorGroupController implements OperatorController.Listener,
                 final OperatorController operatorController = mOperatorControllers.get(key);
                 operatorController.turnButtonOff();
             }
+        }
+    }
+
+    public Bundle getOperatorGroupBundle() {
+        final Bundle bundle = new Bundle();
+
+        for (int i = 0; i < mOperatorControllers.size(); i++) {
+            @OperatorModified final int key = mOperatorControllers.keyAt(i);
+            final OperatorController operatorController = mOperatorControllers.get(key);
+            if (operatorController.isOn()) {
+                bundle.putInt(KEY_OPERATOR_MODIFICATION, key);
+                break;
+            }
+        }
+
+        return bundle;
+    }
+
+    public void setOperatorGroupFromBundle(final Bundle bundle) {
+        @OperatorModified int key = bundle.getInt(KEY_OPERATOR_MODIFICATION);
+        final OperatorController operatorController = mOperatorControllers.get(key);
+        if (operatorController != null) {
+            operatorController.clickButton();
         }
     }
 }

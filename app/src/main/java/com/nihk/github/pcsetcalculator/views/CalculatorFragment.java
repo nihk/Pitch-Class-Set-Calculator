@@ -30,6 +30,14 @@ public class CalculatorFragment extends Fragment {
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putBundle(CalculatorController.KEY_CALCULATOR_CONTROLLER, mController.getCalculatorBundle());
+    }
 
+    @Override
+    public void onViewStateRestored(@Nullable final Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            mController.setCalculatorFromBundle(savedInstanceState.getBundle(CalculatorController.KEY_CALCULATOR_CONTROLLER));
+        }
     }
 }

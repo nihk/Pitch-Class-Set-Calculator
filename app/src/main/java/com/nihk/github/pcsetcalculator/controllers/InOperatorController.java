@@ -24,13 +24,18 @@ public class InOperatorController extends OperatorController {
         mInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isAnyNumberButtonPressed()) {
-                    toggleButton();
-                    callListener(OperatorController.IN);
-                } else {
-                    makeToast(mCalculatorView.getContext());
-                }
+                clickButton();
             }
         });
+    }
+
+    @Override
+    public void clickButton() {
+        if (isAnyNumberButtonPressed()) {
+            toggleButton();
+            callListener(OperatorController.IN);
+        } else {
+            makeToast(mCalculatorView.getContext());
+        }
     }
 }

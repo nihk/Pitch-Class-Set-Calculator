@@ -6,17 +6,22 @@ import android.os.Bundle;
 import com.nihk.github.pcsetcalculator.R;
 
 public class PCSetCalculator extends AppCompatActivity {
+    private static final String VIEW_PAGER_FRAGMENT = "viewPagerFragment";
 
-    // TODO on screen rotate needs to save the state
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pcsetcalculator);
 
-        // Immediately begin the view pager fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.activity_pcsetcalculator, new ViewPagerFragment())
-                .commit();
+        // Check if the view pager already exists
+        ViewPagerFragment viewPagerFragment = (ViewPagerFragment) getSupportFragmentManager().findFragmentByTag(VIEW_PAGER_FRAGMENT);
+
+        if (viewPagerFragment == null) {
+            // Create a new view pager fragment
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.activity_pcsetcalculator, new ViewPagerFragment(), VIEW_PAGER_FRAGMENT)
+                    .commit();
+        }
     }
 }
