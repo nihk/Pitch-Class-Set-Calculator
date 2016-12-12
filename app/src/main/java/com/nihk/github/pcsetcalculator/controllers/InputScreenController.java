@@ -87,7 +87,7 @@ public class InputScreenController implements NumberController.Listener,
     private void handlePcAddedOrRemoved(NumberController button) {
         int inputBinaryValue = button.getBinaryPcValue();
         int newBinaryValue;
-        if (mPitchClassSet == null) {
+        if (mPitchClassSet.isEmpty()) {
             newBinaryValue = inputBinaryValue;
         } else {
             if (button.isOn()) {
@@ -114,8 +114,7 @@ public class InputScreenController implements NumberController.Listener,
         // No point in clearing an already empty set
         if (!mPitchClassSet.isEmpty()) {
             storeRecentPcSet();
-            mPitchClassSet = PitchClassSet.emptySet();
-            updateInputScreenText();
+            setPitchClassSetAndUpdateScreen(PitchClassSet.emptySet());
         }
     }
 
@@ -125,9 +124,13 @@ public class InputScreenController implements NumberController.Listener,
     @Override
     public void onUndoButtonPressed() {
         if (mInputStack.size() > 0) {
-            mPitchClassSet = mInputStack.pop();
-            updateInputScreenText();
+            setPitchClassSetAndUpdateScreen(mInputStack.pop());
         }
+    }
+
+    private void setPitchClassSetAndUpdateScreen(final PitchClassSet pitchClassSet) {
+        mPitchClassSet = pitchClassSet;
+        updateInputScreenText();
     }
 
     public Bundle getInputScreenBundle() {
@@ -140,10 +143,9 @@ public class InputScreenController implements NumberController.Listener,
     }
 
     public void setScreenFromBundle(final Bundle bundle) {
-        mPitchClassSet = bundle.getParcelable(KEY_ACTIVE_PC_SET);
+        final PitchClassSet pitchClassSet = bundle.getParcelable(KEY_ACTIVE_PC_SET);
         final ArrayList<PitchClassSet> list = bundle.getParcelableArrayList(KEY_STACK_OF_PC_SETS);
         mInputStack.addAll(list);
-
-        updateInputScreenText();
+        setPitchClassSetAndUpdateScreen(pitchClassSet);
     }
 }

@@ -91,7 +91,7 @@ public final class ForteNumber implements Comparable<ForteNumber>, Parcelable {
         return cmp;
     }
 
-    protected ForteNumber(Parcel in) {
+    private ForteNumber(Parcel in) {
         mCardinality = in.readInt();
         mOrdinalPosition = in.readInt();
         mIsZedRelated = in.readByte() != 0;

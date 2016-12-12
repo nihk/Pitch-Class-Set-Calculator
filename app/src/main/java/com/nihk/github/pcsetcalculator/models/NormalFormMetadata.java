@@ -28,7 +28,7 @@ public final class NormalFormMetadata implements Parcelable {
         this.mTransposition = transposition;
     }
 
-    protected NormalFormMetadata(Parcel in) {
+    private NormalFormMetadata(Parcel in) {
         mZeroBasedNormalForm = in.readInt();
         mTransposition = in.readInt();
     }

@@ -31,7 +31,7 @@ public class StringFormatUtils {
      * @return    the pc set's original set in an appropriate string representation
      */
     public static String makeUnorderedSetStringRepresentation(PitchClassSet set) {
-        return set == null || set.getCollection().size() == 0
+        return set == null || set.isEmpty()
                 ? EMPTY
                 : surroundStringSetWithBrackets(UNORDERED_SET_FORMATTER,
                     set.getCollection(),
@@ -45,7 +45,7 @@ public class StringFormatUtils {
      * @return    the set's prime form in an appropriate string representation
      */
     public static String makePrimeFormStringRepresentation(PitchClassSet set) {
-        return set == null || set.getPrimeFormCollection().size() == 0
+        return set == null || set.isEmpty()
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(PRIME_FORM_FORMATTER,
                     set.getPrimeFormCollection(),
@@ -59,7 +59,7 @@ public class StringFormatUtils {
      * @return    the set's normal form in an appropriate string representation
      */
     public static String makeNormalFormStringRepresentation(PitchClassSet set) {
-        return set == null || set.getNormalFormCollection().size() == 0
+        return set == null || set.isEmpty()
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(NORMAL_FORM_FORMATTER,
                     set.getNormalFormCollection(),
@@ -73,21 +73,11 @@ public class StringFormatUtils {
      * @return    the set's interval vector in an appropriate string representation
      */
     public static String makeIntervalVectorStringRepresentation(PitchClassSet set) {
-        return set == null || !ivHasAnyIntervals(set.getIntervalVector())
+        return set == null || set.isEmpty()
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(INTERVAL_VECTOR_FORMATTER,
                     set.getIntervalVector(),
                     false /* useHexString */);
-    }
-
-    private static boolean ivHasAnyIntervals(List<Integer> iv) {
-        for (int i : iv) {
-            if (i != 0) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

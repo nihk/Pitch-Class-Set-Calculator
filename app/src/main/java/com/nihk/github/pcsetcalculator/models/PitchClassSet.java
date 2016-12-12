@@ -7,10 +7,13 @@ package com.nihk.github.pcsetcalculator.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
 import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.nihk.github.pcsetcalculator.utils.SetTheoryUtils.*;
@@ -63,7 +66,10 @@ public class PitchClassSet implements Parcelable {
     }
 
     public boolean isEmpty() {
-        return mCollection == null || mCollection.size() == 0;
+        return mCollection == null || mNormalFormCollection == null
+                || mPrimeFormCollection == null || mIntervalVector == null
+                || mCollection.size() == 0 || mNormalFormCollection.size() == 0
+                || mPrimeFormCollection.size() == 0;
     }
 
     private PitchClassSet() {
@@ -109,12 +115,21 @@ public class PitchClassSet implements Parcelable {
         return fromBinary(0);
     }
 
-    protected PitchClassSet(Parcel in) {
+    private PitchClassSet(Parcel in) {
         mForteNumber = in.readParcelable(ForteNumber.class.getClassLoader());
         mZMate = in.readParcelable(ForteNumber.class.getClassLoader());
         mOriginalSetBinary = in.readInt();
         mNormalFormMetadata = in.readParcelable(NormalFormMetadata.class.getClassLoader());
         mPrimeFormBinary = in.readInt();
+
+        mCollection = new ArrayList<>();
+        mIntervalVector = new ArrayList<>();
+        mNormalFormCollection = new ArrayList<>();
+        mPrimeFormCollection = new ArrayList<>();
+        in.readList(mCollection, Integer.class.getClassLoader());
+        in.readList(mIntervalVector, Integer.class.getClassLoader());
+        in.readList(mNormalFormCollection, Integer.class.getClassLoader());
+        in.readList(mPrimeFormCollection, Integer.class.getClassLoader());
     }
 
     @Override
@@ -124,6 +139,11 @@ public class PitchClassSet implements Parcelable {
         dest.writeInt(mOriginalSetBinary);
         dest.writeParcelable(mNormalFormMetadata, flags);
         dest.writeInt(mPrimeFormBinary);
+
+        dest.writeList(mCollection);
+        dest.writeList(mIntervalVector);
+        dest.writeList(mNormalFormCollection);
+        dest.writeList(mPrimeFormCollection);
     }
 
     @Override
