@@ -5,6 +5,8 @@
               android:layout_height="match_parent"
     >
 
+    <include layout="@layout/list_item_child_key" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/setlist_recyclerView"
         android:scrollbars="vertical"

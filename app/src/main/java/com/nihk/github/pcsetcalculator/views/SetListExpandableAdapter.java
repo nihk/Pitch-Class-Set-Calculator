@@ -18,8 +18,18 @@ import java.util.List;
  * Created by Nick on 2016-12-11.
  */
 
-public class SetListExpandableAdapter extends ExpandableRecyclerAdapter<SetListParent, SetListChild, SetListParentViewHolder, SetListChildViewHolder> {
+public class SetListExpandableAdapter extends ExpandableRecyclerAdapter<SetListParent, SetListChild, SetListParentViewHolder, SetListChildViewHolder>
+        implements SetListChildViewHolder.Listener {
     private final LayoutInflater mInflater;
+    private Listener mListener;
+
+    public interface Listener {
+        void onSetListItemClicked(String forteNumber);
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
 
     public SetListExpandableAdapter(final Context context, @NonNull final List<SetListParent> parentItemList) {
         super(parentItemList);
@@ -39,7 +49,14 @@ public class SetListExpandableAdapter extends ExpandableRecyclerAdapter<SetListP
     @Override
     public SetListChildViewHolder onCreateChildViewHolder(@NonNull final ViewGroup viewGroup, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_child_setclass, viewGroup, false);
-        return new SetListChildViewHolder(view);
+        final SetListChildViewHolder viewHolder = new SetListChildViewHolder(view);
+        viewHolder.setListener(this);
+        return viewHolder;
+    }
+
+    @Override
+    public void onSetListItemClicked(final String forteNumber) {
+        mListener.onSetListItemClicked(forteNumber);
     }
 
     @UiThread

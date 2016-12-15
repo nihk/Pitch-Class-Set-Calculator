@@ -32,6 +32,8 @@ public class PitchClassSet implements Parcelable {
     private int mOriginalSetBinary;
     private NormalFormMetadata mNormalFormMetadata;
     private int mPrimeFormBinary;
+    private int mTranspositionalSymmetry;
+    private int mInversionalSymmetry;
 
     public List<Integer> getCollection() {
         return mCollection;
@@ -65,6 +67,14 @@ public class PitchClassSet implements Parcelable {
         return mIntervalVector;
     }
 
+    public int getTranspositionalSymmetry() {
+        return mTranspositionalSymmetry;
+    }
+
+    public int getInversionalSymmetry() {
+        return mInversionalSymmetry;
+    }
+
     public boolean isEmpty() {
         return mCollection == null || mNormalFormCollection == null
                 || mPrimeFormCollection == null || mIntervalVector == null
@@ -94,6 +104,8 @@ public class PitchClassSet implements Parcelable {
         pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mPrimeFormBinary);
         pcs.mZMate = IntervalVectorUtils.Z_MATES.get(pcs.mForteNumber);
         pcs.mIntervalVector = calculateIntervalVector(pcs.mPrimeFormBinary);
+        pcs.mTranspositionalSymmetry = transpositionalSymmetry(pcs.mOriginalSetBinary);
+        pcs.mInversionalSymmetry = inversionalISymmetry(pcs.mOriginalSetBinary);
 
         return pcs;
     }

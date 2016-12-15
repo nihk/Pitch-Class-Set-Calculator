@@ -618,4 +618,32 @@ public final class SetTheoryUtils {
     public static boolean setContainsPc(int original, int pc) {
         return (original & pc) != 0;
     }
+
+    public static int transpositionalSymmetry(int set) {
+        // All sets have at least 1 tn symmetry: T0
+        int tnInv = 1;
+
+        for (int i = 1; i < NUM_PITCH_CLASSES; i++) {
+            int transposedSet = transpose(set, i);
+            if (transposedSet == set) {
+                tnInv++;
+            }
+        }
+
+        // TODO
+        return tnInv;
+    }
+
+    public static int inversionalISymmetry(int set) {
+        int inInv = 0;
+
+        for (int i = 0; i < NUM_PITCH_CLASSES; i++) {
+            int invertedSet = invertThenTranspose(set, i);
+            if (invertedSet == set) {
+                inInv++;
+            }
+        }
+
+        return inInv;
+    }
 }

@@ -24,4 +24,9 @@
     <string name="inversion">In</string>
     <string name="undo">Undo</string>
     <string name="no_value">---</string>
+    <string name="prime_form_key">Prime\nForm</string>
+    <string name="forte_number_key">Forte\nNumber</string>
+    <string name="interval_vector_key">Interval\nVector</string>
+    <string name="tn_sym_key">Tn\nsym.</string>
+    <string name="in_sym_key">In\nsym.</string>
 </resources>

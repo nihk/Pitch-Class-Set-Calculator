@@ -8,8 +8,8 @@ public class SetListChild {
     private String mPrimeForm;
     private String mForteNumber;
     private String mIntervalVector;
-    private String mTranspositionalInvariance;
-    private String mInversionalInvariance;
+    private String mTranspositionalSymmetry;
+    private String mInversionalSymmetry;
 
     public String getPrimeForm() {
         return mPrimeForm;
@@ -23,24 +23,24 @@ public class SetListChild {
         return mIntervalVector;
     }
 
-    public String getTranspositionalInvariance() {
-        return mTranspositionalInvariance;
+    public String getTranspositionalSymmetry() {
+        return mTranspositionalSymmetry;
     }
 
-    public String getInversionalInvariance() {
-        return mInversionalInvariance;
+    public String getInversionalSymmetry() {
+        return mInversionalSymmetry;
     }
 
-    // TODO change the invariances to ints?
+    // TODO change the symmetries to ints?
     public SetListChild(final String primeForm,
                         final String forteNumber,
                         final String intervalVector,
-                        final String transpositionalInvariance,
-                        final String inversionalInvariance) {
+                        final String transpositionalSymmetry,
+                        final String inversionalSymmetry) {
         mPrimeForm = primeForm;
         mForteNumber = forteNumber;
         mIntervalVector = intervalVector;
-        mTranspositionalInvariance = transpositionalInvariance;
-        mInversionalInvariance = inversionalInvariance;
+        mTranspositionalSymmetry = transpositionalSymmetry;
+        mInversionalSymmetry = inversionalSymmetry;
     }
 }

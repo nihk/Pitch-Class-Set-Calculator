@@ -4,6 +4,7 @@ import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.models.ForteNumber;
+import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
 
 import org.junit.Test;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import static com.nihk.github.pcsetcalculator.utils.SetTheoryUtils.*;
@@ -234,6 +236,5 @@ public class SetTheoryUtilsTests {
 
     @Test
     public void mockDriver() throws Exception {
-        PitchClassSet pcs1 = PitchClassSet.fromString("0468");
     }
 }

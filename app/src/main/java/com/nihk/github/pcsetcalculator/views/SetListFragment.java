@@ -17,30 +17,46 @@ import com.nihk.github.pcsetcalculator.utils.SetListUtils;
  * Created by Nick on 2016-11-27.
  */
 
-public class SetListFragment extends Fragment implements ExpandableRecyclerAdapter.ExpandCollapseListener {
+public class SetListFragment extends Fragment implements SetListExpandableAdapter.Listener {
     private RecyclerView mRecyclerView;
-    private SetListExpandableAdapter mExpandableAdapter;
+    private SetListExpandableAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private Listener mListener;
+
+    private static final String KEY_SET_LIST_FRAGMENT = "setListFragment";
+
+    public interface Listener {
+        void onSetListItemClicked(String forteNumber);
+    }
+
+    public void setListener(Listener listener) {
+        mListener = listener;
+    }
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listofsetclasses, container, false /* attachToRoot */);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.setlist_recyclerView);
-        SetListExpandableAdapter adapter = new SetListExpandableAdapter(getActivity(), SetListUtils.PARENTS);
-        mRecyclerView.setAdapter(adapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
+        // TODO
+//        if (savedInstanceState == null) {
+//            mTestDataItemList = setUpTestData(NUM_TEST_DATA_ITEMS);
+//        } else {
+//            mTestDataItemList = (ArrayList<HorizontalParent>) savedInstanceState.getSerializable(SAVED_TEST_DATA_ITEM_LIST);
+//        }
+        mAdapter = new SetListExpandableAdapter(getActivity(), SetListUtils.PARENTS);
+        mAdapter.setListener(this);
+        mRecyclerView.setAdapter(mAdapter);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         return view;
     }
 
-    @Override
-    public void onParentExpanded(final int parentPosition) {
-
-    }
+    // todo on save instance state and on restore
 
     @Override
-    public void onParentCollapsed(final int parentPosition) {
-
+    public void onSetListItemClicked(final String forteNumber) {
+        mListener.onSetListItemClicked(forteNumber);
     }
 }

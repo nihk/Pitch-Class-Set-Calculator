@@ -16,24 +16,31 @@ import com.nihk.github.pcsetcalculator.R;
  * Created by Nick on 2016-11-27.
  */
 
-public class ViewPagerFragment extends Fragment {
+public class ViewPagerFragment extends Fragment implements SetListFragment.Listener {
+    private Fragment mCalculatorFragment;
+    private SetListFragment mSetListFragment;
+    private ViewPager mViewPager;
+
     private static final int NUM_PAGES = 2;
+    private static final int CALCULATOR_PAGE = 0;
+    private static final int SET_LIST_PAGE = 1;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_viewpager, container, false /* attachToRoot */);
 
-        final Fragment calculatorFragment = new CalculatorFragment();
-        final Fragment setListFragment = new SetListFragment();
+        mCalculatorFragment = new CalculatorFragment();
+        mSetListFragment = new SetListFragment();
+        mSetListFragment.setListener(this);
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
-                    case 0: return calculatorFragment;
-                    case 1: return setListFragment;
+                    case 0: return mCalculatorFragment;
+                    case 1: return mSetListFragment;
                     default: return null;
                 }
             }
@@ -54,8 +61,13 @@ public class ViewPagerFragment extends Fragment {
         });
 
         final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(mViewPager);
 
         return view;
+    }
+
+    @Override
+    public void onSetListItemClicked(final String forteNumber) {
+        mViewPager.setCurrentItem(CALCULATOR_PAGE, true /* smoothScroll */);
     }
 }
