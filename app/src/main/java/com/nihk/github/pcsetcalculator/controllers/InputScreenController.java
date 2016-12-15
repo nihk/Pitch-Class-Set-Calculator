@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.nihk.github.pcsetcalculator.R;
+import com.nihk.github.pcsetcalculator.models.ForteNumber;
 import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
@@ -23,11 +24,10 @@ public class InputScreenController implements NumberController.Listener,
     private PitchClassSet mPitchClassSet;
     private Stack<PitchClassSet> mInputStack;
 
-    private static final int MAX_STACK_SIZE = 50;
+    private static final int MAX_STACK_SIZE = 100;
     private static final String KEY_ACTIVE_PC_SET = "activePitchClassSet";
     private static final String KEY_STACK_OF_PC_SETS = "stackOfPcSets";
     public static final String KEY_BUNDLE = "inputScreenControllerBundle";
-
 
     public interface Listener {
         void onInputScreenUpdated(PitchClassSet set);
@@ -147,5 +147,11 @@ public class InputScreenController implements NumberController.Listener,
         final ArrayList<PitchClassSet> list = bundle.getParcelableArrayList(KEY_STACK_OF_PC_SETS);
         mInputStack.addAll(list);
         setPitchClassSetAndUpdateScreen(pitchClassSet);
+    }
+
+    public void injectPcSet(final String forteNumber) {
+        storeRecentPcSet();
+        final ForteNumber fn = new ForteNumber(forteNumber);
+        setPitchClassSetAndUpdateScreen(PitchClassSet.fromForte(fn));
     }
 }

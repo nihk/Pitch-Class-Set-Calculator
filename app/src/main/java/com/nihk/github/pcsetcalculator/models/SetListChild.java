@@ -31,7 +31,6 @@ public class SetListChild {
         return mInversionalSymmetry;
     }
 
-    // TODO change the symmetries to ints?
     public SetListChild(final String primeForm,
                         final String forteNumber,
                         final String intervalVector,

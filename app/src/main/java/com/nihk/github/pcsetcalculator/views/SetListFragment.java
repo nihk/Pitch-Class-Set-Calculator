@@ -11,52 +11,67 @@ import android.view.ViewGroup;
 
 import com.bignerdranch.expandablerecyclerview.ExpandableRecyclerAdapter;
 import com.nihk.github.pcsetcalculator.R;
+import com.nihk.github.pcsetcalculator.models.SetListParent;
 import com.nihk.github.pcsetcalculator.utils.SetListUtils;
+
+import java.util.List;
 
 /**
  * Created by Nick on 2016-11-27.
  */
 
-public class SetListFragment extends Fragment implements SetListExpandableAdapter.Listener {
-    private RecyclerView mRecyclerView;
-    private SetListExpandableAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private Listener mListener;
-
-    private static final String KEY_SET_LIST_FRAGMENT = "setListFragment";
-
-    public interface Listener {
-        void onSetListItemClicked(String forteNumber);
-    }
-
-    public void setListener(Listener listener) {
-        mListener = listener;
-    }
+public class SetListFragment extends Fragment implements SetListExpandableAdapter.Listener,
+        ExpandableRecyclerAdapter.ExpandCollapseListener {
+    private static final String KEY_EXPANDED_STATES = "expandedStates";
+    private boolean[] mExpandedStates;
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listofsetclasses, container, false /* attachToRoot */);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.setlist_recyclerView);
-        // TODO
-//        if (savedInstanceState == null) {
-//            mTestDataItemList = setUpTestData(NUM_TEST_DATA_ITEMS);
-//        } else {
-//            mTestDataItemList = (ArrayList<HorizontalParent>) savedInstanceState.getSerializable(SAVED_TEST_DATA_ITEM_LIST);
-//        }
-        mAdapter = new SetListExpandableAdapter(getActivity(), SetListUtils.PARENTS);
-        mAdapter.setListener(this);
-        mRecyclerView.setAdapter(mAdapter);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.setlist_recyclerView);
+
+        final List<SetListParent> parents = SetListUtils.PARENTS;
+        if (savedInstanceState != null) {
+            mExpandedStates = savedInstanceState.getBooleanArray(KEY_EXPANDED_STATES);
+            if (mExpandedStates != null && parents.size() == mExpandedStates.length) {
+                for (int i = 0; i < mExpandedStates.length; i++) {
+                    final SetListParent parent = parents.get(i);
+                    parent.setInitiallyExpanded(mExpandedStates[i]);
+                }
+            }
+        } else {
+            mExpandedStates = new boolean[parents.size()];
+        }
+        final SetListExpandableAdapter adapter = new SetListExpandableAdapter(getActivity(), parents);
+        adapter.setListener(this);
+        adapter.setExpandCollapseListener(this);
+        recyclerView.setAdapter(adapter);
+        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         return view;
     }
 
-    // todo on save instance state and on restore
-
     @Override
     public void onSetListItemClicked(final String forteNumber) {
-        mListener.onSetListItemClicked(forteNumber);
+        ViewPagerFragment viewPagerFragment = (ViewPagerFragment) getParentFragment();
+        viewPagerFragment.onSetListItemClicked(forteNumber);
+    }
+
+    @Override
+    public void onParentExpanded(final int parentPosition) {
+        mExpandedStates[parentPosition] = true;
+    }
+
+    @Override
+    public void onParentCollapsed(final int parentPosition) {
+        mExpandedStates[parentPosition] = false;
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBooleanArray(KEY_EXPANDED_STATES, mExpandedStates);
     }
 }

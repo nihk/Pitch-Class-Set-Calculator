@@ -18,9 +18,11 @@ public class PCSetCalculator extends AppCompatActivity {
 
         if (viewPagerFragment == null) {
             // Create a new view pager fragment
+            viewPagerFragment = new ViewPagerFragment();
+
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.activity_pcsetcalculator, new ViewPagerFragment(), VIEW_PAGER_FRAGMENT)
+                    .replace(R.id.activity_pcsetcalculator, viewPagerFragment, VIEW_PAGER_FRAGMENT)
                     .commit();
         }
     }

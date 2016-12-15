@@ -51,4 +51,8 @@ public class CalculatorController {
         mInputScreenController.setScreenFromBundle(inputScreenBundle);
         mOperatorGroupController.setOperatorGroupFromBundle(operatorGroupBundle);
     }
+
+    public void injectPcSet(final String forteNumber) {
+        mInputScreenController.injectPcSet(forteNumber);
+    }
 }

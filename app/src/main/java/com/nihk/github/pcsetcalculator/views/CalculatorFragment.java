@@ -16,7 +16,6 @@ import com.nihk.github.pcsetcalculator.controllers.CalculatorController;
 
 public class CalculatorFragment extends Fragment {
     private CalculatorController mController;
-    private static final String KEY_CALCULATOR_FRAGMENT = "calculatorFragment";
 
     @Nullable
     @Override
@@ -39,5 +38,9 @@ public class CalculatorFragment extends Fragment {
         if (savedInstanceState != null) {
             mController.setCalculatorFromBundle(savedInstanceState.getBundle(CalculatorController.KEY_CALCULATOR_CONTROLLER));
         }
+    }
+
+    public void injectPcSet(String forteNumber) {
+        mController.injectPcSet(forteNumber);
     }
 }

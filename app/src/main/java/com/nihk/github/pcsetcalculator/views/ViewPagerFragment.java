@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -12,12 +13,14 @@ import android.view.ViewGroup;
 
 import com.nihk.github.pcsetcalculator.R;
 
+import java.util.List;
+
 /**
  * Created by Nick on 2016-11-27.
  */
 
-public class ViewPagerFragment extends Fragment implements SetListFragment.Listener {
-    private Fragment mCalculatorFragment;
+public class ViewPagerFragment extends Fragment {
+    private CalculatorFragment mCalculatorFragment;
     private SetListFragment mSetListFragment;
     private ViewPager mViewPager;
 
@@ -30,9 +33,17 @@ public class ViewPagerFragment extends Fragment implements SetListFragment.Liste
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_viewpager, container, false /* attachToRoot */);
 
-        mCalculatorFragment = new CalculatorFragment();
-        mSetListFragment = new SetListFragment();
-        mSetListFragment.setListener(this);
+        final FragmentManager childFragmentManager = getChildFragmentManager();
+        final List<Fragment> fragments = childFragmentManager.getFragments();
+        final boolean hasFragments = fragments != null;
+
+        mCalculatorFragment = hasFragments
+                ? (CalculatorFragment) fragments.get(CALCULATOR_PAGE)
+                : new CalculatorFragment();
+
+        mSetListFragment = hasFragments
+                ? (SetListFragment) fragments.get(SET_LIST_PAGE)
+                : new SetListFragment();
 
         mViewPager = (ViewPager) view.findViewById(R.id.viewPager);
         mViewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
@@ -66,8 +77,8 @@ public class ViewPagerFragment extends Fragment implements SetListFragment.Liste
         return view;
     }
 
-    @Override
     public void onSetListItemClicked(final String forteNumber) {
         mViewPager.setCurrentItem(CALCULATOR_PAGE, true /* smoothScroll */);
+        mCalculatorFragment.injectPcSet(forteNumber);
     }
 }

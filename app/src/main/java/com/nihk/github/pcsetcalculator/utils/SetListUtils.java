@@ -62,6 +62,7 @@ public class SetListUtils {
     static {
         for (ForteNumber forteNumber : ForteNumberUtils.BIMAP.values()) {
             final PitchClassSet pitchClassSet = PitchClassSet.fromForte(forteNumber);
+            // The lazy way to remove spaces between the pitch class elements
             final String primeForm = StringFormatUtils.makePrimeFormStringRepresentation(pitchClassSet)
                                             .replaceAll(" ", "");
             final String intervalVector = StringFormatUtils.makeIntervalVectorStringRepresentation(pitchClassSet)

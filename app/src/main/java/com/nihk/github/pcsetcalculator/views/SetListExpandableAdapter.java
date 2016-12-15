@@ -12,6 +12,7 @@ import com.nihk.github.pcsetcalculator.R;
 import com.nihk.github.pcsetcalculator.models.SetListChild;
 import com.nihk.github.pcsetcalculator.models.SetListParent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
