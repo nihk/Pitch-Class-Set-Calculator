@@ -29,4 +29,6 @@
     <string name="interval_vector_key">Interval\nVector</string>
     <string name="tn_sym_key">Tn\nsym.</string>
     <string name="in_sym_key">In\nsym.</string>
+    <string name="rate_the_app">Rate the app</string>
+    <string name="settings">Settings</string>
 </resources>

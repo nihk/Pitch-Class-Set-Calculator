@@ -2,6 +2,9 @@ package com.nihk.github.pcsetcalculator.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.nihk.github.pcsetcalculator.R;
 
@@ -24,6 +27,25 @@ public class PCSetCalculator extends AppCompatActivity {
                     .beginTransaction()
                     .replace(R.id.activity_pcsetcalculator, viewPagerFragment, VIEW_PAGER_FRAGMENT)
                     .commit();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                return true;
+            case R.id.menu_rating_beg:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
