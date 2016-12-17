@@ -44,6 +44,13 @@ public class SetTheoryUtilsTests {
             PitchClassSet set = PitchClassSet.fromString(setString);
             int key = set.getPrimeFormBinary();
 
+            // Consider the case of using the Forte algorithm
+            final Integer potentialForteKey;
+            // TODO check preferences first
+            if ((potentialForteKey = RAHN_TO_FORTE_PRIMES.inverse().get(key)) != null /* && isForteAlgorithmEnabled */) {
+                key = potentialForteKey;
+            }
+
             ForteNumber forteNumber =
                     ForteNumberUtils.BIMAP.get(key);
             assertNotNull("Didn't find prime form: " + key

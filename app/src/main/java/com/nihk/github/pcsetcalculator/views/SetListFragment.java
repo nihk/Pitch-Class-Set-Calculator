@@ -30,13 +30,11 @@ public class SetListFragment extends Fragment implements SetListExpandableAdapte
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_listofsetclasses, container, false /* attachToRoot */);
         mKeyLayout = (LinearLayout) view.findViewById(R.id.list_item_child_key_layout);
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.setlist_recyclerView);
+        final CustomRecyclerView recyclerView = (CustomRecyclerView) view.findViewById(R.id.setlist_recyclerView);
+        recyclerView.setNestedScrollingEnabled(true);
 
         setupExpandedStates(savedInstanceState);
-        final boolean isAnyParentExpanded = isAnyParentExpanded();
-        mKeyLayout.setVisibility(isAnyParentExpanded
-                ? View.VISIBLE
-                : View.GONE);
+        mKeyLayout.setVisibility(isAnyParentExpanded() ? View.VISIBLE : View.GONE);
 
         final SetListExpandableAdapter adapter = new SetListExpandableAdapter(getActivity(), SetListUtils.PARENTS);
         adapter.setOnSetListItemClicked(this);
@@ -63,6 +61,7 @@ public class SetListFragment extends Fragment implements SetListExpandableAdapte
     @Override
     public void onParentCollapsed(final int parentPosition) {
         mExpandedStates[parentPosition] = false;
+
         if (!isAnyParentExpanded()) {
             mKeyLayout.setVisibility(View.GONE);
         }

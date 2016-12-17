@@ -94,13 +94,25 @@ public class PitchClassSet implements Parcelable {
         PitchClassSet pcs = new PitchClassSet();
         pcs.mOriginalSetBinary = set;
         pcs.mNormalFormMetadata = calculateNormalForm(pcs.mOriginalSetBinary);
-        pcs.mPrimeFormBinary = calculatePrimeForm(pcs.mOriginalSetBinary);
+        // Temp variable til its decided whether the Forte or Rahn algorithm is currently being used
+        final int tempPrimeForm = calculatePrimeForm(pcs.mOriginalSetBinary);
+
+        final boolean isForteRahnUnequalPrime = isForteRahnUnequalPrime(tempPrimeForm);
+
+        if (isForteRahnUnequalPrime /* && isForteAlgorithmEnabled */) {
+            pcs.mPrimeFormBinary = RAHN_TO_FORTE_PRIMES.get(tempPrimeForm);
+            pcs.mNormalFormMetadata = calculateNormalFormFromFortePrime(pcs.mOriginalSetBinary, pcs.mPrimeFormBinary);
+            // Get the Forte number associated with the Rahn prime, since the BIMAP must have unique keys and values
+            pcs.mForteNumber = ForteNumberUtils.BIMAP.get(tempPrimeForm);
+        } else {
+            pcs.mPrimeFormBinary = calculatePrimeForm(pcs.mOriginalSetBinary);
+            pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mPrimeFormBinary);
+        }
 
         pcs.mCollection = setToList(pcs.mOriginalSetBinary);
         pcs.mPrimeFormCollection = setToList(pcs.mPrimeFormBinary);
         pcs.mNormalFormCollection = setToList(pcs.mNormalFormMetadata.getZeroBasedNormalForm());
-        SetTheoryUtils.transpose(pcs.mNormalFormCollection, pcs.mNormalFormMetadata.getTransposition());
-        pcs.mForteNumber = ForteNumberUtils.BIMAP.get(pcs.mPrimeFormBinary);
+        transpose(pcs.mNormalFormCollection, pcs.mNormalFormMetadata.getTransposition());
         pcs.mZMate = IntervalVectorUtils.Z_MATES.get(pcs.mForteNumber);
         pcs.mIntervalVector = calculateIntervalVector(pcs.mPrimeFormBinary);
         pcs.mTranspositionalSymmetry = transpositionalSymmetry(pcs.mOriginalSetBinary);
@@ -111,6 +123,10 @@ public class PitchClassSet implements Parcelable {
 
     public static PitchClassSet fromForte(ForteNumber fn) {
         int set = ForteNumberUtils.BIMAP.inverse().get(fn);
+        // The ForteNumber BiMap only holds the Rahn prime forms
+        if (isForteRahnUnequalPrime(set) /* && isForteAlgorithmEnabled */) {
+            set = RAHN_TO_FORTE_PRIMES.get(set);
+        }
         return fromBinary(set);
     }
 

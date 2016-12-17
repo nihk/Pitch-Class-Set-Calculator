@@ -4,6 +4,8 @@ package com.nihk.github.pcsetcalculator.utils;
  * Created by Nick on 2016-11-02.
  */
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.models.NormalFormMetadata;
 
@@ -21,18 +23,18 @@ import java.util.Set;
  * as 'set' and List<Integer> representations as 'collection' to establish a distinction.
  */
 public final class SetTheoryUtils {
-    public static final int ZERO =   1;
-    public static final int ONE =    1 << 1;
-    public static final int TWO =    1 << 2;
-    public static final int THREE =  1 << 3;
-    public static final int FOUR =   1 << 4;
-    public static final int FIVE =   1 << 5;
-    public static final int SIX =    1 << 6;
-    public static final int SEVEN =  1 << 7;
-    public static final int EIGHT =  1 << 8;
-    public static final int NINE =   1 << 9;
-    public static final int TEN =    1 << 10;
-    public static final int ELEVEN = 1 << 11;
+    private static final int ZERO =   1;
+    private static final int ONE =    1 << 1;
+    private static final int TWO =    1 << 2;
+    private static final int THREE =  1 << 3;
+    private static final int FOUR =   1 << 4;
+    private static final int FIVE =   1 << 5;
+    private static final int SIX =    1 << 6;
+    private static final int SEVEN =  1 << 7;
+    private static final int EIGHT =  1 << 8;
+    private static final int NINE =   1 << 9;
+    private static final int TEN =    1 << 10;
+    private static final int ELEVEN = 1 << 11;
 
     // Binary representations of pitch classes
     public static final Map<String, Integer> PC_BITS = new HashMap<String, Integer>() {{
@@ -50,7 +52,7 @@ public final class SetTheoryUtils {
         put("B", ELEVEN);
     }};
 
-    public static final Map<Integer, Integer> INVERSION_MAP = new HashMap<Integer, Integer>() {{
+    private static final Map<Integer, Integer> INVERSION_MAP = new HashMap<Integer, Integer>() {{
         put(ZERO,   ZERO);
         put(ONE,    ELEVEN);
         put(TWO,    TEN);
@@ -68,12 +70,23 @@ public final class SetTheoryUtils {
     // These Rahn prime forms are not the same prime forms when using the Forte
     // algorithm. Since it only affets 5 set classes, I used a Map instead of implementing
     // the different algorithm in its entirety.
-    private static final Map<Integer, Integer> RAHN_TO_FORTE_PRIMES = new HashMap<Integer, Integer>() {{
-        put(355, 395);      // 5-20
-        put(717, 843);      // 6-Z29
-        put(691, 811);      // 6-31
-        put(743, 919);      // 7-20
-        put(1467, 1719);    // 8-26
+    public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES = HashBiMap.create();
+
+    static {
+        RAHN_TO_FORTE_PRIMES.put(355, 395);      // 5-20
+        RAHN_TO_FORTE_PRIMES.put(717, 843);      // 6-Z29
+        RAHN_TO_FORTE_PRIMES.put(691, 811);      // 6-31
+        RAHN_TO_FORTE_PRIMES.put(743, 919);      // 7-20
+        RAHN_TO_FORTE_PRIMES.put(1467, 1719);    // 8-26
+    }
+
+    // Inversions of the Forte primes, zero based.
+    private static final Map<Integer, Integer> FORTE_PRIME_INVERSIONS = new HashMap<Integer, Integer>() {{
+        put(395, 419);      // 5-20
+        put(843, 843);      // 6-Z29
+        put(811, 851);      // 6-31
+        put(919, 935);      // 7-20
+        put(1719, 1719);    // 8-26
     }};
 
     public static final int NUM_PITCH_CLASSES = 12;
@@ -288,19 +301,9 @@ public final class SetTheoryUtils {
      */
     public static int calculatePrimeForm(int set) {
         int invertedSet = invert(set);
-        int primeForm = Math.min(calculateNormalForm(set).getZeroBasedNormalForm(),
+
+        return Math.min(calculateNormalForm(set).getZeroBasedNormalForm(),
                 calculateNormalForm(invertedSet).getZeroBasedNormalForm());
-
-//        if (isForteRahnUnequalPrime(primeForm)) {
-            // TODO somehow need to get the right normal form too.
-            // keep transposing until all the bits are the same as
-            // the input set; this will be the NF transposition.
-            // Test the inversion of the prime form, too, if that previous
-            // action yielded nothing
-            // TODO also handle this in PitchClassSet, not here
-//        }
-
-        return primeForm;
     }
 
     /**
@@ -366,6 +369,42 @@ public final class SetTheoryUtils {
         return new NormalFormMetadata(min, isTiedMin
                 ? findSmallestElement(shiftsForTiedMin)
                 : numShiftsForMin);
+    }
+
+    /**
+     * Matches transpositions (and if necessary, an inversion) of the special Forte prime to the
+     * originally inputted set to get the Forte algorithm normal form version.
+     *
+     * @param originalSet    the user inputted set
+     * @param fortePrimeForm a Forte prime form
+     * @return               the normal form metadata for the original set based on the Forte algorithm
+     */
+    public static NormalFormMetadata calculateNormalFormFromFortePrime(int originalSet, int fortePrimeForm) {
+        int invertedFortePrimeForm = FORTE_PRIME_INVERSIONS.get(fortePrimeForm);
+        int setCopy = originalSet;
+        int tnValue = 0;
+        boolean isBasedOffInvertedFortePrime = false;
+
+        while (tnValue < NUM_PITCH_CLASSES) {
+            if ((fortePrimeForm & setCopy) == fortePrimeForm) {
+                isBasedOffInvertedFortePrime = false;
+                break;
+            } else if ((invertedFortePrimeForm & setCopy) == invertedFortePrimeForm) {
+                isBasedOffInvertedFortePrime = true;
+                break;
+            }
+
+            setCopy = transpose(setCopy, 1);
+            tnValue++;
+        }
+
+        // Use the complementary Tn value in mod 12
+        tnValue = NUM_PITCH_CLASSES - tnValue;
+
+        return new NormalFormMetadata(isBasedOffInvertedFortePrime
+                    ? invertedFortePrimeForm
+                    : fortePrimeForm,
+                tnValue);
     }
 
     private static int findSmallestElement(List<Integer> list) {
@@ -662,6 +701,6 @@ public final class SetTheoryUtils {
     }
 
     public static boolean isForteRahnUnequalPrime(int set) {
-        return RAHN_TO_FORTE_PRIMES.get(set) != 0;
+        return RAHN_TO_FORTE_PRIMES.get(set) != null;
     }
 }
