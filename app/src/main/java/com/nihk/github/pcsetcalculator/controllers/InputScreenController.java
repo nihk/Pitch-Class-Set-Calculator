@@ -149,6 +149,8 @@ public class InputScreenController implements NumberController.Listener,
         setPitchClassSetAndUpdateScreen(pitchClassSet);
     }
 
+    // Displays a PitchClassSet that did not originate from the buttons themselves. Currently
+    // this only comes from hitting a list item on the list of set classes page.
     public void injectPcSet(final String forteNumber) {
         storeRecentPcSet();
         final ForteNumber fn = new ForteNumber(forteNumber);

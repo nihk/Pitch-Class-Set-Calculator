@@ -16,12 +16,8 @@ public class PCSetCalculator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pcsetcalculator);
 
-        // Check if the view pager already exists
-        ViewPagerFragment viewPagerFragment = (ViewPagerFragment) getSupportFragmentManager().findFragmentByTag(VIEW_PAGER_FRAGMENT);
-
-        if (viewPagerFragment == null) {
-            // Create a new view pager fragment
-            viewPagerFragment = new ViewPagerFragment();
+        if (getSupportFragmentManager().findFragmentByTag(VIEW_PAGER_FRAGMENT) == null) {
+            final ViewPagerFragment viewPagerFragment = new ViewPagerFragment();
 
             getSupportFragmentManager()
                     .beginTransaction()

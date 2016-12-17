@@ -12,7 +12,6 @@ import com.nihk.github.pcsetcalculator.R;
 import com.nihk.github.pcsetcalculator.models.SetListChild;
 import com.nihk.github.pcsetcalculator.models.SetListParent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +27,7 @@ public class SetListExpandableAdapter extends ExpandableRecyclerAdapter<SetListP
         void onSetListItemClicked(String forteNumber);
     }
 
-    public void setListener(Listener listener) {
+    public void setOnSetListItemClicked(Listener listener) {
         mListener = listener;
     }
 

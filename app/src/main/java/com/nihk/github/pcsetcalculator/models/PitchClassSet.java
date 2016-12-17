@@ -12,7 +12,6 @@ import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
 import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +104,7 @@ public class PitchClassSet implements Parcelable {
         pcs.mZMate = IntervalVectorUtils.Z_MATES.get(pcs.mForteNumber);
         pcs.mIntervalVector = calculateIntervalVector(pcs.mPrimeFormBinary);
         pcs.mTranspositionalSymmetry = transpositionalSymmetry(pcs.mOriginalSetBinary);
-        pcs.mInversionalSymmetry = inversionalISymmetry(pcs.mOriginalSetBinary);
+        pcs.mInversionalSymmetry = inversionalSymmetry(pcs.mOriginalSetBinary);
 
         return pcs;
     }

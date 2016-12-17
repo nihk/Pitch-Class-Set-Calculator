@@ -13,11 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-// TODO make set to string, so that 10 == A, 11 == B, etc., with proper braces
-
-// TODO method that converts view's input into set data
-
-// TODO method that returns string for view when In or Tn is done
 
 /**
  * Utility class for performing pitch class operations on sets. Although the
@@ -70,6 +65,17 @@ public final class SetTheoryUtils {
         put(ELEVEN, ONE);
     }};
 
+    // These Rahn prime forms are not the same prime forms when using the Forte
+    // algorithm. Since it only affets 5 set classes, I used a Map instead of implementing
+    // the different algorithm in its entirety.
+    private static final Map<Integer, Integer> RAHN_TO_FORTE_PRIMES = new HashMap<Integer, Integer>() {{
+        put(355, 395);      // 5-20
+        put(717, 843);      // 6-Z29
+        put(691, 811);      // 6-31
+        put(743, 919);      // 7-20
+        put(1467, 1719);    // 8-26
+    }};
+
     public static final int NUM_PITCH_CLASSES = 12;
     public static final int NUM_INTERVAL_CLASSES = 6;
     // A mask of all bits to the left of the twelfth bit set to true; all others false
@@ -78,8 +84,6 @@ public final class SetTheoryUtils {
     private static final int MOD_12_MASK = ~OVERFLOW_MASK;
     private static final int NUM_NON_MOD_12_BITS = Integer.bitCount(OVERFLOW_MASK);
     public static final int INTERVAL_VECTOR_LOG_BASE = 2;
-
-    public static Set<Integer> PRIME_FORMS = ForteNumberUtils.BIMAP.keySet();
 
     private SetTheoryUtils() {
         // Prevent instantiation
@@ -283,9 +287,20 @@ public final class SetTheoryUtils {
      * @return    the prime form of the collection as an integer
      */
     public static int calculatePrimeForm(int set) {
-        int revCollection = invert(set);
-        return Math.min(calculateNormalForm(set).getZeroBasedNormalForm(),
-                calculateNormalForm(revCollection).getZeroBasedNormalForm());
+        int invertedSet = invert(set);
+        int primeForm = Math.min(calculateNormalForm(set).getZeroBasedNormalForm(),
+                calculateNormalForm(invertedSet).getZeroBasedNormalForm());
+
+//        if (isForteRahnUnequalPrime(primeForm)) {
+            // TODO somehow need to get the right normal form too.
+            // keep transposing until all the bits are the same as
+            // the input set; this will be the NF transposition.
+            // Test the inversion of the prime form, too, if that previous
+            // action yielded nothing
+            // TODO also handle this in PitchClassSet, not here
+//        }
+
+        return primeForm;
     }
 
     /**
@@ -630,11 +645,10 @@ public final class SetTheoryUtils {
             }
         }
 
-        // TODO
         return tnInv;
     }
 
-    public static int inversionalISymmetry(int set) {
+    public static int inversionalSymmetry(int set) {
         int inInv = 0;
 
         for (int i = 0; i < NUM_PITCH_CLASSES; i++) {
@@ -645,5 +659,9 @@ public final class SetTheoryUtils {
         }
 
         return inInv;
+    }
+
+    public static boolean isForteRahnUnequalPrime(int set) {
+        return RAHN_TO_FORTE_PRIMES.get(set) != 0;
     }
 }

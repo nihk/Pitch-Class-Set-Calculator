@@ -1,14 +1,12 @@
 package com.nihk.github.pcsetcalculator.views;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Build;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bignerdranch.expandablerecyclerview.ParentViewHolder;
 import com.nihk.github.pcsetcalculator.R;
