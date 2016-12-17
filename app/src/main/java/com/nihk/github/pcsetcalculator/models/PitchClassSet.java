@@ -7,14 +7,14 @@ package com.nihk.github.pcsetcalculator.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
 import com.nihk.github.pcsetcalculator.utils.IntervalVectorUtils;
-import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
+import com.nihk.github.pcsetcalculator.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nihk.github.pcsetcalculator.utils.RahnForteUtils.*;
 import static com.nihk.github.pcsetcalculator.utils.SetTheoryUtils.*;
 
 /**
@@ -97,12 +97,13 @@ public class PitchClassSet implements Parcelable {
         // Temp variable til its decided whether the Forte or Rahn algorithm is currently being used
         final int tempPrimeForm = calculatePrimeForm(pcs.mOriginalSetBinary);
 
-        final boolean isForteRahnUnequalPrime = isForteRahnUnequalPrime(tempPrimeForm);
-
-        if (isForteRahnUnequalPrime /* && isForteAlgorithmEnabled */) {
+        // TODO preference check
+        if (isForteRahnUnequalPrime(tempPrimeForm) && isForteAlgorithmEnabled()) {
             pcs.mPrimeFormBinary = RAHN_TO_FORTE_PRIMES.get(tempPrimeForm);
             pcs.mNormalFormMetadata = calculateNormalFormFromFortePrime(pcs.mOriginalSetBinary, pcs.mPrimeFormBinary);
-            // Get the Forte number associated with the Rahn prime, since the BIMAP must have unique keys and values
+            // Get the Forte number associated with the Rahn prime. Since the BIMAP must have unique keys and values
+            // I can't put in the Forte prime with the same ForteNumber value as a Rahn prime.
+            // e.g. (binary) prime forms 355 and 395 are both set class 5-20 for their respective algorithm.
             pcs.mForteNumber = ForteNumberUtils.BIMAP.get(tempPrimeForm);
         } else {
             pcs.mPrimeFormBinary = calculatePrimeForm(pcs.mOriginalSetBinary);
@@ -124,7 +125,8 @@ public class PitchClassSet implements Parcelable {
     public static PitchClassSet fromForte(ForteNumber fn) {
         int set = ForteNumberUtils.BIMAP.inverse().get(fn);
         // The ForteNumber BiMap only holds the Rahn prime forms
-        if (isForteRahnUnequalPrime(set) /* && isForteAlgorithmEnabled */) {
+        // TODO preferences check
+        if (isForteRahnUnequalPrime(set) && isForteAlgorithmEnabled()) {
             set = RAHN_TO_FORTE_PRIMES.get(set);
         }
         return fromBinary(set);
@@ -189,4 +191,8 @@ public class PitchClassSet implements Parcelable {
             return new PitchClassSet[size];
         }
     };
+
+    private static boolean isForteAlgorithmEnabled() {
+        return PreferencesUtils.isChecked(PreferencesUtils.KEY_FORTE_ALGORITHM);
+    }
 }

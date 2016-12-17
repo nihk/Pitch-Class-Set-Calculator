@@ -22,6 +22,7 @@ public final class ForteNumber implements Comparable<ForteNumber>, Parcelable {
     // E.g. 4-Z29 and 4-Z15 both have the i.v. <111111>
     private final boolean mIsZedRelated;
 
+    private static final String DASH = "-";
     private static final char ZED = 'Z';
 
     public int getCardinality() {
@@ -37,7 +38,7 @@ public final class ForteNumber implements Comparable<ForteNumber>, Parcelable {
     }
 
     public ForteNumber(String forteNumber) {
-        String[] split = forteNumber.split("-");
+        String[] split = forteNumber.split(DASH);
         mCardinality = Integer.parseInt(split[0]);
         String postDashPart = split[1];
         mIsZedRelated = Character.toUpperCase(postDashPart.charAt(0)) == ZED;
@@ -70,8 +71,9 @@ public final class ForteNumber implements Comparable<ForteNumber>, Parcelable {
     @Override
     public String toString() {
         return String.format(Locale.getDefault(),
-                "%d-%s%d",
+                "%d%s%s%d",
                 mCardinality,
+                DASH,
                 mIsZedRelated ? "Z" : "",
                 mOrdinalPosition);
     }

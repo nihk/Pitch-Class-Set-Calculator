@@ -10,7 +10,7 @@ import java.util.Locale;
  * Created by Nick on 2016-12-04.
  */
 
-public class StringFormatUtils {
+public final class StringFormatUtils {
     private static final char SPACE = ' ';
     private static final String PLACEHOLDER = "---";
     private static final String EMPTY = "";

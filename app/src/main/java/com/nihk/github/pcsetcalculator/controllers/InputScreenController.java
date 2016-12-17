@@ -156,4 +156,6 @@ public class InputScreenController implements NumberController.Listener,
         final ForteNumber fn = new ForteNumber(forteNumber);
         setPitchClassSetAndUpdateScreen(PitchClassSet.fromForte(fn));
     }
+
+    // TODO need to change all pc sets in stack to be Forte/Rahn on preference change
 }

@@ -19,16 +19,16 @@ import java.util.List;
  */
 
 public class SetListExpandableAdapter extends ExpandableRecyclerAdapter<SetListParent, SetListChild, SetListParentViewHolder, SetListChildViewHolder>
-        implements SetListChildViewHolder.Listener {
+        implements SetListChildViewHolder.SetListItemClickedListener {
     private final LayoutInflater mInflater;
-    private Listener mListener;
+    private SetListItemClickedListener mSetListItemClickedListener;
 
-    public interface Listener {
+    public interface SetListItemClickedListener {
         void onSetListItemClicked(String forteNumber);
     }
 
-    public void setOnSetListItemClicked(Listener listener) {
-        mListener = listener;
+    public void setSetListItemClickedListener(SetListItemClickedListener listener) {
+        mSetListItemClickedListener = listener;
     }
 
     public SetListExpandableAdapter(final Context context, @NonNull final List<SetListParent> parentItemList) {
@@ -50,13 +50,13 @@ public class SetListExpandableAdapter extends ExpandableRecyclerAdapter<SetListP
     public SetListChildViewHolder onCreateChildViewHolder(@NonNull final ViewGroup viewGroup, int viewType) {
         View view = mInflater.inflate(R.layout.list_item_child_setclass, viewGroup, false);
         final SetListChildViewHolder viewHolder = new SetListChildViewHolder(view);
-        viewHolder.setListener(this);
+        viewHolder.setSetListItemClickedListener(this);
         return viewHolder;
     }
 
     @Override
     public void onSetListItemClicked(final String forteNumber) {
-        mListener.onSetListItemClicked(forteNumber);
+        mSetListItemClickedListener.onSetListItemClicked(forteNumber);
     }
 
     @UiThread

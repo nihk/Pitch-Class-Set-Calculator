@@ -19,7 +19,7 @@ import com.nihk.github.pcsetcalculator.utils.SetListUtils;
  * Created by Nick on 2016-11-27.
  */
 
-public class SetListFragment extends Fragment implements SetListExpandableAdapter.Listener,
+public class SetListFragment extends Fragment implements SetListExpandableAdapter.SetListItemClickedListener,
         ExpandableRecyclerAdapter.ExpandCollapseListener {
     private static final String KEY_EXPANDED_STATES = "expandedStates";
     private boolean[] mExpandedStates;
@@ -37,7 +37,7 @@ public class SetListFragment extends Fragment implements SetListExpandableAdapte
         mKeyLayout.setVisibility(isAnyParentExpanded() ? View.VISIBLE : View.GONE);
 
         final SetListExpandableAdapter adapter = new SetListExpandableAdapter(getActivity(), SetListUtils.PARENTS);
-        adapter.setOnSetListItemClicked(this);
+        adapter.setSetListItemClickedListener(this);
         adapter.setExpandCollapseListener(this);
         recyclerView.setAdapter(adapter);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -84,6 +84,10 @@ public class SetListFragment extends Fragment implements SetListExpandableAdapte
             }
         } else {
             mExpandedStates = new boolean[SetListUtils.PARENTS.size()];
+            // Because a static collection of parents is being used, sometimes when the saved
+            // instance state is null, a parent could still be set as initially expanded. This
+            // solves that by turning them all off if the state was null.
+            setAllParentsExpanded(false);
         }
     }
 
@@ -95,5 +99,11 @@ public class SetListFragment extends Fragment implements SetListExpandableAdapte
         }
 
         return false;
+    }
+
+    private void setAllParentsExpanded(final boolean isExpanded) {
+        for (final SetListParent setListParent : SetListUtils.PARENTS) {
+            setListParent.setInitiallyExpanded(isExpanded);
+        }
     }
 }

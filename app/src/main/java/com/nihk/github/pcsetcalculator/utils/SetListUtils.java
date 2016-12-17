@@ -14,7 +14,11 @@ import java.util.List;
  * Created by Nick on 2016-12-11.
  */
 
-public class SetListUtils {
+public final class SetListUtils {
+    private SetListUtils() {
+        // Prevent instantiation
+    }
+
     private static final SetListParent TRICHORDS_PARENT = new SetListParent("Trichords (3)");
     private static final SetListParent TETRACHORDS_PARENT = new SetListParent("Tetrachords (4)");
     private static final SetListParent PENTACHORDS_PARENT = new SetListParent("Pentachords (5)");

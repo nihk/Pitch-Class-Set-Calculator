@@ -4,8 +4,6 @@ package com.nihk.github.pcsetcalculator.utils;
  * Created by Nick on 2016-11-02.
  */
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.common.primitives.Ints;
 import com.nihk.github.pcsetcalculator.models.NormalFormMetadata;
 
@@ -14,7 +12,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Utility class for performing pitch class operations on sets. Although the
@@ -65,28 +62,6 @@ public final class SetTheoryUtils {
         put(NINE,   THREE);
         put(TEN,    TWO);
         put(ELEVEN, ONE);
-    }};
-
-    // These Rahn prime forms are not the same prime forms when using the Forte
-    // algorithm. Since it only affets 5 set classes, I used a Map instead of implementing
-    // the different algorithm in its entirety.
-    public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES = HashBiMap.create();
-
-    static {
-        RAHN_TO_FORTE_PRIMES.put(355, 395);      // 5-20
-        RAHN_TO_FORTE_PRIMES.put(717, 843);      // 6-Z29
-        RAHN_TO_FORTE_PRIMES.put(691, 811);      // 6-31
-        RAHN_TO_FORTE_PRIMES.put(743, 919);      // 7-20
-        RAHN_TO_FORTE_PRIMES.put(1467, 1719);    // 8-26
-    }
-
-    // Inversions of the Forte primes, zero based.
-    private static final Map<Integer, Integer> FORTE_PRIME_INVERSIONS = new HashMap<Integer, Integer>() {{
-        put(395, 419);      // 5-20
-        put(843, 843);      // 6-Z29
-        put(811, 851);      // 6-31
-        put(919, 935);      // 7-20
-        put(1719, 1719);    // 8-26
     }};
 
     public static final int NUM_PITCH_CLASSES = 12;
@@ -380,7 +355,7 @@ public final class SetTheoryUtils {
      * @return               the normal form metadata for the original set based on the Forte algorithm
      */
     public static NormalFormMetadata calculateNormalFormFromFortePrime(int originalSet, int fortePrimeForm) {
-        int invertedFortePrimeForm = FORTE_PRIME_INVERSIONS.get(fortePrimeForm);
+        int invertedFortePrimeForm = RahnForteUtils.FORTE_PRIME_INVERSIONS.get(fortePrimeForm);
         int setCopy = originalSet;
         int tnValue = 0;
         boolean isBasedOffInvertedFortePrime = false;
@@ -698,9 +673,5 @@ public final class SetTheoryUtils {
         }
 
         return inInv;
-    }
-
-    public static boolean isForteRahnUnequalPrime(int set) {
-        return RAHN_TO_FORTE_PRIMES.get(set) != null;
     }
 }
