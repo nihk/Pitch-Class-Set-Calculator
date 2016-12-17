@@ -8,10 +8,14 @@ import android.widget.TextView;
 
 import com.bignerdranch.expandablerecyclerview.ChildViewHolder;
 import com.nihk.github.pcsetcalculator.R;
+import com.nihk.github.pcsetcalculator.models.ForteNumber;
+import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.models.SetListChild;
 import com.nihk.github.pcsetcalculator.utils.PreferencesUtils;
+import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
 
 import static com.nihk.github.pcsetcalculator.utils.PreferencesUtils.*;
+import static com.nihk.github.pcsetcalculator.utils.RahnForteUtils.isPrimeFormDifferentForRahnAndForte;
 
 /**
  * Created by Nick on 2016-12-11.
@@ -45,15 +49,23 @@ public class SetListChildViewHolder extends ChildViewHolder<SetListChild>
 
     public void bind(SetListChild setListChild) {
         final String primeForm = setListChild.getPrimeForm();
+        final String forteNumber = setListChild.getForteNumber();
         mPrimeForm.setText(primeForm);
-        mForteNumber.setText(setListChild.getForteNumber());
+        mForteNumber.setText(forteNumber);
         mIntervalVector.setText(setListChild.getIntervalVector());
         mTranspostionalSymmetry.setText(setListChild.getTranspositionalSymmetry());
         mInversionalSymmetry.setText(setListChild.getInversionalSymmetry());
 
-        if (hasPcsAorBorTorE(primeForm)) {
+        final boolean hasPcsAorBorTorE = hasPcsAorBorTorE(primeForm);
+        final boolean isPrimeFormDifferent = isPrimeFormDifferentForRahnAndForte(forteNumber);
+        if (hasPcsAorBorTorE || isPrimeFormDifferent) {
             PreferencesUtils.registerListener(this);
-            maybeSwapAandBwithTandEOrViceVersa();
+            if (hasPcsAorBorTorE) {
+                maybeSwapAandBwithTandEOrViceVersa();
+            }
+            if (isPrimeFormDifferent) {
+                maybeSwapForteAndRahnPrimes();
+            }
         }
     }
 
@@ -76,6 +88,15 @@ public class SetListChildViewHolder extends ChildViewHolder<SetListChild>
         if (key.equals(PreferencesUtils.KEY_T_AND_E)) {
             maybeSwapAandBwithTandEOrViceVersa();
         }
+        if (key.equals(PreferencesUtils.KEY_FORTE_ALGORITHM)) {
+            maybeSwapForteAndRahnPrimes();
+        }
+    }
+
+    private void maybeSwapForteAndRahnPrimes() {
+        final ForteNumber forteNumber = new ForteNumber(String.valueOf(mForteNumber.getText()));
+        PitchClassSet pitchClassSet = PitchClassSet.fromForte(forteNumber);
+        mPrimeForm.setText(StringFormatUtils.makePrimeFormStringRepresentationNoSpaces(pitchClassSet));
     }
 
     private void maybeSwapAandBwithTandEOrViceVersa() {

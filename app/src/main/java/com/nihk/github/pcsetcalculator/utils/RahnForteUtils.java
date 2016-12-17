@@ -16,20 +16,20 @@ public final class RahnForteUtils {
     }
 
     public static boolean isForteRahnUnequalPrime(int set) {
-        return RAHN_TO_FORTE_PRIMES.containsKey(set);
+        return RAHN_TO_FORTE_PRIMES_BINARY.containsKey(set);
     }
 
     // These Rahn prime forms are not the same prime forms when using the Forte
     // algorithm. Since it only affets 5 set classes, I used a Map instead of implementing
     // the different algorithm in its entirety.
-    public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES = HashBiMap.create();
+    public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES_BINARY = HashBiMap.create();
 
     static {
-        RAHN_TO_FORTE_PRIMES.put(355, 395);      // 5-20
-        RAHN_TO_FORTE_PRIMES.put(717, 843);      // 6-Z29
-        RAHN_TO_FORTE_PRIMES.put(691, 811);      // 6-31
-        RAHN_TO_FORTE_PRIMES.put(743, 919);      // 7-20
-        RAHN_TO_FORTE_PRIMES.put(1467, 1719);    // 8-26
+        RAHN_TO_FORTE_PRIMES_BINARY.put(355, 395);      // 5-20
+        RAHN_TO_FORTE_PRIMES_BINARY.put(717, 843);      // 6-Z29
+        RAHN_TO_FORTE_PRIMES_BINARY.put(691, 811);      // 6-31
+        RAHN_TO_FORTE_PRIMES_BINARY.put(743, 919);      // 7-20
+        RAHN_TO_FORTE_PRIMES_BINARY.put(1467, 1719);    // 8-26
     }
 
     // Inversions of the Forte primes, zero based.
@@ -40,4 +40,15 @@ public final class RahnForteUtils {
         put(919, 935);      // 7-20
         put(1719, 1719);    // 8-26
     }};
+
+    public static boolean isPrimeFormDifferentForRahnAndForte(final String forteNumber) {
+        switch (forteNumber) {
+            case "5-20":  // fall through each case
+            case "6-Z29":
+            case "6-31":
+            case "7-20":
+            case "8-26": return true;
+            default: return false;
+        }
+    }
 }

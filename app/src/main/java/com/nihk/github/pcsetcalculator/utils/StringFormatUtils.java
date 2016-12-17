@@ -35,7 +35,7 @@ public final class StringFormatUtils {
                 ? EMPTY
                 : surroundStringSetWithBrackets(UNORDERED_SET_FORMATTER,
                     set.getCollection(),
-                    true /* useHexString */);
+                    true /* usesLetters */);
     }
 
     /**
@@ -49,7 +49,12 @@ public final class StringFormatUtils {
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(PRIME_FORM_FORMATTER,
                     set.getPrimeFormCollection(),
-                    true /* useHexString */);
+                    true /* usesLetters */);
+    }
+
+    // TODO refactor this entire class
+    public static String makePrimeFormStringRepresentationNoSpaces(PitchClassSet set) {
+        return makePrimeFormStringRepresentation(set).replaceAll(" ", "");
     }
 
     /**
@@ -63,7 +68,7 @@ public final class StringFormatUtils {
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(NORMAL_FORM_FORMATTER,
                     set.getNormalFormCollection(),
-                    true /* useHexString */);
+                    true /* usesLetters */);
     }
 
     /**
@@ -73,11 +78,16 @@ public final class StringFormatUtils {
      * @return    the set's interval vector in an appropriate string representation
      */
     public static String makeIntervalVectorStringRepresentation(PitchClassSet set) {
-        return set == null || set.isEmpty()
+        return set == null || set.isEmpty() || !set.hasAnyIntervals()
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(INTERVAL_VECTOR_FORMATTER,
                     set.getIntervalVector(),
-                    false /* useHexString */);
+                    false /* usesLetters */);
+    }
+
+    // TODO refactor this entire class
+    public static String makeIntervalVectorStringRepresentationNoSpaces(PitchClassSet set) {
+        return makeIntervalVectorStringRepresentation(set).replaceAll(" ", "");
     }
 
     /**
@@ -89,10 +99,10 @@ public final class StringFormatUtils {
      */
     private static String surroundStringSetWithBrackets(String brackets,
                                                         List<Integer> list,
-                                                        final boolean useHexString) {
+                                                        final boolean usesLetters) {
         return String.format(Locale.getDefault(),
                 brackets,
-                makeSpacesBetweenPitchClasses(list, useHexString));
+                makeSpacesBetweenPitchClasses(list, usesLetters));
     }
 
     /**
@@ -102,15 +112,15 @@ public final class StringFormatUtils {
      * @return     a string representation of list with spaces in between
      */
     private static String makeSpacesBetweenPitchClasses(List<Integer> list,
-                                                        final boolean useHexString) {
+                                                        final boolean usesLetters) {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (list.size() > 0) {
             final int firstInt = list.get(0);
-            stringBuilder.append(useHexString ? toHexString(firstInt) : firstInt);
+            stringBuilder.append(usesLetters ? intToStringBasedOnPrefs(firstInt) : firstInt);
             for (int i = 1; i < list.size(); i++) {
                 final int ithInt = list.get(i);
-                stringBuilder.append(SPACE).append(useHexString ? toHexString(ithInt) : ithInt);
+                stringBuilder.append(SPACE).append(usesLetters ? intToStringBasedOnPrefs(ithInt) : ithInt);
             }
         }
 
@@ -135,5 +145,20 @@ public final class StringFormatUtils {
 
     private static String toHexString(int i) {
         return Integer.toHexString(i).toUpperCase();
+    }
+
+    public static String intToStringBasedOnPrefs(int i) {
+        final boolean isTandE = PreferencesUtils.isChecked(PreferencesUtils.KEY_T_AND_E);
+        final char c;
+        if (i == 10) {
+            c = isTandE ? PreferencesUtils.T : PreferencesUtils.A;
+        } else  if (i == 11) {
+            c = isTandE ? PreferencesUtils.E : PreferencesUtils.B;
+        } else {
+            // int converted to String
+            return String.valueOf(i);
+        }
+        // char converted to String
+        return String.valueOf(c);
     }
 }

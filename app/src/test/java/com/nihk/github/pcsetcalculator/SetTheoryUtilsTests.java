@@ -2,18 +2,13 @@ package com.nihk.github.pcsetcalculator;
 
 import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.ForteNumberUtils;
+import com.nihk.github.pcsetcalculator.utils.RahnForteUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.models.ForteNumber;
-import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 import static com.nihk.github.pcsetcalculator.utils.SetTheoryUtils.*;
 import static org.junit.Assert.*;
@@ -21,6 +16,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Nick on 2016-11-05.
  */
+
 public class SetTheoryUtilsTests {
     private static final int NUM_PITCH_CLASS_SETS = (int) Math.pow(2, NUM_PITCH_CLASSES);
 
@@ -44,10 +40,10 @@ public class SetTheoryUtilsTests {
             PitchClassSet set = PitchClassSet.fromString(setString);
             int key = set.getPrimeFormBinary();
 
-            // Consider the case of using the Forte algorithm
+            // Consider also the extra cases of using the Forte algorithm.
+            // NB this doesn't test shared prefs
             final Integer potentialForteKey;
-            // TODO check preferences first
-            if ((potentialForteKey = RAHN_TO_FORTE_PRIMES.inverse().get(key)) != null /* && isForteAlgorithmEnabled */) {
+            if ((potentialForteKey = RahnForteUtils.RAHN_TO_FORTE_PRIMES_BINARY.inverse().get(key)) != null) {
                 key = potentialForteKey;
             }
 

@@ -75,7 +75,7 @@ public class PitchClassSet implements Parcelable {
     }
 
     public boolean isEmpty() {
-        return mCollection == null || mNormalFormCollection == null
+        return mOriginalSetBinary == 0 || mCollection == null || mNormalFormCollection == null
                 || mPrimeFormCollection == null || mIntervalVector == null
                 || mCollection.size() == 0 || mNormalFormCollection.size() == 0
                 || mPrimeFormCollection.size() == 0;
@@ -97,9 +97,8 @@ public class PitchClassSet implements Parcelable {
         // Temp variable til its decided whether the Forte or Rahn algorithm is currently being used
         final int tempPrimeForm = calculatePrimeForm(pcs.mOriginalSetBinary);
 
-        // TODO preference check
         if (isForteRahnUnequalPrime(tempPrimeForm) && isForteAlgorithmEnabled()) {
-            pcs.mPrimeFormBinary = RAHN_TO_FORTE_PRIMES.get(tempPrimeForm);
+            pcs.mPrimeFormBinary = RAHN_TO_FORTE_PRIMES_BINARY.get(tempPrimeForm);
             pcs.mNormalFormMetadata = calculateNormalFormFromFortePrime(pcs.mOriginalSetBinary, pcs.mPrimeFormBinary);
             // Get the Forte number associated with the Rahn prime. Since the BIMAP must have unique keys and values
             // I can't put in the Forte prime with the same ForteNumber value as a Rahn prime.
@@ -124,10 +123,8 @@ public class PitchClassSet implements Parcelable {
 
     public static PitchClassSet fromForte(ForteNumber fn) {
         int set = ForteNumberUtils.BIMAP.inverse().get(fn);
-        // The ForteNumber BiMap only holds the Rahn prime forms
-        // TODO preferences check
         if (isForteRahnUnequalPrime(set) && isForteAlgorithmEnabled()) {
-            set = RAHN_TO_FORTE_PRIMES.get(set);
+            set = RAHN_TO_FORTE_PRIMES_BINARY.get(set);
         }
         return fromBinary(set);
     }
@@ -194,5 +191,20 @@ public class PitchClassSet implements Parcelable {
 
     private static boolean isForteAlgorithmEnabled() {
         return PreferencesUtils.isChecked(PreferencesUtils.KEY_FORTE_ALGORITHM);
+    }
+
+    // At least two PCs are necessary for a set to have an interval (other than 0)
+    public boolean hasAnyIntervals() {
+        if (mIntervalVector == null) {
+            return false;
+        }
+
+        for (int i : mIntervalVector) {
+            if (i > 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

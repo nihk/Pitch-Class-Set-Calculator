@@ -23,4 +23,6 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.nihk.github.pcsetcalculator", appContext.getPackageName());
     }
+
+    // TODO shared prefs tests, colors, list clicks, etc.
 }

@@ -1,5 +1,6 @@
 package com.nihk.github.pcsetcalculator.controllers;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import com.nihk.github.pcsetcalculator.R;
 import com.nihk.github.pcsetcalculator.models.ForteNumber;
 import com.nihk.github.pcsetcalculator.models.PitchClassSet;
+import com.nihk.github.pcsetcalculator.utils.PreferencesUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
 
@@ -18,7 +20,7 @@ import java.util.Stack;
  * The uppermost screen on the calculator which displays the user's input.
  */
 public class InputScreenController implements NumberController.Listener,
-        ClearController.Listener, UndoController.Listener {
+        ClearController.Listener, UndoController.Listener, SharedPreferences.OnSharedPreferenceChangeListener {
     private final TextView mInputView;
     private List<Listener> mListeners;
     private PitchClassSet mPitchClassSet;
@@ -44,6 +46,7 @@ public class InputScreenController implements NumberController.Listener,
         mListeners = new ArrayList<>();
         mInputStack = new Stack<>();
         mPitchClassSet = PitchClassSet.emptySet();
+        PreferencesUtils.registerListener(this);
     }
 
     @Override
@@ -157,5 +160,12 @@ public class InputScreenController implements NumberController.Listener,
         setPitchClassSetAndUpdateScreen(PitchClassSet.fromForte(fn));
     }
 
-    // TODO need to change all pc sets in stack to be Forte/Rahn on preference change
+    @Override
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+        if (key.equals(PreferencesUtils.KEY_T_AND_E) || key.equals(PreferencesUtils.KEY_FORTE_ALGORITHM)) {
+            // Recreate the instance; PitchClassSet will handle the preference changes
+            mPitchClassSet = PitchClassSet.fromBinary(mPitchClassSet.getOriginalSetBinary());
+            updateInputScreenText();
+        }
+    }
 }

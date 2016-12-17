@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.StringDef;
+import android.util.Log;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -31,7 +32,7 @@ public final class PreferencesUtils {
     }
 
     public static boolean isChecked(@PcSetPreferences String key) {
-        return sPreferences.getBoolean(key, false /* defValue */);
+        return sPreferences != null && sPreferences.getBoolean(key, false /* defValue */);
     }
 
     public static void registerListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
