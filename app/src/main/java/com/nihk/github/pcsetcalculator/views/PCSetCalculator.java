@@ -50,7 +50,8 @@ public class PCSetCalculator extends AppCompatActivity {
                 final FragmentManager fragmentManager = getSupportFragmentManager();
                 final PrefsFragment prefsFragment;
 
-                // Don't make a new prefs fragment if one is already open and visible
+                // Don't make a new prefs fragment if one is already open and visible. This won't be a scalable
+                // solution if more fragments are introduced into the options menu.
                 if ((prefsFragment = (PrefsFragment) fragmentManager.findFragmentByTag(PREFERENCES_FRAGMENT)) == null
                         || !prefsFragment.isVisible()) {
                     getSupportFragmentManager()

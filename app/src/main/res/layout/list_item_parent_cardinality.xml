@@ -5,10 +5,10 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:padding="15dp"
-              android:layout_marginTop="10dp"
-              android:layout_marginStart="10dp"
-              android:layout_marginEnd="10dp"
+              android:padding="@dimen/list_item_parent_layout_padding"
+              android:layout_marginTop="@dimen/list_item_parent_layout_margins"
+              android:layout_marginStart="@dimen/list_item_parent_layout_margins"
+              android:layout_marginEnd="@dimen/list_item_parent_layout_margins"
               android:background="@drawable/list_item_parent_background"
     >
 
@@ -16,7 +16,7 @@
         tools:text="Tetrachords"
         android:id="@+id/parent_cardinality"
         android:layout_width="0dp"
-        android:textSize="20sp"
+        android:textSize="@dimen/list_item_parent_cardinality_textsize"
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:layout_gravity="center_vertical"

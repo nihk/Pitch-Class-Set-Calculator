@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--xml just for testing how the set list fragment renders
+    on different screen widths-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/list_item_child_key_layout"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingStart="@dimen/list_item_child_layout_padding_left"
+                  android:paddingLeft="@dimen/list_item_child_layout_padding_left"
+                  android:paddingEnd="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingRight="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingTop="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingBottom="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:background="@drawable/list_item_child_key_background"
+        >
+
+        <TextView
+            android:id="@+id/child_prime_form_key"
+            android:text="@string/prime_form_key"
+            android:textStyle="italic"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@color/background"
+            />
+        <TextView
+            android:id="@+id/child_forte_number_key"
+            android:text="@string/forte_number_key"
+            android:textStyle="italic"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            />
+        <TextView
+            android:id="@+id/child_inteval_vector_key"
+            android:text="@string/interval_vector_key"
+            android:textStyle="italic"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/child_transpositional_symmetry_key"
+            android:text="@string/tn_sym_key"
+            android:textStyle="italic"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            />
+        <TextView
+            android:id="@+id/child_inversional_symmetry_key"
+            android:text="@string/in_sym_key"
+            android:textStyle="italic"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/setListParentLayout"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:padding="@dimen/list_item_parent_layout_padding"
+                  android:layout_marginTop="@dimen/list_item_parent_layout_margins"
+                  android:layout_marginStart="@dimen/list_item_parent_layout_margins"
+                  android:layout_marginEnd="@dimen/list_item_parent_layout_margins"
+                  android:background="@drawable/list_item_parent_background"
+        >
+
+        <TextView
+            tools:text="Tetrachords"
+            android:id="@+id/parent_cardinality"
+            android:layout_width="0dp"
+            android:textSize="@dimen/list_item_parent_cardinality_textsize"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/formsTextColor"
+            />
+        <ImageView
+            tools:ignore="contentDescription"
+            android:id="@+id/parent_arrow_dropdown"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/arrow_down_float"
+            android:layout_gravity="center_vertical|end"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/child_layout"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:paddingTop="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingEnd="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingRight="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingBottom="@dimen/list_item_child_layout_padding_everything_but_left"
+                  android:paddingStart="@dimen/list_item_child_layout_padding_left"
+                  android:paddingLeft="@dimen/list_item_child_layout_padding_left"
+                  android:background="@drawable/list_item_child_setclass_background"
+        >
+
+        <TextView
+            tools:text="(012345678)"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:id="@+id/child_prime_form"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textColor="@drawable/list_item_child_setclass_text_color"
+            />
+        <TextView
+            tools:text="9-1"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:id="@+id/child_forte_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="@drawable/list_item_child_setclass_text_color"
+            />
+        <TextView
+            tools:text="876663"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:id="@+id/child_inteval_vector"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="@drawable/list_item_child_setclass_text_color"
+            />
+        <TextView
+            tools:text="1"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:id="@+id/child_transpositional_symmetry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@drawable/list_item_child_setclass_text_color"
+            />
+        <TextView
+            tools:text="0"
+            android:textSize="@dimen/list_item_child_textsize"
+            android:id="@+id/child_inversional_symmetry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@drawable/list_item_child_setclass_text_color"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

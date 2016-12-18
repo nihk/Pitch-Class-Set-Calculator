@@ -5,17 +5,18 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:paddingTop="10dp"
-              android:paddingEnd="10dp"
-              android:paddingRight="10dp"
-              android:paddingBottom="10dp"
-              android:paddingStart="30dp"
-              android:paddingLeft="30dp"
+              android:paddingTop="@dimen/list_item_child_layout_padding_everything_but_left"
+              android:paddingEnd="@dimen/list_item_child_layout_padding_everything_but_left"
+              android:paddingRight="@dimen/list_item_child_layout_padding_everything_but_left"
+              android:paddingBottom="@dimen/list_item_child_layout_padding_everything_but_left"
+              android:paddingStart="@dimen/list_item_child_layout_padding_left"
+              android:paddingLeft="@dimen/list_item_child_layout_padding_left"
               android:background="@drawable/list_item_child_setclass_background"
     >
 
     <TextView
         tools:text="(012345678)"
+        android:textSize="@dimen/list_item_child_textsize"
         android:id="@+id/child_prime_form"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,6 +25,7 @@
         />
     <TextView
         tools:text="9-1"
+        android:textSize="@dimen/list_item_child_textsize"
         android:id="@+id/child_forte_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,6 +34,7 @@
         />
     <TextView
         tools:text="876663"
+        android:textSize="@dimen/list_item_child_textsize"
         android:id="@+id/child_inteval_vector"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -41,6 +44,7 @@
         />
     <TextView
         tools:text="1"
+        android:textSize="@dimen/list_item_child_textsize"
         android:id="@+id/child_transpositional_symmetry"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -50,6 +54,7 @@
         />
     <TextView
         tools:text="0"
+        android:textSize="@dimen/list_item_child_textsize"
         android:id="@+id/child_inversional_symmetry"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

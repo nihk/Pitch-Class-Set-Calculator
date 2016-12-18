@@ -3,8 +3,15 @@
     <dimen name="input_screen_text_size">45sp</dimen>
     <dimen name="labels_text_size">18sp</dimen>
     <dimen name="labels_value_text_size">18sp</dimen>
-    <dimen name="number_button_text_size">40sp</dimen>
+    <dimen name="number_button_text_size">30sp</dimen>
 
     <dimen name="labels_padding">15dp</dimen>
     <dimen name="input_screen_padding">15dp</dimen>
+
+    <dimen name="list_item_child_layout_padding_left">45dp</dimen>
+    <dimen name="list_item_child_layout_padding_everything_but_left">15dp</dimen>
+    <dimen name="list_item_child_textsize">23sp</dimen>
+    <dimen name="list_item_parent_layout_padding">25dp</dimen>
+    <dimen name="list_item_parent_layout_margins">17dp</dimen>
+    <dimen name="list_item_parent_cardinality_textsize">33sp</dimen>
 </resources>

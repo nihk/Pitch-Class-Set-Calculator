@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--xml just for testing how the calculator fragment renders
+    on different screen widths-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
@@ -10,7 +14,6 @@
         android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  xmlns:tools="http://schemas.android.com/tools"
@@ -137,40 +140,6 @@
             android:layout_weight="1"
             >
             <Button
-                android:id="@+id/button9"
-                android:text="@string/_9"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/number_button_text_size"
-                />
-            <Button
-                android:id="@+id/buttonA"
-                android:text="@string/_A"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/number_button_text_size"
-                />
-            <Button
-                android:id="@+id/buttonB"
-                android:text="@string/_B"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/number_button_text_size"
-                />
-            <Button
-                android:id="@+id/buttonUndo"
-                android:text="@string/undo"
-                android:textAllCaps="false"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/number_button_text_size"
-                />
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
-            >
-            <Button
                 android:id="@+id/button6"
                 android:text="@string/_6"
                 android:layout_weight="1"
@@ -192,35 +161,22 @@
                 android:textSize="@dimen/number_button_text_size"
                 />
             <Button
-                android:id="@+id/buttonClear"
-                android:text="@string/clear"
-                android:textAllCaps="false"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="@dimen/number_button_text_size"
-                />
-        </TableRow>
-
-        <TableRow
-            android:layout_weight="1"
-            >
-            <Button
-                android:id="@+id/button3"
-                android:text="@string/_3"
+                android:id="@+id/button9"
+                android:text="@string/_9"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/number_button_text_size"
                 />
             <Button
-                android:id="@+id/button4"
-                android:text="@string/_4"
+                android:id="@+id/buttonA"
+                android:text="@string/_A"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/number_button_text_size"
                 />
             <Button
-                android:id="@+id/button5"
-                android:text="@string/_5"
+                android:id="@+id/buttonB"
+                android:text="@string/_B"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:textSize="@dimen/number_button_text_size"
@@ -228,6 +184,14 @@
             <Button
                 android:id="@+id/buttonTn"
                 android:text="@string/transposition"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/number_button_text_size"
+                />
+            <Button
+                android:id="@+id/buttonUndo"
+                android:text="@string/undo"
                 android:textAllCaps="false"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -260,8 +224,37 @@
                 android:textSize="@dimen/number_button_text_size"
                 />
             <Button
+                android:id="@+id/button3"
+                android:text="@string/_3"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/number_button_text_size"
+                />
+            <Button
+                android:id="@+id/button4"
+                android:text="@string/_4"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/number_button_text_size"
+                />
+            <Button
+                android:id="@+id/button5"
+                android:text="@string/_5"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/number_button_text_size"
+                />
+            <Button
                 android:id="@+id/buttonIn"
                 android:text="@string/inversion"
+                android:textAllCaps="false"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/number_button_text_size"
+                />
+            <Button
+                android:id="@+id/buttonClear"
+                android:text="@string/clear"
                 android:textAllCaps="false"
                 android:layout_weight="1"
                 android:layout_height="match_parent"

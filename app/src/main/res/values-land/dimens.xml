@@ -7,4 +7,11 @@
 
     <dimen name="labels_padding">3dp</dimen>
     <dimen name="input_screen_padding">3dp</dimen>
+
+    <dimen name="list_item_child_layout_padding_left">30dp</dimen>
+    <dimen name="list_item_child_layout_padding_everything_but_left">9dp</dimen>
+    <dimen name="list_item_child_textsize">14sp</dimen>
+    <dimen name="list_item_parent_layout_padding">11dp</dimen>
+    <dimen name="list_item_parent_layout_margins">9dp</dimen>
+    <dimen name="list_item_parent_cardinality_textsize">20sp</dimen>
 </resources>
