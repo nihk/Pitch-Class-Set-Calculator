@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PC Set Calc</string>
+    <string name="app_name">PcSetCalc</string>
     <string name="_0">0</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
@@ -29,7 +29,10 @@
     <string name="rate_the_app">Play Store page</string>
     <string name="settings">Settings</string>
     <string name="t_e_preference_title">T and E instead of A and B</string>
-    <string name="t_e_preference_summary">Turning this on changes all instances of pitch-class 10 and 11 to be labelled T and E, respectively, instead of the default A and B</string>
+    <string name="t_e_preference_summary">Turning this on changes all instances of pitch-class 10
+        and 11 to be labelled T and E, respectively, instead of the default A and B</string>
     <string name="forte_algorithm_preference_title">Forte\'s algorithm instead of Rahn\'s</string>
-    <string name="forte_algorithm_preference_summary">Enable Forte\'s algorithm to be used when calculating PC set data. This only affects set classes 5&#45;20, 6&#45;Z29, 6&#45;31, 7&#45;20, and 8&#45;26</string>
+    <string name="forte_algorithm_preference_summary">Enable Forte\'s algorithm to be used when
+        calculating PC set data. This only affects set classes 5&#45;20, 6&#45;Z29, 6&#45;31,
+        7&#45;20, and 8&#45;26</string>
 </resources>

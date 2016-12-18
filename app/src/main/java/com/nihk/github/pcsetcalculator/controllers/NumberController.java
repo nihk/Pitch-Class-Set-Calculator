@@ -9,7 +9,7 @@ import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 
 import static com.nihk.github.pcsetcalculator.controllers.OperatorController.*;
 import static com.nihk.github.pcsetcalculator.utils.ButtonColourUtils.*;
-import static com.nihk.github.pcsetcalculator.utils.PreferencesUtils.hasPcsAorBorTorE;
+import static com.nihk.github.pcsetcalculator.utils.PreferencesUtils.hasPcsAorBorTorECharacter;
 import static com.nihk.github.pcsetcalculator.utils.PreferencesUtils.registerListener;
 
 /**
@@ -67,7 +67,7 @@ public class NumberController implements SharedPreferences.OnSharedPreferenceCha
         mBinaryPcValue = SetTheoryUtils.PC_BITS.get(buttonText);
         mValue = getValue(buttonText);
 
-        if (hasPcsAorBorTorE(buttonText)) {
+        if (hasPcsAorBorTorECharacter(buttonText)) {
             registerListener(this);
             maybeSwapAndBwithTandEOrViceVersa();
         }

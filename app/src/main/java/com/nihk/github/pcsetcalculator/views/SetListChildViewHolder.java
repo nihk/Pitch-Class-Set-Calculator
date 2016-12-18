@@ -56,7 +56,7 @@ public class SetListChildViewHolder extends ChildViewHolder<SetListChild>
         mTranspostionalSymmetry.setText(setListChild.getTranspositionalSymmetry());
         mInversionalSymmetry.setText(setListChild.getInversionalSymmetry());
 
-        final boolean hasPcsAorBorTorE = hasPcsAorBorTorE(primeForm);
+        final boolean hasPcsAorBorTorE = hasPcsAorBorTorECharacter(primeForm);
         final boolean isPrimeFormDifferentDependingOnAlgorithm = isPrimeFormDifferentDependingOnAlgorithm(forteNumber);
         if (hasPcsAorBorTorE || isPrimeFormDifferentDependingOnAlgorithm) {
             PreferencesUtils.registerListener(this);

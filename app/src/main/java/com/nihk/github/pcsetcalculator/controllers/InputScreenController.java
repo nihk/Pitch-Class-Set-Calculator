@@ -27,7 +27,7 @@ public class InputScreenController implements NumberController.Listener,
     private PitchClassSet mPitchClassSet;
     private Stack<PitchClassSet> mInputStack;
 
-    private static final int MAX_STACK_SIZE = 100;  // somewhat arbitrary
+    private static final int MAX_STACK_SIZE = 100;  // Somewhat arbitrary
     private static final String KEY_ACTIVE_PC_SET = "activePitchClassSet";
     private static final String KEY_STACK_OF_PC_SETS = "stackOfPcSets";
     public static final String KEY_BUNDLE = "inputScreenControllerBundle";
@@ -165,9 +165,11 @@ public class InputScreenController implements NumberController.Listener,
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         final boolean isAlgorithmChange = key.equals(PreferencesUtils.KEY_FORTE_ALGORITHM);
         if (key.equals(PreferencesUtils.KEY_T_AND_E) || isAlgorithmChange) {
-            // Recreate the instance; PitchClassSet will handle the preference changes internally
-            mPitchClassSet = PitchClassSet.fromBinary(mPitchClassSet.getOriginalSetBinary());
-            updateInputScreenText();
+            // Recreate the instance; PitchClassSet will handle the preference changes internally.
+            // The input screen might actually not need changing, but preferences changes of these types
+            // should be rare and iterating over each PitchClassSet member checking for instances
+            // of 10 and 11 is overkill for one object
+            setPitchClassSetAndUpdateScreen(PitchClassSet.fromBinary(mPitchClassSet.getOriginalSetBinary()));
 
             // Only need to update the stack if its an algorithm change. T/E and A/B changes
             // aren't bound the the PitchClassSet objects; they are set to the input/output
@@ -177,6 +179,7 @@ public class InputScreenController implements NumberController.Listener,
                 for (int i = 0; i < mInputStack.size(); i++) {
                     final PitchClassSet pitchClassSet = mInputStack.get(i);
                     if (RahnForteUtils.isPrimeFormDifferentDependingOnAlgorithm(pitchClassSet)) {
+                        // Recreate the instance following algorithm change
                         mInputStack.set(i, PitchClassSet.fromBinary(pitchClassSet.getOriginalSetBinary()));
                     }
                 }

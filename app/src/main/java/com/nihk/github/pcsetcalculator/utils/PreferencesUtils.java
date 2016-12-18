@@ -27,6 +27,10 @@ public final class PreferencesUtils {
     public static final char A = 'A';
     public static final char B = 'B';
 
+    private PreferencesUtils() {
+        // Prevent instantiation
+    }
+
     public static void initPreferences(Context context) {
         sPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -43,7 +47,7 @@ public final class PreferencesUtils {
         sPreferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    public static boolean hasPcsAorBorTorE(final String text) {
+    public static boolean hasPcsAorBorTorECharacter(final String text) {
         for (char pc : text.toCharArray()) {
             if (pc == A || pc == B || pc == T || pc == E) {
                 return true;
