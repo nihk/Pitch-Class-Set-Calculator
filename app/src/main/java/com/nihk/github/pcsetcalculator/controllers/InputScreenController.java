@@ -163,16 +163,22 @@ public class InputScreenController implements NumberController.Listener,
 
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
-        if (key.equals(PreferencesUtils.KEY_T_AND_E) || key.equals(PreferencesUtils.KEY_FORTE_ALGORITHM)) {
+        final boolean isAlgorithmChange = key.equals(PreferencesUtils.KEY_FORTE_ALGORITHM);
+        if (key.equals(PreferencesUtils.KEY_T_AND_E) || isAlgorithmChange) {
             // Recreate the instance; PitchClassSet will handle the preference changes internally
             mPitchClassSet = PitchClassSet.fromBinary(mPitchClassSet.getOriginalSetBinary());
             updateInputScreenText();
 
-            // Handle Rahn/Forte primes in the stack
-            for (int i = 0; i < mInputStack.size(); i++) {
-                final PitchClassSet pitchClassSet = mInputStack.get(i);
-                if (RahnForteUtils.isPrimeFormDifferentDependingOnAlgorithm(pitchClassSet)) {
-                    mInputStack.set(i, PitchClassSet.fromBinary(pitchClassSet.getOriginalSetBinary()));
+            // Only need to update the stack if its an algorithm change. T/E and A/B changes
+            // aren't bound the the PitchClassSet objects; they are set to the input/output
+            // screens through StringFormatUtils static methods
+            if (isAlgorithmChange) {
+                // Handle Rahn/Forte primes in the stack
+                for (int i = 0; i < mInputStack.size(); i++) {
+                    final PitchClassSet pitchClassSet = mInputStack.get(i);
+                    if (RahnForteUtils.isPrimeFormDifferentDependingOnAlgorithm(pitchClassSet)) {
+                        mInputStack.set(i, PitchClassSet.fromBinary(pitchClassSet.getOriginalSetBinary()));
+                    }
                 }
             }
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PC Set Calculator</string>
+    <string name="app_name">PC Set Calc</string>
     <string name="_0">0</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
@@ -13,14 +13,11 @@
     <string name="_A">A</string>
     <string name="_B">B</string>
     <string name="clear">Clear</string>
-    <string name="go">Go!</string>
-    <string name="set">Set</string>
     <string name="normal_form">Normal\nForm</string>
     <string name="prime_form">Prime\nForm</string>
     <string name="interval_vector">Interval\nVector</string>
     <string name="forte_number">Forte\nNumber</string>
     <string name="transposition">Tn</string>
-    <string name="original_set">Original Set</string>
     <string name="inversion">In</string>
     <string name="undo">Undo</string>
     <string name="no_value">---</string>
