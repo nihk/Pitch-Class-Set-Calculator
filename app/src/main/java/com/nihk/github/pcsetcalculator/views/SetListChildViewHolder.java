@@ -15,7 +15,7 @@ import com.nihk.github.pcsetcalculator.utils.PreferencesUtils;
 import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
 
 import static com.nihk.github.pcsetcalculator.utils.PreferencesUtils.*;
-import static com.nihk.github.pcsetcalculator.utils.RahnForteUtils.isPrimeFormDifferentForRahnAndForte;
+import static com.nihk.github.pcsetcalculator.utils.RahnForteUtils.isPrimeFormDifferentDependingOnAlgorithm;
 
 /**
  * Created by Nick on 2016-12-11.
@@ -57,7 +57,7 @@ public class SetListChildViewHolder extends ChildViewHolder<SetListChild>
         mInversionalSymmetry.setText(setListChild.getInversionalSymmetry());
 
         final boolean hasPcsAorBorTorE = hasPcsAorBorTorE(primeForm);
-        final boolean isPrimeFormDifferentDependingOnAlgorithm = isPrimeFormDifferentForRahnAndForte(forteNumber);
+        final boolean isPrimeFormDifferentDependingOnAlgorithm = isPrimeFormDifferentDependingOnAlgorithm(forteNumber);
         if (hasPcsAorBorTorE || isPrimeFormDifferentDependingOnAlgorithm) {
             PreferencesUtils.registerListener(this);
             if (hasPcsAorBorTorE) {

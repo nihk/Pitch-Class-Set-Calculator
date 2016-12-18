@@ -9,6 +9,7 @@ import com.nihk.github.pcsetcalculator.R;
 import com.nihk.github.pcsetcalculator.models.ForteNumber;
 import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 import com.nihk.github.pcsetcalculator.utils.PreferencesUtils;
+import com.nihk.github.pcsetcalculator.utils.RahnForteUtils;
 import com.nihk.github.pcsetcalculator.utils.SetTheoryUtils;
 import com.nihk.github.pcsetcalculator.utils.StringFormatUtils;
 
@@ -166,6 +167,14 @@ public class InputScreenController implements NumberController.Listener,
             // Recreate the instance; PitchClassSet will handle the preference changes internally
             mPitchClassSet = PitchClassSet.fromBinary(mPitchClassSet.getOriginalSetBinary());
             updateInputScreenText();
+
+            // Handle Rahn/Forte primes in the stack
+            for (int i = 0; i < mInputStack.size(); i++) {
+                final PitchClassSet pitchClassSet = mInputStack.get(i);
+                if (RahnForteUtils.isPrimeFormDifferentDependingOnAlgorithm(pitchClassSet)) {
+                    mInputStack.set(i, PitchClassSet.fromBinary(pitchClassSet.getOriginalSetBinary()));
+                }
+            }
         }
     }
 }

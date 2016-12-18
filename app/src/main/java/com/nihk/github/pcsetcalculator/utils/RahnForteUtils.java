@@ -2,6 +2,8 @@ package com.nihk.github.pcsetcalculator.utils;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.nihk.github.pcsetcalculator.models.ForteNumber;
+import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +43,7 @@ public final class RahnForteUtils {
         put(1719, 1719);    // 8-26
     }};
 
-    public static boolean isPrimeFormDifferentForRahnAndForte(final String forteNumber) {
+    public static boolean isPrimeFormDifferentDependingOnAlgorithm(final String forteNumber) {
         switch (forteNumber) {
             case "5-20":  // fall through each case
             case "6-Z29":
@@ -50,5 +52,18 @@ public final class RahnForteUtils {
             case "8-26": return true;
             default: return false;
         }
+    }
+
+    public static boolean isPrimeFormDifferentDependingOnAlgorithm(final PitchClassSet pitchClassSet) {
+        if (pitchClassSet == null) {
+            return false;
+        }
+        final ForteNumber forteNumber = pitchClassSet.getForteNumber();
+
+        if (forteNumber == null) {
+            return false;
+        }
+
+        return isPrimeFormDifferentDependingOnAlgorithm(forteNumber.toString());
     }
 }
