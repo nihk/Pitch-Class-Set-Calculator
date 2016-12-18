@@ -26,7 +26,7 @@ public class InputScreenController implements NumberController.Listener,
     private PitchClassSet mPitchClassSet;
     private Stack<PitchClassSet> mInputStack;
 
-    private static final int MAX_STACK_SIZE = 100;
+    private static final int MAX_STACK_SIZE = 100;  // somewhat arbitrary
     private static final String KEY_ACTIVE_PC_SET = "activePitchClassSet";
     private static final String KEY_STACK_OF_PC_SETS = "stackOfPcSets";
     public static final String KEY_BUNDLE = "inputScreenControllerBundle";
@@ -163,7 +163,7 @@ public class InputScreenController implements NumberController.Listener,
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if (key.equals(PreferencesUtils.KEY_T_AND_E) || key.equals(PreferencesUtils.KEY_FORTE_ALGORITHM)) {
-            // Recreate the instance; PitchClassSet will handle the preference changes
+            // Recreate the instance; PitchClassSet will handle the preference changes internally
             mPitchClassSet = PitchClassSet.fromBinary(mPitchClassSet.getOriginalSetBinary());
             updateInputScreenText();
         }

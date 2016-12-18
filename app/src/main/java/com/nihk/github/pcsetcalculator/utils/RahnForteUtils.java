@@ -20,7 +20,7 @@ public final class RahnForteUtils {
     }
 
     // These Rahn prime forms are not the same prime forms when using the Forte
-    // algorithm. Since it only affets 5 set classes, I used a Map instead of implementing
+    // algorithm. Since it only affects 5 set classes, I used a Map instead of implementing
     // the different algorithm in its entirety.
     public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES_BINARY = HashBiMap.create();
 
@@ -32,7 +32,7 @@ public final class RahnForteUtils {
         RAHN_TO_FORTE_PRIMES_BINARY.put(1467, 1719);    // 8-26
     }
 
-    // Inversions of the Forte primes, zero based.
+    // Inversions of the Forte primes, zero based. This is used for getting normal form using the Forte algorithm
     public static final Map<Integer, Integer> FORTE_PRIME_INVERSIONS = new HashMap<Integer, Integer>() {{
         put(395, 419);      // 5-20
         put(843, 843);      // 6-Z29

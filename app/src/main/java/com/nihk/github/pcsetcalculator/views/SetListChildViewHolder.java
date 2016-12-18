@@ -57,13 +57,13 @@ public class SetListChildViewHolder extends ChildViewHolder<SetListChild>
         mInversionalSymmetry.setText(setListChild.getInversionalSymmetry());
 
         final boolean hasPcsAorBorTorE = hasPcsAorBorTorE(primeForm);
-        final boolean isPrimeFormDifferent = isPrimeFormDifferentForRahnAndForte(forteNumber);
-        if (hasPcsAorBorTorE || isPrimeFormDifferent) {
+        final boolean isPrimeFormDifferentDependingOnAlgorithm = isPrimeFormDifferentForRahnAndForte(forteNumber);
+        if (hasPcsAorBorTorE || isPrimeFormDifferentDependingOnAlgorithm) {
             PreferencesUtils.registerListener(this);
             if (hasPcsAorBorTorE) {
                 maybeSwapAandBwithTandEOrViceVersa();
             }
-            if (isPrimeFormDifferent) {
+            if (isPrimeFormDifferentDependingOnAlgorithm) {
                 maybeSwapForteAndRahnPrimes();
             }
         }
@@ -93,12 +93,16 @@ public class SetListChildViewHolder extends ChildViewHolder<SetListChild>
         }
     }
 
+    // Handle any changes to preferences for the algorithm used (i.e. Rahn's or Forte's; default
+    // is Rahn's)
     private void maybeSwapForteAndRahnPrimes() {
         final ForteNumber forteNumber = new ForteNumber(String.valueOf(mForteNumber.getText()));
         PitchClassSet pitchClassSet = PitchClassSet.fromForte(forteNumber);
-        mPrimeForm.setText(StringFormatUtils.makePrimeFormStringRepresentationNoSpaces(pitchClassSet));
+        mPrimeForm.setText(StringFormatUtils.makePrimeFormStringRepresentation(pitchClassSet, false /* withSpaces */));
     }
 
+    // The prime form of this viewholder has PCs 10 and 11 in it, therefore these can and will
+    // change on preference changes. By default A and B are used.
     private void maybeSwapAandBwithTandEOrViceVersa() {
         String primeForm = String.valueOf(mPrimeForm.getText());
         mPrimeForm.setText(PreferencesUtils.swapAandBwithTandEOrViceVersa(primeForm));

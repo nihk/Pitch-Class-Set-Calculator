@@ -66,8 +66,8 @@ public final class SetListUtils {
     static {
         for (ForteNumber forteNumber : ForteNumberUtils.BIMAP.values()) {
             final PitchClassSet pitchClassSet = PitchClassSet.fromForte(forteNumber);
-            final String primeForm = StringFormatUtils.makePrimeFormStringRepresentationNoSpaces(pitchClassSet);
-            final String intervalVector = StringFormatUtils.makeIntervalVectorStringRepresentationNoSpaces(pitchClassSet);
+            final String primeForm = StringFormatUtils.makePrimeFormStringRepresentation(pitchClassSet, false /* withSpaces */);
+            final String intervalVector = StringFormatUtils.makeIntervalVectorStringRepresentation(pitchClassSet, false /* withSpaces */);
 
             final SetListChild setListChild = new SetListChild(primeForm, forteNumber.toString(),
                     intervalVector, String.valueOf(pitchClassSet.getTranspositionalSymmetry()),

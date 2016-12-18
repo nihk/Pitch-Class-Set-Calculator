@@ -35,30 +35,33 @@ public final class StringFormatUtils {
                 ? EMPTY
                 : surroundStringSetWithBrackets(UNORDERED_SET_FORMATTER,
                     set.getCollection(),
+                    true /* withSpaces */,
                     true /* usesLetters */);
     }
 
     /**
-     * Turns a pc set into a prime form string representation
+     * Turns a pc set into a prime form string representation, by default with spaces in
+     * between the elements.
      *
      * @param set the pc set to be transformed into a string
      * @return    the set's prime form in an appropriate string representation
      */
     public static String makePrimeFormStringRepresentation(PitchClassSet set) {
+        return makePrimeFormStringRepresentation(set, true /* withSpaces */);
+    }
+
+    public static String makePrimeFormStringRepresentation(PitchClassSet set, boolean withSpaces) {
         return set == null || set.isEmpty()
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(PRIME_FORM_FORMATTER,
-                    set.getPrimeFormCollection(),
-                    true /* usesLetters */);
-    }
-
-    // TODO refactor this entire class
-    public static String makePrimeFormStringRepresentationNoSpaces(PitchClassSet set) {
-        return makePrimeFormStringRepresentation(set).replaceAll(" ", "");
+                set.getPrimeFormCollection(),
+                withSpaces,
+                true /* usesLetters */);
     }
 
     /**
-     * Turns a pc set into a normal form string representation
+     * Turns a pc set into a normal form string representation, by default with spaces in
+     * between the elements.
      *
      * @param set the pc set to be transformed into a string
      * @return    the set's normal form in an appropriate string representation
@@ -68,26 +71,28 @@ public final class StringFormatUtils {
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(NORMAL_FORM_FORMATTER,
                     set.getNormalFormCollection(),
+                    true /* withSpaces */,
                     true /* usesLetters */);
     }
 
     /**
-     * Turns a pc set into an interval vector string representation
+     * Turns a pc set into an interval vector string representation, by default with spaces in
+     * between the elements.
      *
      * @param set the pc set to be transformed into a string
      * @return    the set's interval vector in an appropriate string representation
      */
     public static String makeIntervalVectorStringRepresentation(PitchClassSet set) {
+        return makeIntervalVectorStringRepresentation(set, true /* withSpaces */);
+    }
+
+    public static String makeIntervalVectorStringRepresentation(PitchClassSet set, boolean withSpaces) {
         return set == null || set.isEmpty() || !set.hasAnyIntervals()
                 ? PLACEHOLDER
                 : surroundStringSetWithBrackets(INTERVAL_VECTOR_FORMATTER,
-                    set.getIntervalVector(),
-                    false /* usesLetters */);
-    }
-
-    // TODO refactor this entire class
-    public static String makeIntervalVectorStringRepresentationNoSpaces(PitchClassSet set) {
-        return makeIntervalVectorStringRepresentation(set).replaceAll(" ", "");
+                set.getIntervalVector(),
+                withSpaces,
+                false /* usesLetters */);
     }
 
     /**
@@ -99,20 +104,22 @@ public final class StringFormatUtils {
      */
     private static String surroundStringSetWithBrackets(String brackets,
                                                         List<Integer> list,
+                                                        final boolean withSpaces,
                                                         final boolean usesLetters) {
         return String.format(Locale.getDefault(),
                 brackets,
-                makeSpacesBetweenPitchClasses(list, usesLetters));
+                turnListIntoString(list, withSpaces, usesLetters));
     }
 
     /**
-     * A helper method to make a string of a list with spaces in between each element
+     * A helper method to make a string of a list with (optionally) spaces in between each element
      *
      * @param list the list to be transformed into a string
-     * @return     a string representation of list with spaces in between
+     * @return     a string representation of list with (optionally) spaces in between
      */
-    private static String makeSpacesBetweenPitchClasses(List<Integer> list,
-                                                        final boolean usesLetters) {
+    private static String turnListIntoString(List<Integer> list,
+                                             final boolean withSpaces,
+                                             final boolean usesLetters) {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (list.size() > 0) {
@@ -120,7 +127,10 @@ public final class StringFormatUtils {
             stringBuilder.append(usesLetters ? intToStringBasedOnPrefs(firstInt) : firstInt);
             for (int i = 1; i < list.size(); i++) {
                 final int ithInt = list.get(i);
-                stringBuilder.append(SPACE).append(usesLetters ? intToStringBasedOnPrefs(ithInt) : ithInt);
+                if (withSpaces) {
+                    stringBuilder.append(SPACE);
+                }
+                stringBuilder.append(usesLetters ? intToStringBasedOnPrefs(ithInt) : ithInt);
             }
         }
 
@@ -141,10 +151,6 @@ public final class StringFormatUtils {
             }
             return stringBuilder.toString();
         }
-    }
-
-    private static String toHexString(int i) {
-        return Integer.toHexString(i).toUpperCase();
     }
 
     public static String intToStringBasedOnPrefs(int i) {

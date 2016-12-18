@@ -123,6 +123,10 @@ public class PitchClassSet implements Parcelable {
 
     public static PitchClassSet fromForte(ForteNumber fn) {
         int set = ForteNumberUtils.BIMAP.inverse().get(fn);
+
+        // All ForteNumbers are taken from the static ForteNumberUtils collection, which means the
+        // prime form set corresponding to each ForteNumber used the Rahn algorithm. If the user
+        // wants to use the Forte algorithm, trade that with the Forte algorithm prime
         if (isForteRahnUnequalPrime(set) && isForteAlgorithmEnabled()) {
             set = RAHN_TO_FORTE_PRIMES_BINARY.get(set);
         }
