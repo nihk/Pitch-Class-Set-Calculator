@@ -9,7 +9,7 @@ import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 
 import java.lang.annotation.Retention;
 
-import static com.nihk.github.pcsetcalculator.utils.ButtonColourUtils.CLEAR_COLOUR;
+import static com.nihk.github.pcsetcalculator.utils.ButtonColourUtils.INACTIVE;
 import static com.nihk.github.pcsetcalculator.utils.ButtonColourUtils.PLUM;
 import static com.nihk.github.pcsetcalculator.utils.ButtonColourUtils.setButtonColour;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
@@ -61,12 +61,12 @@ public abstract class OperatorController implements InputScreenController.Listen
 
     public void toggleButton() {
         mIsOn = !mIsOn;
-        setButtonColour(getButton(), mIsOn ? PLUM : CLEAR_COLOUR);
+        setButtonColour(getButton(), mIsOn ? PLUM : INACTIVE);
     }
 
     public void turnButtonOff() {
         mIsOn = false;
-        setButtonColour(getButton(), CLEAR_COLOUR);
+        setButtonColour(getButton(), INACTIVE);
     }
 
     public void callListener(@OperatorModified int operatorModification) {

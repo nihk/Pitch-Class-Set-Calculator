@@ -41,7 +41,7 @@ public class NumberController implements SharedPreferences.OnSharedPreferenceCha
         mIsOn = isOn;
         setButtonColour(mButton, mIsOn
                 ? DARK_PINK
-                : CLEAR_COLOUR);
+                : INACTIVE);
     }
 
     @OperatorModified

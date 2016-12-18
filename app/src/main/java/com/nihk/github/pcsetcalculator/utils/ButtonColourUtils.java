@@ -1,22 +1,46 @@
 package com.nihk.github.pcsetcalculator.utils;
 
-import android.graphics.PorterDuff;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.widget.Button;
+
+import com.nihk.github.pcsetcalculator.R;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Created by Nick on 2016-12-07.
  */
 
 public final class ButtonColourUtils {
-    public static final int DARK_PINK = 0xFFD68684;
-    public static final int PLUM = 0xFF735360;
-    public static final int CLEAR_COLOUR = 0;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({ INACTIVE, DARK_PINK, PLUM })
+    public @interface ButtonColours {}
+    public static final int INACTIVE = -1;
+    public static final int DARK_PINK = 0;
+    public static final int PLUM = 1;
 
-    public static void setButtonColour(final Button button, final int colour) {
-        if (colour == CLEAR_COLOUR) {
-            button.getBackground().clearColorFilter();
-        } else {
-            button.getBackground().setColorFilter(colour, PorterDuff.Mode.MULTIPLY);
+    public static void setButtonColour(final Button button, @ButtonColours final int colour) {
+        final Resources resources = button.getContext().getResources();
+        final Drawable drawable;
+
+        switch (colour) {
+            case DARK_PINK:
+                drawable = resources.getDrawable(R.drawable.number_button_active);
+                break;
+
+            case PLUM:
+                drawable = resources.getDrawable(R.drawable.operator_button_active);
+                break;
+
+            case INACTIVE:  // Fall through
+            default:
+                drawable = resources.getDrawable(R.drawable.button_inactive);
+                break;
         }
+
+        button.setBackgroundDrawable(drawable);
     }
 }

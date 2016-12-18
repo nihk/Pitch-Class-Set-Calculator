@@ -4,6 +4,7 @@
     <dimen name="labels_text_size">18sp</dimen>
     <dimen name="labels_value_text_size">18sp</dimen>
     <dimen name="number_button_text_size">30sp</dimen>
+    <dimen name="button_height">80dp</dimen>
 
     <dimen name="labels_padding">7dp</dimen>
     <dimen name="input_screen_padding">7dp</dimen>
