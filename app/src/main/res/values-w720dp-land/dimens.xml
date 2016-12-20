@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="input_screen_text_size">45sp</dimen>
-    <dimen name="labels_text_size">20sp</dimen>
-    <dimen name="labels_value_text_size">20sp</dimen>
+    <dimen name="input_screen_text_size">40sp</dimen>
+    <dimen name="labels_text_size">16sp</dimen>
+    <dimen name="labels_value_text_size">16sp</dimen>
     <dimen name="number_button_text_size">25sp</dimen>
-    <dimen name="button_height">45dp</dimen>
+    <dimen name="button_height">65dp</dimen>
 
-    <dimen name="labels_padding">7dp</dimen>
+    <dimen name="labels_padding">4dp</dimen>
     <dimen name="input_screen_padding">7dp</dimen>
+    <dimen name="output_screen_vertical_padding">5dp</dimen>
 
     <dimen name="list_item_child_layout_padding_left">35dp</dimen>
     <dimen name="list_item_child_layout_padding_everything_but_left">8dp</dimen>

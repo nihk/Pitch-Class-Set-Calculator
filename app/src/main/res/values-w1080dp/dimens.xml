@@ -8,6 +8,7 @@
 
     <dimen name="labels_padding">15dp</dimen>
     <dimen name="input_screen_padding">15dp</dimen>
+    <dimen name="output_screen_vertical_padding">5dp</dimen>
 
     <dimen name="list_item_child_layout_padding_left">60dp</dimen>
     <dimen name="list_item_child_layout_padding_everything_but_left">20dp</dimen>

@@ -39,7 +39,7 @@
 
         <TableRow
             android:layout_weight="1"
-            android:background="@drawable/forms_background_top"
+            android:background="@drawable/output_background_top_left_right_border"
             android:layout_marginStart="@dimen/labels_margin"
             android:layout_marginEnd="@dimen/labels_margin"
             android:layout_marginLeft="@dimen/labels_margin"
@@ -94,7 +94,7 @@
 
         <TableRow
             android:layout_weight="1"
-            android:background="@drawable/forms_background_bottom"
+            android:background="@drawable/output_background_all_sides_border"
             android:layout_marginStart="@dimen/labels_margin"
             android:layout_marginEnd="@dimen/labels_margin"
             android:layout_marginLeft="@dimen/labels_margin"
@@ -134,7 +134,7 @@
                 />
             <TextView
                 android:id="@+id/forteNumber"
-                tools:text="4-Z29\n(Z-mate: 4-Z15)"
+                tools:text="4-Z29 (Z-mate: 4-Z15)"
                 android:text="@string/no_value"
                 android:layout_weight="3"
                 android:layout_width="0dp"

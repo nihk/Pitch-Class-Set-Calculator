@@ -18,7 +18,7 @@ public final class StringFormatUtils {
     private static final String NORMAL_FORM_FORMATTER = "[%s]";
     private static final String PRIME_FORM_FORMATTER = "(%s)";
     private static final String INTERVAL_VECTOR_FORMATTER = "<%s>";
-    private static final String Z_MATE_FORMATTER = "\n(Z-mate: %s)";
+    private static final String Z_MATE_FORMATTER = " (Z-mate: %s)";
 
     private StringFormatUtils() {
         // Prevent instantiation
