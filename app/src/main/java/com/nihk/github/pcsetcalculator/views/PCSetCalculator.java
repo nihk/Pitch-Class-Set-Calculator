@@ -2,11 +2,9 @@ package com.nihk.github.pcsetcalculator.views;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +17,7 @@ import com.nihk.github.pcsetcalculator.utils.PreferencesUtils;
 public class PCSetCalculator extends AppCompatActivity {
     private static final String VIEW_PAGER_FRAGMENT = "viewPagerFragment";
     private static final String PREFERENCES_FRAGMENT = "preferencesFragment";
+    private static final String ABOUT_FRAGMENT = "aboutFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,20 +46,11 @@ public class PCSetCalculator extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                final FragmentManager fragmentManager = getSupportFragmentManager();
-                final PrefsFragment prefsFragment;
+                goToSettingsFragment();
+                return true;
 
-                // Don't make a new prefs fragment if one is already open and visible. This won't be a scalable
-                // solution if more fragments are introduced into the options menu.
-                if ((prefsFragment = (PrefsFragment) fragmentManager.findFragmentByTag(PREFERENCES_FRAGMENT)) == null
-                        || !prefsFragment.isVisible()) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                            .replace(android.R.id.content, new PrefsFragment(), PREFERENCES_FRAGMENT)
-                            .addToBackStack(null)
-                            .commit();
-                }
+            case R.id.menu_about:
+                goToAboutFragment();
                 return true;
 
             case R.id.menu_rating_beg:
@@ -69,6 +59,42 @@ public class PCSetCalculator extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void goToAboutFragment() {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        final AboutFragment aboutFragment;
+
+        // Don't make a new prefs fragment if one is already open and visible. This won't be a scalable
+        // solution if more fragments are introduced into the options menu.
+        if ((aboutFragment = (AboutFragment) fragmentManager.findFragmentByTag(ABOUT_FRAGMENT)) == null
+                || !aboutFragment.isVisible()) {
+            fragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter_right, R.anim.exit_right, R.anim.pop_enter_right, R.anim.pop_exit_right)
+                    .replace(android.R.id.content, new AboutFragment(), ABOUT_FRAGMENT)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    private void goToSettingsFragment() {
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        final PrefsFragment prefsFragment;
+
+        // Don't make a new prefs fragment if one is already open and visible. This won't be a scalable
+        // solution if more fragments are introduced into the options menu.
+        if ((prefsFragment = (PrefsFragment) fragmentManager.findFragmentByTag(PREFERENCES_FRAGMENT)) == null
+                || !prefsFragment.isVisible()) {
+            fragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter_bottom, R.anim.exit_bottom, R.anim.pop_enter_bottom, R.anim.pop_exit_bottom)
+                    .replace(android.R.id.content, new PrefsFragment(), PREFERENCES_FRAGMENT)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 

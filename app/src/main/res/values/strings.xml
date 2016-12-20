@@ -35,4 +35,65 @@
     <string name="forte_algorithm_preference_summary">Enable Forte\'s algorithm to be used when
         calculating PC set data. This only affects set classes 5&#45;20, 6&#45;Z29, 6&#45;31,
         7&#45;20, and 8&#45;26</string>
+    <string name="about_normal_form_title">Normal Form</string>
+    <string name="about_prime_form_title">Prime Form</string>
+    <string name="about_interval_vector_title">Interval(-class) Vector</string>
+    <string name="about_forte_number_title">Forte Number</string>
+    <string name="about_normal_form_desc">
+        A pitch-class set can be presented musically in a variety of ways. Conversely, many
+different musical figures can represent the same pitch-class set. If we want to be able
+to recognize a pitch-class set no matter how it is presented in the music, it will be
+helpful to put it into a simple, compact, easily grasped form called the normal form.
+The normal form—the most compressed way of writing a pitch-class set—makes it
+easy to see the essential attributes of a set and to compare it to other sets.
+    </string>
+    <string name="about_prime_form_desc">
+        A common way of identifying set classes is to look at all of the
+members of the set class, select the one with the \"most normal\" of normal forms, and
+use that to name the set class as a whole. This optimal form, called the prime form,
+begins with 0 and is most packed to the left.
+    </string>
+    <string name="about_interval_vector_desc">
+        Interval-class content is usually presented as a string of six numbers with no spaces
+intervening. This is called an interval-class vector. The first number in an interval-
+class vector gives the number of occurrences of interval class 1; the second gives
+the number of occurrences of interval class 2; and so on.\n\n
+        We can construct a vector like this for sonorities of any size or shape. A tool
+like the interval-class vector would not be nearly so necessary for talking about
+traditional tonal music. There, only a few basic sonorities—four kinds of triads and five
+kinds of seventh chords—are regularly in use. In post-tonal music, however, we will
+confront a huge variety of harmonies. The interval-class vector will give us a
+convenient way of summarizing their basic sound.
+    </string>
+
+    <string name="about_forte_number_desc">
+        A standard way of naming set classes was devised by the theorist
+Allen Forte, who pioneered the theory of pitch-class sets. On his well-known list of set
+classes, he identifies each with a pair of numbers separated by a dash (e.g., 3&#45;4). The
+first number tells the number of pitch classes in the set. The second number gives the
+position of the set on Forte\'s list. Set class 3&#45;4, for example, is the fourth set on Forte\'s
+list of three-note sets.
+    </string>
+    <string name="about">About</string>
+    <string name="about_credits_text">Each of these descriptions were taken from Joseph N. Straus\'
+        \"Introduction to Post-Tonal Theory,\" 3rd edition. Thanks, Joe.</string>
+    <string name="about_symmetry_title">
+        Transpositional and Inversional Symmetry
+    </string>
+    <string name="about_symmetry_desc">
+        There is a small handful of sets that, like the whole-tone scale, are capable of
+mapping entirely onto themselves under transposition. Sets with that capacity are said to
+be transpositionally symmetrical. If the interval-class vector contains an entry equal
+to the number of notes in the set (or half that number in the case of the tritone), then
+the set has this property. \n\n
+        Some set classes contain sets that can map entirely onto themselves under inversion.
+Such set classes are said to be inversionally symmetrical and, of the 208 set classes
+listed in this app, seventy-nine have this property. The index vector for a set with
+this property will have an entry equal to the number of notes in the set.\n\n
+        Sets that are inversionally symmetrical can be written so that the intervals
+reading from left to right are the same as the intervals reading from right to left. Usually,
+but not always, this intervallic palindrome will be apparent when the set is written in
+normal form. Occasionally, a note has to be written twice to capture the modular
+wraparound.
+    </string>
 </resources>

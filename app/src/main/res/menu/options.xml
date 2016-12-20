@@ -3,6 +3,9 @@
     <item android:id="@+id/menu_settings"
           android:title="@string/settings">
     </item>
+    <item android:id="@+id/menu_about"
+          android:title="@string/about">
+    </item>
     <item android:id="@+id/menu_rating_beg"
           android:title="@string/rate_the_app">
     </item>
