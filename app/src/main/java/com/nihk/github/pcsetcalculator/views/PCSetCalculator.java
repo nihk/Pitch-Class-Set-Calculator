@@ -67,8 +67,7 @@ public class PCSetCalculator extends AppCompatActivity {
         fragmentManager.popBackStack();
         final AboutFragment aboutFragment;
 
-        // Don't make a new prefs fragment if one is already open and visible. This won't be a scalable
-        // solution if more fragments are introduced into the options menu.
+        // Don't make a new fragment if one is already open and visible.
         if ((aboutFragment = (AboutFragment) fragmentManager.findFragmentByTag(ABOUT_FRAGMENT)) == null
                 || !aboutFragment.isVisible()) {
             fragmentManager
@@ -85,8 +84,7 @@ public class PCSetCalculator extends AppCompatActivity {
         fragmentManager.popBackStack();
         final PrefsFragment prefsFragment;
 
-        // Don't make a new prefs fragment if one is already open and visible. This won't be a scalable
-        // solution if more fragments are introduced into the options menu.
+        // Don't make a new fragment if one is already open and visible.
         if ((prefsFragment = (PrefsFragment) fragmentManager.findFragmentByTag(PREFERENCES_FRAGMENT)) == null
                 || !prefsFragment.isVisible()) {
             fragmentManager

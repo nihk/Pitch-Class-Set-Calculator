@@ -55,8 +55,8 @@ begins with 0 and is most packed to the left.
     </string>
     <string name="about_interval_vector_desc">
         Interval-class content is usually presented as a string of six numbers with no spaces
-intervening. This is called an interval-class vector. The first number in an interval-
-class vector gives the number of occurrences of interval class 1; the second gives
+intervening. This is called an interval-class vector. The first number in an
+        interval-class vector gives the number of occurrences of interval class 1; the second gives
 the number of occurrences of interval class 2; and so on.\n\n
         We can construct a vector like this for sonorities of any size or shape. A tool
 like the interval-class vector would not be nearly so necessary for talking about
@@ -87,13 +87,11 @@ be transpositionally symmetrical. If the interval-class vector contains an entry
 to the number of notes in the set (or half that number in the case of the tritone), then
 the set has this property. \n\n
         Some set classes contain sets that can map entirely onto themselves under inversion.
-Such set classes are said to be inversionally symmetrical and, of the 208 set classes
-listed in this app, seventy-nine have this property. The index vector for a set with
-this property will have an entry equal to the number of notes in the set.\n\n
+Such set classes are said to be inversionally symmetrical and, of the 208 set classes,
+        seventy-nine have this property.\n\n
         Sets that are inversionally symmetrical can be written so that the intervals
 reading from left to right are the same as the intervals reading from right to left. Usually,
 but not always, this intervallic palindrome will be apparent when the set is written in
-normal form. Occasionally, a note has to be written twice to capture the modular
-wraparound.
+normal form.
     </string>
 </resources>
