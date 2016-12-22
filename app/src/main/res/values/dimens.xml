@@ -28,4 +28,6 @@
     <dimen name="about_desc_padding_left">30dp</dimen>
     <dimen name="about_desc_padding_elsewhere">10dp</dimen>
     <dimen name="about_credits_textsize">12sp</dimen>
+
+    <integer name="showcase_delay">200</integer>
 </resources>

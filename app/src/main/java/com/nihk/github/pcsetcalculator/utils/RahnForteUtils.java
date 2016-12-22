@@ -30,6 +30,7 @@ public final class RahnForteUtils {
         RAHN_TO_FORTE_PRIMES_BINARY.put(355, 395);      // 5-20
         RAHN_TO_FORTE_PRIMES_BINARY.put(717, 843);      // 6-Z29
         RAHN_TO_FORTE_PRIMES_BINARY.put(691, 811);      // 6-31
+        RAHN_TO_FORTE_PRIMES_BINARY.put(755, 815);      // 7-Z18
         RAHN_TO_FORTE_PRIMES_BINARY.put(743, 919);      // 7-20
         RAHN_TO_FORTE_PRIMES_BINARY.put(1467, 1719);    // 8-26
     }
@@ -39,6 +40,7 @@ public final class RahnForteUtils {
         put(395, 419);      // 5-20
         put(843, 843);      // 6-Z29
         put(811, 851);      // 6-31
+        put(815, 979);      // 7-Z18
         put(919, 935);      // 7-20
         put(1719, 1719);    // 8-26
     }};
@@ -48,6 +50,7 @@ public final class RahnForteUtils {
             case "5-20":  // fall through each case
             case "6-Z29":
             case "6-31":
+            case "7-Z18":
             case "7-20":
             case "8-26": return true;
             default: return false;

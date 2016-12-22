@@ -1,5 +1,6 @@
 package com.nihk.github.pcsetcalculator.views;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +20,6 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class CalculatorFragment extends Fragment {
     private CalculatorController mController;
-    private static final String SHOWCASE_ID = "showcaseId";
 
     @Nullable
     @Override
@@ -33,24 +33,25 @@ public class CalculatorFragment extends Fragment {
     }
 
     private void doTutorial(final View view) {
+        final Resources resources = getResources();
+
         ShowcaseConfig config = new ShowcaseConfig();
-        config.setMaskColor(0xC3000000);
-        config.setDismissTextColor(0xFF3AFF00);
-        config.setDelay(200);
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), SHOWCASE_ID);
+        config.setMaskColor(resources.getColor(R.color.showcase_mask));
+        config.setDismissTextColor(resources.getColor(R.color.showcase_got_it));
+        config.setDelay((long) resources.getInteger(R.integer.showcase_delay));
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(),
+                resources.getString(R.string.showcase_id));
         sequence.setConfig(config);
 
-        final String gotIt = "GOT IT";
-
+        final String gotIt = resources.getString(R.string.got_it);
         sequence.addSequenceItem(view.findViewById(R.id.button4),
-                "Welcome! Let's take a second to get oriented:\n\n" +
-                    "You can tap any combination of numbers/letters to build your pitch class set",
+                resources.getString(R.string.showcase_part1),
                 gotIt);
         sequence.addSequenceItem(view.findViewById(R.id.buttonTn),
-                "Use the Transposition and Inversion buttons to perform operations on that set",
+                resources.getString(R.string.showcase_part2),
                 gotIt);
         sequence.addSequenceItem(view.findViewById(R.id.buttonUndo),
-                "Hit Undo and/or Clear to facilitate your input actions. That's it!",
+                resources.getString(R.string.showcase_part3),
                 gotIt);
         sequence.start();
     }

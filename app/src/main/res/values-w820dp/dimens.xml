@@ -16,4 +16,11 @@
     <dimen name="list_item_parent_layout_padding">30dp</dimen>
     <dimen name="list_item_parent_layout_margins">20dp</dimen>
     <dimen name="list_item_parent_cardinality_textsize">40sp</dimen>
+
+    <dimen name="about_title_padding">20dp</dimen>
+    <dimen name="about_title_textsize">50sp</dimen>
+    <dimen name="about_desc_textsize">36sp</dimen>
+    <dimen name="about_desc_padding_left">60dp</dimen>
+    <dimen name="about_desc_padding_elsewhere">20dp</dimen>
+    <dimen name="about_credits_textsize">24sp</dimen>
 </resources>

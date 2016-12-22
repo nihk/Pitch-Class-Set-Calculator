@@ -9,4 +9,7 @@
 
     <color name="formsBackground">#F1B0B0</color>
     <color name="formsTextColor">#000000</color>
+
+    <color name="showcase_mask">#C3000000</color>
+    <color name="showcase_got_it">#FF3AFF00</color>
 </resources>

@@ -33,7 +33,7 @@
         and 11 to be labelled T and E, respectively, instead of the default A and B</string>
     <string name="forte_algorithm_preference_title">Forte\'s algorithm instead of Rahn\'s</string>
     <string name="forte_algorithm_preference_summary">Enable Forte\'s algorithm to be used when
-        calculating PC set data. This only affects set classes 5&#45;20, 6&#45;Z29, 6&#45;31,
+        calculating PC set data. This only affects set classes 5&#45;20, 6&#45;Z29, 6&#45;31, 7&#45;Z18,
         7&#45;20, and 8&#45;26</string>
     <string name="about_normal_form_title">Normal Form</string>
     <string name="about_prime_form_title">Prime Form</string>
@@ -94,4 +94,17 @@ reading from left to right are the same as the intervals reading from right to l
 but not always, this intervallic palindrome will be apparent when the set is written in
 normal form.
     </string>
+    <string name="got_it">GOT IT</string>
+    <string name="showcase_part1">
+        Welcome! Let\'s take a second to get oriented:\n\nYou
+        can tap any combination of numbers/letters to build your pitch class set
+    </string>
+    <string name="showcase_part2">
+        Use the Transposition or Inversion buttons followed by any pitch class button to perform
+        an operation on that set
+    </string>
+    <string name="showcase_part3">
+        Hit Undo and/or Clear to facilitate your input actions. That\'s it!
+    </string>
+    <string name="showcase_id">showcaseId</string>
 </resources>

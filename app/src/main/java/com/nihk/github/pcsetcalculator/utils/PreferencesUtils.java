@@ -14,6 +14,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 public final class PreferencesUtils {
+    // Singleton
     private static SharedPreferences sPreferences;
 
     @Retention(RetentionPolicy.SOURCE)
