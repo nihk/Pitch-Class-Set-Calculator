@@ -95,7 +95,7 @@ public final class RahnForteUtils {
     public static boolean isPrimeFormDifferentDependingOnAlgorithm(final PitchClassSet pitchClassSet) {
         final ForteNumber forteNumber;
 
-        return !(pitchClassSet == null || (forteNumber = pitchClassSet.getForteNumber()) == null)
+        return pitchClassSet != null && (forteNumber = pitchClassSet.getForteNumber()) != null
                 && isPrimeFormDifferentDependingOnAlgorithm(forteNumber.toString());
     }
 }
