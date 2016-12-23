@@ -5,7 +5,9 @@ import com.google.common.collect.HashBiMap;
 import com.nihk.github.pcsetcalculator.models.ForteNumber;
 import com.nihk.github.pcsetcalculator.models.PitchClassSet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.nihk.github.pcsetcalculator.utils.ForteNumberUtils.*;
@@ -34,11 +36,26 @@ public final class RahnForteUtils {
     private static final int FORTE_7_20 =   919;
     private static final int FORTE_8_26 =   1719;
 
+    // Zero-based inversions of the prime form. 6-Z29 and 8-26 are the same, so weren't included
+    private static final int FORTE_5_20_INVERSION =   419;
+    private static final int FORTE_6_31_INVERSION =   851;
+    private static final int FORTE_7_Z18_INVERSION =  979;
+    private static final int FORTE_7_20_INVERSION =   935;
+
+    private static final List<String> RAHN_FORTE_PRIMES_STRINGS = new ArrayList<String>() {{
+        add(_5_20.toString());
+        add(_6_Z29.toString());
+        add(_6_31.toString());
+        add(_7_Z18.toString());
+        add(_7_20.toString());
+        add(_8_26.toString());
+    }};
+
+    public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES_BINARY = HashBiMap.create();
+
     private RahnForteUtils() {
         // Prevent instantiation
     }
-
-    public static final BiMap<Integer, Integer> RAHN_TO_FORTE_PRIMES_BINARY = HashBiMap.create();
 
     static {
         final BiMap<ForteNumber, Integer> inverseBiMap = BIMAP.inverse();
@@ -63,37 +80,22 @@ public final class RahnForteUtils {
 
     // Inversions of the Forte primes, zero based. This is used for getting normal form using the Forte algorithm
     public static final Map<Integer, Integer> FORTE_PRIME_INVERSIONS = new HashMap<Integer, Integer>() {{
-        put(FORTE_5_20,     419);
-        put(FORTE_6_Z29,    843);
-        put(FORTE_6_31,     851);
-        put(FORTE_7_Z18,    979);
-        put(FORTE_7_20,     935);
-        put(FORTE_8_26,     1719);
+        put(FORTE_5_20,     FORTE_5_20_INVERSION);
+        put(FORTE_6_Z29,    FORTE_6_Z29);  // Identical inversion
+        put(FORTE_6_31,     FORTE_6_31_INVERSION);
+        put(FORTE_7_Z18,    FORTE_7_Z18_INVERSION);
+        put(FORTE_7_20,     FORTE_7_20_INVERSION);
+        put(FORTE_8_26,     FORTE_8_26);  // Identical inversion
     }};
 
     public static boolean isPrimeFormDifferentDependingOnAlgorithm(final String forteNumber) {
-        switch (forteNumber) {
-            case "5-20":  // fall through each case
-            case "6-Z29":
-            case "6-31":
-            case "7-Z18":
-            case "7-20":
-            case "8-26": return true;
-            default: return false;
-        }
+        return RAHN_FORTE_PRIMES_STRINGS.contains(forteNumber);
     }
 
     public static boolean isPrimeFormDifferentDependingOnAlgorithm(final PitchClassSet pitchClassSet) {
-        if (pitchClassSet == null) {
-            return false;
-        }
+        final ForteNumber forteNumber;
 
-        final ForteNumber forteNumber = pitchClassSet.getForteNumber();
-
-        if (forteNumber == null) {
-            return false;
-        }
-
-        return isPrimeFormDifferentDependingOnAlgorithm(forteNumber.toString());
+        return !(pitchClassSet == null || (forteNumber = pitchClassSet.getForteNumber()) == null)
+                && isPrimeFormDifferentDependingOnAlgorithm(forteNumber.toString());
     }
 }
