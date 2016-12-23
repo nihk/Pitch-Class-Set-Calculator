@@ -32,7 +32,7 @@ public class SetTheoryUtilsTests {
         for (int i = 0; i < NUM_PITCH_CLASS_SETS; i++) {
             int bitCount = Integer.bitCount(i);
             if (bitCount < ForteNumberUtils.MIN_FORTE_CARDINALITY
-                    || bitCount >= ForteNumberUtils.MAX_FORTE_CARDINALITY) {
+                    || bitCount > ForteNumberUtils.MAX_FORTE_CARDINALITY) {
                 continue;
             }
 

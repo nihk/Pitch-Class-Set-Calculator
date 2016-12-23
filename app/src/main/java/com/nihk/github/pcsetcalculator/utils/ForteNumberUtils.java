@@ -18,7 +18,7 @@ public final class ForteNumberUtils {
     }
 
     public static final int MIN_FORTE_CARDINALITY = 3;
-    public static final int MAX_FORTE_CARDINALITY = 10;
+    public static final int MAX_FORTE_CARDINALITY = 9;
 
     public static final ForteNumber _3_1 = new ForteNumber("3-1");
     public static final ForteNumber _3_2 = new ForteNumber("3-2");

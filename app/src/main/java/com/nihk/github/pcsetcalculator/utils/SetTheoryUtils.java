@@ -20,6 +20,7 @@ import java.util.Map;
  * as 'set' and List<Integer> representations as 'collection' to establish a distinction.
  */
 public final class SetTheoryUtils {
+    // Integer constants for each pitch class
     private static final int ZERO =   1;
     private static final int ONE =    1 << 1;
     private static final int TWO =    1 << 2;
@@ -33,7 +34,6 @@ public final class SetTheoryUtils {
     private static final int TEN =    1 << 10;
     private static final int ELEVEN = 1 << 11;
 
-    // Binary representations of pitch classes
     public static final Map<String, Integer> PC_BITS = new HashMap<String, Integer>() {{
         put("0", ZERO);
         put("1", ONE);
@@ -49,6 +49,7 @@ public final class SetTheoryUtils {
         put("B", ELEVEN);
     }};
 
+    // An inversion map for the integer representations of PCs. This is different from SetTheoryUtils.invertPc(int)
     private static final Map<Integer, Integer> INVERSION_MAP = new HashMap<Integer, Integer>() {{
         put(ZERO,   ZERO);
         put(ONE,    ELEVEN);
@@ -65,13 +66,13 @@ public final class SetTheoryUtils {
     }};
 
     public static final int NUM_PITCH_CLASSES = 12;
-    public static final int NUM_INTERVAL_CLASSES = 6;
+    private static final int NUM_INTERVAL_CLASSES = 6;
     // A mask of all bits to the left of the twelfth bit set to true; all others false
     private static final int OVERFLOW_MASK = ~0 << (NUM_PITCH_CLASSES);
     // A mask of all bits from the twelfth bit below set to true; all others false
     private static final int MOD_12_MASK = ~OVERFLOW_MASK;
     private static final int NUM_NON_MOD_12_BITS = Integer.bitCount(OVERFLOW_MASK);
-    public static final int INTERVAL_VECTOR_LOG_BASE = 2;
+    private static final int INTERVAL_VECTOR_LOG_BASE = 2;
 
     private SetTheoryUtils() {
         // Prevent instantiation
